@@ -1375,7 +1375,7 @@ async function openDrafts() {
   }
 }
 function closeDrafts(e) {
-  if (!e || e.target === document.getElementById('drafts-modal') || e.type === 'click') {
+  if (!e || e.target === document.getElementById('drafts-modal')) {
     document.getElementById('drafts-modal').classList.remove('open');
   }
 }

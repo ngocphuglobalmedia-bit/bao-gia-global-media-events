@@ -704,6 +704,9 @@ const MEDIA = [
   { cat:'📦 Chụp hình sản phẩm', items:[
     { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
   ]},
+  { cat:'🚗 Chi phí di chuyển', items:[
+    { id:'dc1', name:'Chi phí di chuyển', desc:'Chi phí di chuyển nếu tác nghiệp xa khu vực (áp dụng theo khu vực thực tế)', unit:'chuyến', price:0 },
+  ]},
 ];
 
 /* ═══════════════════════════════════════════
@@ -753,6 +756,10 @@ let customMediaName = {};     // { itemId: customName }
 let customMediaDesc = {};     // { itemId: customDesc (plain text, \n = xuống dòng) }
 let customTVCRowCat = {};     // { rowKey: customCategoryLabel } — TVC (prod/equip/script/staff/voice/loc/dur/post/gift)
 let customTVCRowContent = {}; // { rowKey: customContent (plain text, \n = xuống dòng) }
+let tvcTravelLabel = 'Di chuyển';
+let tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+let tvcTravelFee = 0;
+let tvcTravelQty = 1;
 let activeMediaCatIdx = 0;   // chỉ số danh mục media đang hiển thị (dạng khối)
 
 /* ═══════════════════════════════════════════
@@ -972,6 +979,38 @@ function resetCustomTVCRowContent(key) {
   render();
 }
 
+/* ── Hạng mục Di chuyển (TVC) ── */
+function setTVCTravelLabel(value) {
+  tvcTravelLabel = value.trim() || 'Di chuyển';
+  render();
+}
+function setTVCTravelContent(value) {
+  tvcTravelContent = value.trim();
+  render();
+}
+function setTVCTravelFee(value) {
+  const v = parseFloat(value);
+  tvcTravelFee = (isNaN(v) || v < 0) ? 0 : v;
+  render();
+}
+function stepTVCTravelQty(delta) {
+  tvcTravelQty = Math.max(1, (tvcTravelQty||1) + delta);
+  render();
+}
+function setTVCTravelQty(value) {
+  let v = parseInt(value, 10);
+  if (!v || v < 1) v = 1;
+  tvcTravelQty = v;
+  render();
+}
+function resetTVCTravel() {
+  tvcTravelLabel = 'Di chuyển';
+  tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelFee = 0;
+  tvcTravelQty = 1;
+  render();
+}
+
 /* chuyển desc HTML (dùng <br>) sang text thuần (dùng \n) để đưa vào ô edit */
 function descToPlain(html) {
   return String(html||'').replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
@@ -1012,6 +1051,8 @@ function removeItem(type, id) {
     selTVC = null;
     customTVCPrice = null;
     customTVCRowCat = {}; customTVCRowContent = {};
+    tvcTravelLabel = 'Di chuyển'; tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+    tvcTravelFee = 0; tvcTravelQty = 1;
     document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
   } else {
     selMedia[id] !== undefined && delete selMedia[id];
@@ -1050,6 +1091,8 @@ function clearAll() {
   customTVCPrice = null; customMediaPrice = {};
   customMediaName = {}; customMediaDesc = {};
   customTVCRowCat = {}; customTVCRowContent = {};
+  tvcTravelLabel = 'Di chuyển'; tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelFee = 0; tvcTravelQty = 1;
   document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
   document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
   document.querySelectorAll('.qty-box').forEach(i => { i.value = 1; i.disabled = true; });
@@ -1117,9 +1160,25 @@ function render() {
                            </div>
                          </td>
                          <td class="q-tvc-gia" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">${editPriceMode ? `<input type="number" class="price-input" value="${it.unitPrice}" onchange="setCustomTVCPrice(this.value)">` : num(it.unitPrice)}</td>
-                         <td class="q-tvc-gia" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">${num(it.total)}</td>
+                         <td class="q-tvc-gia" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">${num(it.pkgTotal)}</td>
                          <td rowspan="${tvcRows.length}" style="vertical-align:top;border-left:1px solid #e0e0e0;font-size:11px;color:#888"></td>` : ''}
             </tr>`).join('')}
+            <tr>
+              <td class="q-tvc-dvt">${tvcRows.length+1}</td>
+              <td class="q-tvc-cat">${editContentMode ? `<input type="text" class="name-input" value="${esc(tvcTravelLabel)}" onchange="setTVCTravelLabel(this.value)">` : tvcTravelLabel}</td>
+              <td>${editContentMode ? `<textarea class="content-input" rows="2" onchange="setTVCTravelContent(this.value)">${esc(tvcTravelContent)}</textarea>` : tvcTravelContent}</td>
+              <td class="q-tvc-dvt" style="border-left:1px solid #e0e0e0">chuyến</td>
+              <td style="border-left:1px solid #e0e0e0;text-align:center">
+                <div class="qty-stepper" style="justify-content:center">
+                  <button type="button" onclick="stepTVCTravelQty(-1)">−</button>
+                  <input class="qty-box" type="number" min="1" value="${tvcTravelQty}" onchange="setTVCTravelQty(this.value)">
+                  <button type="button" onclick="stepTVCTravelQty(1)">+</button>
+                </div>
+              </td>
+              <td class="q-tvc-gia" style="border-left:1px solid #e0e0e0">${editPriceMode ? `<input type="number" class="price-input" value="${tvcTravelFee}" onchange="setTVCTravelFee(this.value)">` : num(tvcTravelFee)}</td>
+              <td class="q-tvc-gia" style="border-left:1px solid #e0e0e0">${num(tvcTravelFee*tvcTravelQty)}</td>
+              <td style="border-left:1px solid #e0e0e0"></td>
+            </tr>
           </table>
         </div>`;
     }
@@ -1187,8 +1246,11 @@ function getItems() {
     const pkg = tier.pkgs.find(p => p.id === selTVC.id);
     const qty = selTVC.qty || 1;
     const unitPrice = customTVCPrice != null ? customTVCPrice : pkg.price;
+    const pkgTotal = unitPrice * qty;
+    const travelTotal = (tvcTravelFee||0) * (tvcTravelQty||1);
     if (pkg) items.push({ type:'tvc', name:`${tier.label} – ${pkg.name}`, meta:pkg.prod,
-      qty, unitPrice, listPrice:pkg.price, isCustom: customTVCPrice != null, total:unitPrice*qty, pkg, tier });
+      qty, unitPrice, listPrice:pkg.price, isCustom: customTVCPrice != null,
+      pkgTotal, travelTotal, total:pkgTotal + travelTotal, pkg, tier });
   }
   Object.entries(selMedia).forEach(([id, qty]) => {
     const it = findMedia(id);
@@ -1266,10 +1328,20 @@ function printPDF() {
           ${i===0 ? `<td class="c" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${r.dvt||'Gói'}</td>
           <td class="c" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${it.qty}</td>
           <td class="r" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${num(it.unitPrice)}</td>
-          <td class="r" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${num(it.total)}</td>
+          <td class="r" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${num(it.pkgTotal)}</td>
           <td rowspan="${tvcRows.length}" style="border-left:1px solid #dce1e7"></td>` : ''}
         </tr>`;
       });
+      allRows += `<tr>
+        <td class="c">${stt++}</td>
+        <td style="font-weight:700">${tvcTravelLabel}</td>
+        <td style="font-size:10px">${tvcTravelContent}</td>
+        <td class="c" style="border-left:1px solid #dce1e7">chuyến</td>
+        <td class="c" style="border-left:1px solid #dce1e7">${tvcTravelQty}</td>
+        <td class="r" style="border-left:1px solid #dce1e7">${num(tvcTravelFee)}</td>
+        <td class="r" style="border-left:1px solid #dce1e7">${num(tvcTravelFee*tvcTravelQty)}</td>
+        <td style="border-left:1px solid #dce1e7"></td>
+      </tr>`;
     } else {
       allRows += `<tr>
         <td class="c">${stt++}</td>
@@ -1415,7 +1487,8 @@ async function saveDraft() {
       cPhone: document.getElementById('cPhone').value.trim(),
       cDate: document.getElementById('cDate').value,
       selTVC, selMedia, customTVCPrice, customMediaPrice, customMediaName, customMediaDesc,
-      customTVCRowCat, customTVCRowContent
+      customTVCRowCat, customTVCRowContent,
+      tvcTravelLabel, tvcTravelContent, tvcTravelFee, tvcTravelQty
     }
   };
   try {
@@ -1505,6 +1578,10 @@ function loadDraft(id) {
   customMediaDesc = s.customMediaDesc || {};
   customTVCRowCat = s.customTVCRowCat || {};
   customTVCRowContent = s.customTVCRowContent || {};
+  tvcTravelLabel = s.tvcTravelLabel || 'Di chuyển';
+  tvcTravelContent = (s.tvcTravelContent != null) ? s.tvcTravelContent : 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelFee = s.tvcTravelFee || 0;
+  tvcTravelQty = s.tvcTravelQty || 1;
 
   if (selTVC) {
     const card = document.getElementById('pc-'+selTVC.id);

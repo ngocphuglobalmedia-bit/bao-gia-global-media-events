@@ -561,6 +561,8 @@
   <div class="modal-box" style="max-width:380px">
     <div class="zalo-title" style="color:var(--brand)">📂 Báo giá đã lưu</div>
     <div class="zalo-sub">Chọn một đơn để tải lại, hoặc xóa đơn không cần dùng</div>
+    <input type="text" id="draft-search" placeholder="🔍 Tìm theo tên khách hàng..." oninput="filterDrafts()"
+      style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #dcdfe4;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none">
     <div class="draft-list" id="draft-list"></div>
     <button class="modal-close" onclick="closeDrafts()">Đóng</button>
   </div>
@@ -571,6 +573,11 @@
 
 <!-- PRINT AREA -->
 <div id="print-area"></div>
+
+<!-- Firebase (đồng bộ đơn báo giá đã lưu trên mọi thiết bị) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 /* ═══════════════════════════════════════════
@@ -693,7 +700,39 @@ const MEDIA = [
   ]},
 ];
 
-const DRAFT_KEY = 'gme_quote_drafts';
+/* ═══════════════════════════════════════════
+   FIREBASE (đồng bộ đơn báo giá qua Firestore)
+═══════════════════════════════════════════ */
+const firebaseConfig = {
+  apiKey: "AIzaSyB56EYf5ktAmabDSG0D9BwxjPoKvEEmTp8",
+  authDomain: "bao-gia-global-media-events.firebaseapp.com",
+  projectId: "bao-gia-global-media-events",
+  storageBucket: "bao-gia-global-media-events.firebasestorage.app",
+  messagingSenderId: "788077050889",
+  appId: "1:788077050889:web:97eac7a423184186354cd8"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const draftsCol = db.collection('drafts');
+let authReady = new Promise((resolve) => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) resolve(user);
+  });
+  firebase.auth().signInAnonymously().catch(err => console.error('Lỗi đăng nhập Firebase:', err));
+});
+
+/* Mã PIN dùng chung để truy cập đơn đã lưu (chỉ là lớp chặn phía giao diện) */
+const DRAFT_PIN = '2884';
+function checkPin() {
+  if (sessionStorage.getItem('gme_pin_ok') === '1') return true;
+  const p = prompt('Nhập mã PIN để truy cập đơn báo giá đã lưu:');
+  if (p === null) return false;
+  if (p === DRAFT_PIN) { sessionStorage.setItem('gme_pin_ok', '1'); return true; }
+  showToast('❌ Mã PIN không đúng');
+  return false;
+}
+
+let draftsCache = []; // cache danh sách đơn đã lưu để lọc tìm kiếm phía client
 
 /* ═══════════════════════════════════════════
    STATE
@@ -1253,25 +1292,29 @@ function copyZalo() {
 }
 
 /* ═══════════════════════════════════════════
-   DRAFTS (localStorage)
+   DRAFTS (Firestore – đồng bộ trên mọi thiết bị)
 ═══════════════════════════════════════════ */
-function getDrafts() {
-  try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || '[]'); }
-  catch { return []; }
-}
-function setDrafts(list) { localStorage.setItem(DRAFT_KEY, JSON.stringify(list.slice(0,30))); }
-
-function renderDraftCount() {
-  document.getElementById('draft-count').textContent = getDrafts().length;
+async function getDrafts() {
+  await authReady;
+  const snap = await draftsCol.orderBy('savedAt', 'desc').limit(50).get();
+  return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
-function saveDraft() {
+async function renderDraftCount() {
+  try {
+    await authReady;
+    const snap = await draftsCol.get();
+    document.getElementById('draft-count').textContent = snap.size;
+  } catch (e) { console.error(e); }
+}
+
+async function saveDraft() {
+  if (!checkPin()) return;
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
   if (!items.length && !name) { showToast('⚠️ Chưa có nội dung để lưu'); return; }
   const sub = items.reduce((a,i) => a + i.total, 0);
   const draft = {
-    id: Date.now(),
     label: name || '(Chưa đặt tên khách hàng)',
     savedAt: new Date().toISOString(),
     total: sub * 1.08,
@@ -1284,42 +1327,72 @@ function saveDraft() {
       selTVC, selMedia, customTVCPrice, customMediaPrice
     }
   };
-  const list = getDrafts();
-  list.unshift(draft);
-  setDrafts(list);
-  renderDraftCount();
-  showToast('💾 Đã lưu nháp báo giá');
+  try {
+    await authReady;
+    await draftsCol.add(draft);
+    renderDraftCount();
+    showToast('💾 Đã lưu nháp báo giá (đồng bộ mọi thiết bị)');
+  } catch (e) {
+    console.error(e);
+    showToast('❌ Lỗi khi lưu, vui lòng thử lại');
+  }
 }
 
-function openDrafts() {
-  const list = getDrafts();
+function renderDraftList(list) {
   const el = document.getElementById('draft-list');
   if (!list.length) {
-    el.innerHTML = '<div class="draft-empty">Chưa có báo giá nào được lưu</div>';
-  } else {
-    el.innerHTML = list.map(d => `
-      <div class="draft-item" onclick="loadDraft(${d.id})">
-        <div class="draft-item-info">
-          <div class="draft-item-nm">${esc(d.label)}</div>
-          <div class="draft-item-mt">${new Date(d.savedAt).toLocaleString('vi-VN')} · ${d.itemCount} mục · ${vnd(d.total)}</div>
-        </div>
-        <button class="draft-item-del" title="Xóa" onclick="event.stopPropagation();deleteDraft(${d.id})">✕</button>
-      </div>`).join('');
+    el.innerHTML = '<div class="draft-empty">Không tìm thấy báo giá nào</div>';
+    return;
   }
+  el.innerHTML = list.map(d => `
+    <div class="draft-item" onclick="loadDraft('${d.id}')">
+      <div class="draft-item-info">
+        <div class="draft-item-nm">${esc(d.label)}</div>
+        <div class="draft-item-mt">${new Date(d.savedAt).toLocaleString('vi-VN')} · ${d.itemCount} mục · ${vnd(d.total)}</div>
+      </div>
+      <button class="draft-item-del" title="Xóa" onclick="event.stopPropagation();deleteDraft('${d.id}')">✕</button>
+    </div>`).join('');
+}
+
+function filterDrafts() {
+  const q = document.getElementById('draft-search').value.trim().toLowerCase();
+  if (!q) { renderDraftList(draftsCache); return; }
+  renderDraftList(draftsCache.filter(d => (d.label || '').toLowerCase().includes(q)));
+}
+
+async function openDrafts() {
+  if (!checkPin()) return;
   document.getElementById('drafts-modal').classList.add('open');
+  const el = document.getElementById('draft-list');
+  el.innerHTML = '<div class="draft-empty">Đang tải...</div>';
+  document.getElementById('draft-search').value = '';
+  try {
+    draftsCache = await getDrafts();
+    renderDraftList(draftsCache);
+  } catch (e) {
+    console.error(e);
+    el.innerHTML = '<div class="draft-empty">Lỗi tải dữ liệu, vui lòng thử lại</div>';
+  }
 }
 function closeDrafts(e) {
   if (!e || e.target === document.getElementById('drafts-modal') || e.type === 'click') {
     document.getElementById('drafts-modal').classList.remove('open');
   }
 }
-function deleteDraft(id) {
-  setDrafts(getDrafts().filter(d => d.id !== id));
-  renderDraftCount();
-  openDrafts();
+async function deleteDraft(id) {
+  try {
+    await authReady;
+    await draftsCol.doc(id).delete();
+    renderDraftCount();
+    draftsCache = await getDrafts();
+    filterDrafts();
+  } catch (e) {
+    console.error(e);
+    showToast('❌ Lỗi khi xóa, vui lòng thử lại');
+  }
 }
 function loadDraft(id) {
-  const d = getDrafts().find(x => x.id === id);
+  const d = draftsCache.find(x => x.id === id);
   if (!d) return;
   const s = d.state;
   document.getElementById('cName').value = s.cName || '';

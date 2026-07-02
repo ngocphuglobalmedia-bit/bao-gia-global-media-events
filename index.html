@@ -705,7 +705,7 @@ const MEDIA = [
     { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
   ]},
   { cat:'🚗 Chi phí di chuyển', items:[
-    { id:'dc1', name:'Chi phí di chuyển', desc:'Chi phí di chuyển nếu tác nghiệp xa khu vực (áp dụng theo khu vực thực tế)', unit:'chuyến', price:0 },
+    { id:'dc1', name:'Chi phí di chuyển', desc:'Chi phí di chuyển nếu tác nghiệp xa khu vực (áp dụng theo khu vực thực tế)', unit:'gói', price:0 },
   ]},
 ];
 
@@ -1167,7 +1167,7 @@ function render() {
               <td class="q-tvc-dvt">${tvcRows.length+1}</td>
               <td class="q-tvc-cat">${editContentMode ? `<input type="text" class="name-input" value="${esc(tvcTravelLabel)}" onchange="setTVCTravelLabel(this.value)">` : tvcTravelLabel}</td>
               <td>${editContentMode ? `<textarea class="content-input" rows="2" onchange="setTVCTravelContent(this.value)">${esc(tvcTravelContent)}</textarea>` : tvcTravelContent}</td>
-              <td class="q-tvc-dvt" style="border-left:1px solid #e0e0e0">chuyến</td>
+              <td class="q-tvc-dvt" style="border-left:1px solid #e0e0e0">gói</td>
               <td style="border-left:1px solid #e0e0e0;text-align:center">
                 <div class="qty-stepper" style="justify-content:center">
                   <button type="button" onclick="stepTVCTravelQty(-1)">−</button>
@@ -1336,7 +1336,7 @@ function printPDF() {
         <td class="c">${stt++}</td>
         <td style="font-weight:700">${tvcTravelLabel}</td>
         <td style="font-size:10px">${tvcTravelContent}</td>
-        <td class="c" style="border-left:1px solid #dce1e7">chuyến</td>
+        <td class="c" style="border-left:1px solid #dce1e7">gói</td>
         <td class="c" style="border-left:1px solid #dce1e7">${tvcTravelQty}</td>
         <td class="r" style="border-left:1px solid #dce1e7">${num(tvcTravelFee)}</td>
         <td class="r" style="border-left:1px solid #dce1e7">${num(tvcTravelFee*tvcTravelQty)}</td>

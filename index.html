@@ -705,7 +705,7 @@ const MEDIA = [
     { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
   ]},
   { cat:'🚗 Chi phí di chuyển', items:[
-    { id:'dc1', name:'Chi phí di chuyển', desc:'Chi phí di chuyển nếu tác nghiệp xa khu vực (áp dụng theo khu vực thực tế)', unit:'gói', price:0 },
+    { id:'dc1', name:'Chi phí di chuyển', desc:'', unit:'gói', price:0 },
   ]},
 ];
 
@@ -757,7 +757,7 @@ let customMediaDesc = {};     // { itemId: customDesc (plain text, \n = xuống 
 let customTVCRowCat = {};     // { rowKey: customCategoryLabel } — TVC (prod/equip/script/staff/voice/loc/dur/post/gift)
 let customTVCRowContent = {}; // { rowKey: customContent (plain text, \n = xuống dòng) }
 let tvcTravelLabel = 'Di chuyển';
-let tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+let tvcTravelContent = '';
 let tvcTravelFee = 0;
 let tvcTravelQty = 1;
 let activeMediaCatIdx = 0;   // chỉ số danh mục media đang hiển thị (dạng khối)
@@ -1005,7 +1005,7 @@ function setTVCTravelQty(value) {
 }
 function resetTVCTravel() {
   tvcTravelLabel = 'Di chuyển';
-  tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelContent = '';
   tvcTravelFee = 0;
   tvcTravelQty = 1;
   render();
@@ -1051,7 +1051,7 @@ function removeItem(type, id) {
     selTVC = null;
     customTVCPrice = null;
     customTVCRowCat = {}; customTVCRowContent = {};
-    tvcTravelLabel = 'Di chuyển'; tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+    tvcTravelLabel = 'Di chuyển'; tvcTravelContent = '';
     tvcTravelFee = 0; tvcTravelQty = 1;
     document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
   } else {
@@ -1091,7 +1091,7 @@ function clearAll() {
   customTVCPrice = null; customMediaPrice = {};
   customMediaName = {}; customMediaDesc = {};
   customTVCRowCat = {}; customTVCRowContent = {};
-  tvcTravelLabel = 'Di chuyển'; tvcTravelContent = 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelLabel = 'Di chuyển'; tvcTravelContent = '';
   tvcTravelFee = 0; tvcTravelQty = 1;
   document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
   document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
@@ -1579,7 +1579,7 @@ function loadDraft(id) {
   customTVCRowCat = s.customTVCRowCat || {};
   customTVCRowContent = s.customTVCRowContent || {};
   tvcTravelLabel = s.tvcTravelLabel || 'Di chuyển';
-  tvcTravelContent = (s.tvcTravelContent != null) ? s.tvcTravelContent : 'Chi phí di chuyển nếu tác nghiệp xa khu vực';
+  tvcTravelContent = (s.tvcTravelContent != null) ? s.tvcTravelContent : '';
   tvcTravelFee = s.tvcTravelFee || 0;
   tvcTravelQty = s.tvcTravelQty || 1;
 

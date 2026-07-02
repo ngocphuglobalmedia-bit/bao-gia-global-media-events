@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Báo Giá Nhanh – Global Media &amp; Events</title>
+<meta name="description" content="Công cụ báo giá nhanh dịch vụ TVC &amp; Media – Global Media &amp; Events">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a9a1e'/%3E%3Cstop offset='1' stop-color='%232a5a0e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-size='26' font-weight='900' fill='white' text-anchor='middle' font-family='Arial'%3EGM%3C/text%3E%3C/svg%3E">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --brand:#2f7d0f;
+    --brand-lt:#4a9a1e;
+    --brand-lt2:#6abf2e;
+    --brand-dk:#1f5a08;
+    --gold:#d4a017;
+    --gold-dk:#8a6800;
+    --red:#c0392b;
+    --blue2:#2e86c1;
+    --bg:#eef1f4;
+    --card:#ffffff;
+    --border:#e1e6eb;
+    --text:#1c2833;
+    --muted:#717d7e;
+    --shadow-sm:0 1px 3px rgba(16,24,32,.08);
+    --shadow-md:0 6px 20px rgba(16,24,32,.10);
+    --shadow-lg:0 10px 34px rgba(16,24,32,.16);
+    --radius:14px;
+    --radius-sm:9px;
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    font-size:14px;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(74,154,30,.08), transparent),
+      var(--bg);
+    min-height:100vh;
+    padding-bottom:0;
+  }
+
+  /* ── HEADER ── */
+  .hdr{
+    background:linear-gradient(135deg,#1f5a08 0%,var(--brand-lt) 60%,var(--brand-lt2) 100%);
+    color:#fff;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 28px;gap:16px;
+    box-shadow:0 2px 14px rgba(0,0,0,.15);
+    position:relative;z-index:20;
+    flex-wrap:wrap;
+  }
+  .brand-mark{display:flex;align-items:center;gap:14px}
+  .brand-badge{
+    width:46px;height:46px;border-radius:12px;flex-shrink:0;
+    background:linear-gradient(135deg,#fff,#dfeccf);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-sm);
+  }
+  .brand-badge svg{width:30px;height:30px}
+  .brand-name{font-size:16px;font-weight:900;letter-spacing:.3px;line-height:1.15}
+  .brand-name em{color:var(--gold);font-style:normal}
+  .brand-name span.tag{font-size:11.5px;font-weight:400;opacity:.9;margin-left:4px}
+  .brand-addr{font-size:10.5px;opacity:.85;margin-top:3px}
+  .hdr-title{font-size:13px;font-weight:700;letter-spacing:.4px;opacity:.95;background:rgba(255,255,255,.14);padding:8px 16px;border-radius:20px;white-space:nowrap}
+
+  /* ── LAYOUT ── */
+  .layout{display:flex;align-items:flex-start;min-height:calc(100vh - 78px);max-width:1440px;margin:0 auto}
+  .left{flex:1;width:50%;padding:20px 20px 90px;overflow-y:auto}
+  .right{
+    flex:1;width:50%;background:var(--card);
+    border-left:1px solid var(--border);
+    padding:22px 24px;
+    position:sticky;top:0;
+    height:calc(100vh - 78px);
+    overflow-y:auto;
+    display:flex;flex-direction:column;
+  }
+
+  /* ── CARD ── */
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 20px;margin-bottom:16px;
+    box-shadow:var(--shadow-sm);
+  }
+  .card-title{
+    font-size:13.5px;font-weight:800;color:var(--brand);
+    padding-bottom:10px;margin-bottom:14px;
+    border-bottom:2px solid #eef3e8;
+    display:flex;align-items:center;justify-content:space-between;gap:7px;
+  }
+  .card-title .badge-count{
+    font-size:11px;font-weight:700;background:var(--brand-lt);color:#fff;
+    padding:2px 9px;border-radius:20px;
+  }
+
+  /* ── CUSTOMER FORM ── */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .fld label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:600}
+  .fld input{
+    width:100%;padding:9px 12px;
+    border:1px solid var(--border);border-radius:var(--radius-sm);
+    font-size:13.5px;color:var(--text);background:#fbfcfd;
+    transition:border-color .2s,box-shadow .2s;
+  }
+  .fld input:focus{outline:none;border-color:var(--brand-lt2);box-shadow:0 0 0 3px rgba(106,191,46,.15);background:#fff}
+  .draft-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .mini-btn{
+    flex:1;min-width:130px;padding:9px 10px;border-radius:var(--radius-sm);
+    border:1px solid var(--border);background:#f7f9fa;color:var(--text);
+    font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .mini-btn:hover{background:#eef3e8;border-color:var(--brand-lt2)}
+  .mini-btn.active-edit{background:var(--red);border-color:var(--red);color:#fff}
+  .price-input{width:100px;padding:5px 7px;text-align:right;border:1px solid var(--gold);background:#fffbe9;border-radius:6px;font-size:12.5px;font-weight:700;color:var(--text)}
+  .price-custom-tag{font-size:10px;color:var(--gold-dk);font-weight:700;margin-left:4px}
+  .price-reset{font-size:10.5px;color:var(--blue2);cursor:pointer;text-decoration:underline;margin-left:6px;white-space:nowrap}
+
+  /* ── TABS ── */
+  .tabs{display:flex;gap:4px;margin-bottom:0}
+  .tab-btn{
+    padding:11px 22px;border:none;border-radius:10px 10px 0 0;
+    font-size:12.5px;font-weight:700;cursor:pointer;
+    background:#e2e8ee;color:#6b7280;transition:background .2s,color .2s;
+  }
+  .tab-btn.active{background:var(--brand-lt);color:#fff}
+  .tab-pane{display:none}
+  .tab-pane.active{display:block}
+
+  /* ── TVC TIERS ── */
+  .tier-pills{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tier-pill{
+    padding:8px 20px;border-radius:20px;border:2px solid var(--border);
+    font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);
+    transition:all .2s;
+  }
+  .tier-pill[data-tier="basic"].active{border-color:var(--blue2);color:var(--blue2);background:#ebf5fb}
+  .tier-pill[data-tier="caocap"].active{border-color:var(--gold);color:var(--gold-dk);background:#fefbe7}
+  .tier-pill[data-tier="vip"].active{border-color:var(--red);color:var(--red);background:#fdf0ee}
+  .tier-pane{display:none}
+  .tier-pane.active{display:block}
+
+  /* ── PACKAGE CARDS ── */
+  .pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .pkg-card{
+    border:2px solid var(--border);border-radius:var(--radius);
+    padding:15px;cursor:pointer;position:relative;
+    transition:all .18s;background:#fff;
+  }
+  .pkg-card:hover{border-color:var(--brand-lt2);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+  .pkg-card.sel{border-color:var(--brand-lt);background:#f2fbe9;box-shadow:var(--shadow-md)}
+  .pkg-card.sel::after{
+    content:'✓';position:absolute;top:10px;right:12px;
+    width:22px;height:22px;border-radius:50%;background:var(--brand-lt);color:#fff;
+    font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;
+  }
+  .pkg-name{font-size:13px;font-weight:800;margin-bottom:6px}
+  .pkg-price{font-size:19px;font-weight:900;color:var(--red);margin-bottom:9px;line-height:1}
+  .pkg-rows{font-size:10.5px;color:#555;line-height:1.65}
+  .pkg-row{display:flex;gap:5px}
+  .pkg-row b{color:var(--text);min-width:58px;flex-shrink:0}
+  .pkg-gift{
+    margin-top:9px;padding:6px 8px;background:#fefbe7;border-radius:6px;
+    font-size:10.5px;color:#7d6008;font-weight:600;
+  }
+
+  /* ── MEDIA CATEGORY BLOCKS ── */
+  .media-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .media-cat-btn{
+    position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    padding:16px 8px;border-radius:12px;border:2px solid var(--border);background:#fff;
+    cursor:pointer;font-size:12px;font-weight:700;color:var(--text);transition:all .18s;text-align:center;
+  }
+  .media-cat-btn .ic{font-size:24px;line-height:1}
+  .media-cat-btn:hover{border-color:var(--brand-lt2);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .media-cat-btn.active{border-color:var(--brand-lt);background:#f2fbe9;color:var(--brand);box-shadow:var(--shadow-md)}
+  .media-cat-btn .badge{
+    position:absolute;top:6px;right:8px;background:var(--brand-lt);color:#fff;
+    font-size:10px;font-weight:800;padding:1px 6px;border-radius:10px;
+  }
+  @media (max-width:560px){ .media-cat-grid{grid-template-columns:repeat(2,1fr)} }
+
+  /* ── MEDIA SEARCH ── */
+  .media-search{
+    display:flex;align-items:center;gap:8px;
+    background:#f5f7f8;border:1px solid var(--border);border-radius:10px;
+    padding:9px 13px;margin-bottom:14px;
+  }
+  .media-search input{
+    border:none;background:transparent;flex:1;font-size:13px;outline:none;color:var(--text);
+  }
+  .media-search svg{flex-shrink:0;opacity:.55}
+
+  /* ── MEDIA SERVICES ── */
+  .svc-cat{margin-bottom:14px}
+  .svc-cat.hidden{display:none}
+  .svc-cat-hd{
+    font-size:12px;font-weight:700;color:#fff;background:var(--brand-lt);
+    padding:8px 13px;border-radius:8px 8px 0 0;
+  }
+  .svc-list{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+  .svc-row{
+    display:flex;align-items:center;gap:10px;padding:10px 13px;
+    border-bottom:1px solid #f0f2f4;transition:background .15s;
+  }
+  .svc-row.hidden{display:none}
+  .svc-row:last-child{border-bottom:none}
+  .svc-row:hover{background:#f7faf5}
+  .svc-chk{width:16px;height:16px;cursor:pointer;accent-color:var(--brand-lt);flex-shrink:0}
+  .svc-info{flex:1;min-width:0}
+  .svc-nm{font-size:12.5px;font-weight:700}
+  .svc-desc{font-size:10.5px;color:var(--muted);margin-top:1px}
+  .svc-unit{font-size:10.5px;color:var(--muted);white-space:nowrap;margin:0 2px}
+  .qty-stepper{display:flex;align-items:center;gap:4px;flex-shrink:0}
+  .qty-stepper button{
+    width:22px;height:22px;border-radius:6px;border:1px solid var(--border);
+    background:#fff;cursor:pointer;font-size:13px;font-weight:700;color:var(--brand);
+    display:flex;align-items:center;justify-content:center;transition:background .15s;
+  }
+  .qty-stepper button:disabled{opacity:.35;cursor:not-allowed}
+  .qty-stepper button:hover:not(:disabled){background:#eef3e8}
+  .qty-box{
+    width:34px;padding:3px 2px;text-align:center;border:1px solid var(--border);
+    border-radius:5px;font-size:12px;background:#fff;
+  }
+  .qty-box:disabled{background:#f0f2f4;color:#aaa}
+  .svc-price{font-size:12.5px;font-weight:800;color:var(--brand);white-space:nowrap;min-width:88px;text-align:right}
+
+  /* ── QUOTE PANEL ── */
+  .q-title{font-size:18px;font-weight:900;color:var(--brand);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .q-date{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .q-cust{background:var(--bg);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.8;margin-bottom:14px}
+  .q-items{flex:1;overflow-y:auto;margin-bottom:12px;min-height:60px}
+  .q-item{padding:10px 0;border-bottom:1px solid #f0f2f4}
+  .q-item-hd{display:flex;justify-content:space-between;gap:6px;align-items:flex-start}
+  .q-item-nm{font-size:13px;font-weight:700;flex:1}
+  .q-item-pr{font-size:13px;font-weight:800;color:var(--brand);white-space:nowrap}
+  .q-item-mt{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .q-item-rm{
+    border:none;background:none;color:#c8ced2;cursor:pointer;font-size:14px;
+    padding:0 0 0 6px;line-height:1;transition:color .15s;
+  }
+  .q-item-rm:hover{color:var(--red)}
+  .q-empty{text-align:center;color:#aaa;padding:30px 0;font-size:13px}
+  .q-empty .ic{font-size:26px;display:block;margin-bottom:8px;opacity:.6}
+
+  .q-tvc-block{padding:11px 0;border-bottom:1px solid #f0f2f4}
+  .q-tvc-hd{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:8px}
+  .q-tvc-nm{font-size:14px;font-weight:800;color:var(--text)}
+  .q-tvc-pr{font-size:14px;font-weight:800;color:var(--brand);white-space:nowrap}
+  .q-tvc-tbl{width:100%;border-collapse:collapse;font-size:12px}
+  .q-tvc-tbl th{background:var(--brand-lt);color:#fff;padding:7px 8px;font-size:11.5px;font-weight:700;text-align:left}
+  .q-tvc-tbl td{padding:7px 8px;border-bottom:1px solid #f0f2f4;vertical-align:top;line-height:1.6}
+  .q-tvc-tbl tr:last-child td{border-bottom:none}
+  .q-tvc-tbl tr:nth-child(even) td{background:#f8fdf4}
+  .q-tvc-cat{font-weight:700;color:var(--text);white-space:nowrap;width:90px}
+  .q-tvc-dvt{white-space:nowrap;color:var(--muted);width:36px;text-align:center}
+  .q-tvc-gia{white-space:nowrap;font-weight:700;color:var(--brand);text-align:right;width:90px}
+
+  .q-totals{border-top:2px solid var(--border);padding-top:12px}
+  .q-row{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px}
+  .q-row.grand{font-size:16px;font-weight:900;color:var(--red);margin-top:6px}
+  .q-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .btn{padding:11px;border:none;border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:700;transition:opacity .2s,transform .1s}
+  .btn:active{transform:scale(.98)}
+  .btn:hover{opacity:.88}
+  .btn-pdf{background:var(--red);color:#fff}
+  .btn-clr{grid-column:span 2;background:#eaecee;color:#555;margin-top:2px}
+  .btn-zalo{
+    grid-column:span 2;background:#0068FF;color:#fff;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    text-decoration:none;border-radius:9px;padding:11px;font-size:12.5px;font-weight:700;
+    margin-top:6px;transition:opacity .2s;cursor:pointer;border:none;
+  }
+  .btn-zalo:hover{opacity:.88}
+
+  /* ── MODALS (shared) ── */
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(16,24,32,.5);z-index:9999;
+    align-items:center;justify-content:center;padding:16px;
+  }
+  .overlay.open{display:flex}
+  .modal-box{
+    background:#fff;border-radius:16px;padding:26px 28px;text-align:center;
+    box-shadow:0 8px 32px rgba(0,0,0,.22);max-width:340px;width:100%;
+    animation:popIn .18s ease;max-height:88vh;overflow-y:auto;
+  }
+  @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .zalo-icon{font-size:44px;margin-bottom:6px}
+  .zalo-title{font-size:16px;font-weight:800;color:#0068FF;margin-bottom:4px}
+  .zalo-sub{font-size:12px;color:#888;margin-bottom:16px}
+  .zalo-num{
+    font-size:25px;font-weight:900;color:#1c2833;background:#f0f6ff;border-radius:10px;
+    padding:12px 20px;margin-bottom:14px;letter-spacing:2px;
+  }
+  .zalo-hint{font-size:11.5px;color:#555;line-height:1.6;margin-bottom:16px;text-align:left}
+  .modal-btn{
+    width:100%;padding:11px;border:none;background:#0068FF;color:#fff;border-radius:9px;
+    font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px;transition:opacity .2s;
+  }
+  .modal-btn.secondary{background:#f2f4f5;color:#333}
+  .modal-btn:hover{opacity:.88}
+  .modal-close{
+    width:100%;padding:9px;border:1px solid var(--border);background:#fff;color:#888;
+    border-radius:9px;font-size:12px;cursor:pointer;
+  }
+  .copied{color:var(--brand-lt)!important}
+
+  /* Drafts modal */
+  .draft-list{text-align:left;margin-bottom:14px;max-height:280px;overflow-y:auto}
+  .draft-item{
+    display:flex;justify-content:space-between;align-items:center;gap:8px;
+    padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;
+    cursor:pointer;transition:background .15s;
+  }
+  .draft-item:hover{background:#f7faf5;border-color:var(--brand-lt2)}
+  .draft-item-info{min-width:0}
+  .draft-item-nm{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .draft-item-mt{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .draft-item-del{border:none;background:none;color:#c8ced2;font-size:16px;cursor:pointer;flex-shrink:0;padding:4px}
+  .draft-item-del:hover{color:var(--red)}
+  .draft-empty{text-align:center;color:#aaa;font-size:12.5px;padding:24px 0}
+
+  /* ── TOAST ── */
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:#1c2833;color:#fff;padding:11px 20px;border-radius:30px;
+    font-size:12.5px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.25);
+    opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:10000;
+    display:flex;align-items:center;gap:8px;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ── MOBILE QUOTE BAR ── */
+  .mobile-bar{
+    display:none;position:fixed;left:0;right:0;bottom:0;
+    background:linear-gradient(135deg,#1f5a08,var(--brand-lt));color:#fff;
+    padding:12px 18px;z-index:400;align-items:center;justify-content:space-between;
+    box-shadow:0 -3px 16px rgba(0,0,0,.2);
+    border-radius:16px 16px 0 0;
+  }
+  .mobile-bar .mb-info{font-size:12px;opacity:.9}
+  .mobile-bar .mb-total{font-size:16px;font-weight:900}
+  .mobile-bar button{
+    background:#fff;color:var(--brand-dk);border:none;padding:10px 18px;border-radius:9px;
+    font-size:12.5px;font-weight:800;cursor:pointer;
+  }
+  .sheet-handle,.sheet-close{display:none}
+
+  #print-area{display:none}
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:1024px){
+    .pkg-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:900px){
+    .hdr{padding:12px 16px}
+    .hdr-title{display:none}
+    .layout{flex-direction:column}
+    .left{width:100%;padding:16px 14px 110px}
+    .grid2{grid-template-columns:1fr}
+    .pkg-grid{grid-template-columns:1fr}
+    .right{
+      width:100%;position:fixed;left:0;right:0;bottom:0;top:auto;
+      height:0;overflow:hidden;border-left:none;
+      border-radius:18px 18px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.2);
+      transition:height .3s ease;z-index:500;padding:14px 20px 20px;
+    }
+    .right.sheet-open{height:88vh;overflow-y:auto}
+    .mobile-bar{display:flex}
+    .sheet-handle{
+      display:block;width:42px;height:5px;background:var(--border);border-radius:10px;
+      margin:0 auto 12px;
+    }
+    .sheet-close{
+      display:flex;position:absolute;top:14px;right:16px;width:30px;height:30px;
+      border-radius:50%;background:#f2f4f5;border:none;align-items:center;justify-content:center;
+      font-size:15px;color:#666;cursor:pointer;
+    }
+  }
+  @media (max-width:560px){
+    .svc-row{flex-wrap:wrap}
+    .svc-price{margin-left:auto}
+    .q-btns{grid-template-columns:1fr}
+    .btn-clr{grid-column:span 1}
+  }
+
+  @media print{
+    body>*:not(#print-area){display:none!important}
+    #print-area{display:block!important;font-family:'Times New Roman',Times,serif;font-size:12px;color:#000;padding:20px;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
+    #print-area *{font-family:'Times New Roman',Times,serif}
+    .p-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+    .p-logo{display:flex;align-items:center;gap:9px}
+    .p-logo-name{font-size:19px;font-weight:900;color:#555;letter-spacing:1px}
+    .p-logo-sub{font-size:11px;font-weight:700;color:#4a9a1e;font-style:italic;margin-top:1px}
+    .p-hdr-right{text-align:right;font-size:10.5px;color:#555;line-height:1.7}
+    .p-co-name{font-weight:900;color:#1c2833;font-size:12.5px}
+    .p-co-sub{font-size:10px;color:#555;font-weight:700}
+    .p-greet{font-size:12px;color:#000;margin-bottom:8px}
+    .p-intro{font-size:11.5px;color:#333;line-height:1.7;text-align:justify;margin-bottom:14px}
+    .p-title{text-align:center;font-size:16px;font-weight:900;color:#000;margin:6px 0 16px;text-transform:uppercase}
+    .p-cust{background:#f4f6f8;border-radius:5px;padding:10px 14px;margin-bottom:16px;font-size:11.5px;line-height:1.8}
+    table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:11px}
+    th{background:#4a9a1e!important;color:#fff!important;padding:7px 8px;text-align:center;font-weight:900;text-transform:uppercase;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
+    td{padding:7px 8px;border-bottom:1px solid #dce1e7;vertical-align:top}
+    tr:nth-child(even) td{background:#f0f6ff}
+    td.r{text-align:right}
+    td.c{text-align:center}
+    .p-totals{display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-bottom:16px}
+    .p-tot-row{display:flex;gap:30px;font-size:12px}
+    .p-tot-row span:last-child{min-width:130px;text-align:right;font-weight:600}
+    .p-grand{font-size:14px;font-weight:900;color:#c0392b;border-top:2px solid #4a9a1e;padding-top:6px;margin-top:4px}
+    .p-notes{font-size:10px;color:#555;line-height:1.8;border-top:1px solid #dce1e7;padding-top:10px}
+    .p-endnote{text-align:right;font-size:16px;font-weight:900;color:#1c2833;margin-top:20px}
+    .p-footer{margin-top:30px;display:flex;justify-content:space-between;font-size:11px}
+    .p-sign{text-align:center}
+    .p-sign .sign-line{width:140px;border-bottom:1px solid #000;margin:40px auto 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="brand-mark">
+    <div class="brand-badge">
+      <svg viewBox="0 0 64 64"><defs><linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4a9a1e"/><stop offset="1" stop-color="#1f5a08"/>
+      </linearGradient></defs><circle cx="32" cy="32" r="30" fill="url(#bg1)"/>
+      <text x="32" y="41" font-size="22" font-weight="900" fill="#fff" text-anchor="middle" font-family="Arial">GM</text></svg>
+    </div>
+    <div>
+      <div class="brand-name">GL<em>●</em>BAL<span class="tag">media &amp; events</span></div>
+      <div class="brand-addr">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa &nbsp;|&nbsp; Contact for work: 033.4412.884 (Mr Phú)</div>
+    </div>
+  </div>
+  <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+
+    <!-- Customer info -->
+    <div class="card">
+      <div class="card-title">📋 Thông tin khách hàng</div>
+      <div class="grid2" style="margin-bottom:12px">
+        <div class="fld">
+          <label>Tên khách hàng / Công ty</label>
+          <input id="cName" placeholder="Công ty ABC / Anh Nguyễn Văn A" oninput="render()">
+        </div>
+        <div class="fld">
+          <label>Người liên hệ</label>
+          <input id="cContact" placeholder="Anh / Chị ..." oninput="render()">
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="fld">
+          <label>Số điện thoại</label>
+          <input id="cPhone" placeholder="09xx.xxx.xxx" oninput="render()">
+        </div>
+        <div class="fld">
+          <label>Ngày báo giá</label>
+          <input id="cDate" type="date" oninput="render()">
+        </div>
+      </div>
+      <div class="draft-row">
+        <button class="mini-btn" onclick="saveDraft()">💾 Lưu nháp báo giá</button>
+        <button class="mini-btn" onclick="openDrafts()">📂 Đơn đã lưu (<span id="draft-count">0</span>)</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('tvc',this)">🎬 Sản xuất TVC</button>
+      <button class="tab-btn" onclick="switchTab('media',this)">📸 Dịch vụ Media <span id="media-tab-count"></span></button>
+    </div>
+
+    <!-- TVC PANE -->
+    <div id="pane-tvc" class="tab-pane active card" style="border-radius:0 12px 12px 12px">
+      <div class="card-title">🎬 Chọn gói sản xuất TVC</div>
+      <div class="tier-pills">
+        <button class="tier-pill active" data-tier="basic" onclick="switchTier('basic',this)">Gói BASIC</button>
+        <button class="tier-pill" data-tier="caocap" onclick="switchTier('caocap',this)">Gói CAO CẤP</button>
+        <button class="tier-pill" data-tier="vip" onclick="switchTier('vip',this)">Gói VIP</button>
+      </div>
+      <div id="tier-basic" class="tier-pane active"><div class="pkg-grid" id="g-basic"></div></div>
+      <div id="tier-caocap" class="tier-pane"><div class="pkg-grid" id="g-caocap"></div></div>
+      <div id="tier-vip" class="tier-pane"><div class="pkg-grid" id="g-vip"></div></div>
+    </div>
+
+    <!-- MEDIA PANE -->
+    <div id="pane-media" class="tab-pane card" style="border-radius:0 12px 12px 12px">
+      <div class="card-title">📸 Chọn dịch vụ quay chụp &amp; media</div>
+      <div class="media-cat-grid" id="media-cat-grid"></div>
+      <div class="media-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="mediaSearch" placeholder="Tìm dịch vụ... (vd: flycam, chụp hình)" oninput="filterMedia()">
+      </div>
+      <div id="media-list"></div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- RIGHT PANEL: QUOTE -->
+  <div class="right" id="rightPanel">
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+    <div class="sheet-handle"></div>
+    <div class="q-title">📄 Báo giá</div>
+    <div class="q-date" id="q-date"></div>
+    <div class="q-cust" id="q-cust">Chưa có thông tin khách hàng</div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+      <button class="mini-btn" id="editPriceBtn" style="flex:none" onclick="toggleEditPrice()">🔧 Tùy chỉnh giá</button>
+    </div>
+    <div class="q-items" id="q-items"><div class="q-empty"><span class="ic">🧾</span>Chưa chọn dịch vụ nào</div></div>
+    <div class="q-totals">
+      <div class="q-row"><span>Tổng hạng mục</span><span id="q-sub">0 đ</span></div>
+      <div class="q-row"><span>Thuế VAT (8%)</span><span id="q-vat">0 đ</span></div>
+      <div class="q-row grand"><span>TỔNG THANH TOÁN</span><span id="q-total">0 đ</span></div>
+    </div>
+    <div class="q-btns">
+      <button class="btn btn-pdf" onclick="printPDF()" style="grid-column:span 2">⬇ Xuất PDF báo giá</button>
+      <button class="btn-zalo" onclick="showZalo()">
+        <svg width="20" height="20" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="white"/>
+          <text x="5" y="29" font-size="22" font-weight="900" fill="#0068FF" font-family="Arial Black,Arial">Z</text>
+        </svg>
+        Liên hệ tư vấn qua Zalo
+      </button>
+      <button class="btn btn-clr" onclick="clearAll()">🗑 Xóa tất cả</button>
+    </div>
+  </div>
+
+</div><!-- /layout -->
+
+<!-- MOBILE QUOTE BAR -->
+<div class="mobile-bar" id="mobileBar" onclick="openSheet()">
+  <div>
+    <div class="mb-info" id="mb-info">0 mục đã chọn</div>
+    <div class="mb-total" id="mb-total">0 đ</div>
+  </div>
+  <button onclick="event.stopPropagation();openSheet()">Xem báo giá ▲</button>
+</div>
+
+<!-- ZALO MODAL -->
+<div class="overlay" id="zalo-modal" onclick="closeZalo(event)">
+  <div class="modal-box">
+    <div class="zalo-icon">💬</div>
+    <div class="zalo-title">Liên hệ tư vấn qua Zalo</div>
+    <div class="zalo-sub">Thêm số này vào Zalo để nhắn tin trực tiếp</div>
+    <div class="zalo-num" id="zalo-number">033 4412 884</div>
+    <div class="zalo-hint">
+      📱 <strong>Trên điện thoại:</strong> Mở app Zalo → Tìm kiếm số <strong>0334412884</strong><br>
+      💻 <strong>Trên máy tính:</strong> Copy số và tìm trong Zalo Desktop
+    </div>
+    <button class="modal-btn" id="copy-btn" onclick="copyZalo()">📋 Copy số Zalo</button>
+    <button class="modal-btn secondary" onclick="copyQuoteText()">🧾 Copy nội dung báo giá</button>
+    <button class="modal-close" onclick="closeZalo()">Đóng</button>
+  </div>
+</div>
+
+<!-- DRAFTS MODAL -->
+<div class="overlay" id="drafts-modal" onclick="closeDrafts(event)">
+  <div class="modal-box" style="max-width:380px">
+    <div class="zalo-title" style="color:var(--brand)">📂 Báo giá đã lưu</div>
+    <div class="zalo-sub">Chọn một đơn để tải lại, hoặc xóa đơn không cần dùng</div>
+    <div class="draft-list" id="draft-list"></div>
+    <button class="modal-close" onclick="closeDrafts()">Đóng</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- PRINT AREA -->
+<div id="print-area"></div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+const TVC = {
+  basic: {
+    label: 'Gói BASIC',
+    pkgs: [
+      { id:'b1', name:'Gói Basic 1', price:8000000,
+        prod:'TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt',
+        equip:'Không ghi hình – Tư liệu hình ảnh & video do khách hàng cung cấp',
+        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần',
+        staff:'01 Biên tập, 01 Kiểm soát viên',
+        voice:'Không', loc:'Không', dur:'Không',
+        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần', gift:null },
+      { id:'b2', name:'Gói Basic 2', price:12000000,
+        prod:'TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt',
+        equip:'01 Sony a6500, 01 Gimbal, 01 Lens',
+        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần',
+        staff:'01 Biên tập, 01 Quay phim, 01 Điều phối',
+        voice:'Không', loc:'Nha Trang', dur:'Buổi 4 tiếng',
+        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần', gift:null },
+      { id:'b3', name:'Gói Basic 3', price:18000000,
+        prod:'TVC Quảng cáo doanh nghiệp | Thời lượng 2–3 phút | Phiên bản Việt',
+        equip:'01 Sony a6500, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 3 lần',
+        staff:'01 Biên tập, 01 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'Voice Talent', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
+        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 3 lần', gift:null }
+    ]
+  },
+  caocap: {
+    label: 'Gói CAO CẤP',
+    pkgs: [
+      { id:'cc1', name:'Gói Cao Cấp 1', price:30000000,
+        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt',
+        equip:'01 Sony a6500, 01 Flycam, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản – Sửa miễn phí tối đa 3 lần',
+        staff:'01 Biên tập, 02 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'Voice Talent', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần', gift:null },
+      { id:'cc2', name:'Gói Cao Cấp 2', price:42000000,
+        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt',
+        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản – Sửa miễn phí tối đa 3 lần',
+        staff:'01 Đạo diễn, 01 Biên tập, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần', gift:null },
+      { id:'cc3', name:'Gói Cao Cấp 3', price:55000000,
+        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
+        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản TVC – Sửa miễn phí tối đa 3 lần',
+        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)', loc:'Nha Trang',
+        dur:'01 ngày: 8 tiếng + Dự phòng thời tiết: 01 ngày',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần', gift:null }
+    ]
+  },
+  vip: {
+    label: 'Gói VIP',
+    pkgs: [
+      { id:'v1', name:'Gói VIP 1', price:80000000,
+        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
+        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản TVC – Sửa miễn phí tối đa 3 lần',
+        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
+        dur:'01 ngày khảo sát + 01 ngày quay (8t) + Dự phòng 01 ngày',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần',
+        gift:'🎁 Tặng 01 video phiên bản rút gọn' },
+      { id:'v2', name:'Gói VIP 2', price:90000000,
+        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
+        equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'01 kịch bản – Sửa miễn phí tối đa 5 lần',
+        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
+        dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 5 lần',
+        gift:'🎁 Tặng 01 video phiên bản rút gọn' },
+      { id:'v3', name:'Gói VIP 3', price:99000000,
+        prod:'TVC Quảng cáo | 3–5 phút | 02 Phiên bản: Việt+Sub English & English+Sub Việt',
+        equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Màn hình monitor, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
+        script:'02 option kịch bản (KH lựa chọn 1/2) – Sửa miễn phí tối đa 5 lần',
+        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
+        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
+        dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
+        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 5 lần',
+        gift:'🎁 Tặng 02 video phiên bản rút gọn' }
+    ]
+  }
+};
+
+const MEDIA = [
+  { cat:'🎥 Quay phim sự kiện', items:[
+    { id:'s1', name:'Quay phim – Buổi / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:3000000 },
+    { id:'s2', name:'Quay phim – Buổi / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:5000000 },
+    { id:'s3', name:'Quay phim – Ngày / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:5000000 },
+    { id:'s4', name:'Quay phim – Ngày / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:9000000 },
+    { id:'s5', name:'Video recap sự kiện', desc:'01 video tổng kết / phim tổng kết sự kiện', unit:'video', price:1500000 },
+  ]},
+  { cat:'🚁 Flycam', items:[
+    { id:'f1', name:'Flycam – Buổi', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'buổi', price:1500000 },
+    { id:'f2', name:'Flycam – Ngày', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'ngày', price:2500000 },
+  ]},
+  { cat:'📷 Chụp hình sự kiện (4 tiếng)', items:[
+    { id:'p1', name:'Chụp hình – Buổi / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:2500000 },
+    { id:'p2', name:'Chụp hình – Buổi / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:4000000 },
+    { id:'p3', name:'Chụp hình – Ngày / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:4000000 },
+    { id:'p4', name:'Chụp hình – Ngày / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:7000000 },
+    { id:'p5', name:'Bộ ảnh gốc + ảnh retouch', desc:'01 bộ ảnh gốc + 01 bộ ảnh đã retouch', unit:'gói', price:1000000 },
+  ]},
+  { cat:'✂️ Sameday (chỉnh trong ngày)', items:[
+    { id:'d1', name:'Sameday edit – video', desc:'Chỉnh video trong ngày chiếu tối Gala – Nhận file trước 12h, hoàn thành trước 18h', unit:'gói', price:5000000 },
+    { id:'d2', name:'Sameday retouch – ảnh', desc:'Chỉnh hình teambuilding làm slide chiều, chiếu tối Gala', unit:'gói', price:2000000 },
+  ]},
+  { cat:'📱 Sản xuất Short Video', items:[
+    { id:'sv1', name:'Short video – từ 10 video', desc:'9:16, 2K, 30–60s. Có kịch bản, biên tập, điều phối, diễn viên', unit:'video', price:1200000 },
+    { id:'sv2', name:'Short video – dưới 10 video', desc:'9:16, 2K, 30–60s. Có kịch bản, biên tập, điều phối, diễn viên', unit:'video', price:2500000 },
+  ]},
+];
+
+const DRAFT_KEY = 'gme_quote_drafts';
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let selTVC = null;     // { tier, id, qty }
+let selMedia = {};      // { itemId: qty }
+let editPriceMode = false;
+let customTVCPrice = null;    // custom unit price override for TVC package (null = dùng giá niêm yết)
+let customMediaPrice = {};    // { itemId: customUnitPrice }
+let activeMediaCatIdx = 0;   // chỉ số danh mục media đang hiển thị (dạng khối)
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('cDate').valueAsDate = new Date();
+  buildTVC();
+  buildMedia();
+  buildMediaCatGrid();
+  applyMediaFilter();
+  render();
+  renderDraftCount();
+});
+
+/* ── Build TVC cards ── */
+function buildTVC() {
+  Object.entries(TVC).forEach(([tier, td]) => {
+    document.getElementById('g-'+tier).innerHTML = td.pkgs.map(p => `
+      <div class="pkg-card" id="pc-${p.id}" onclick="pickTVC('${tier}','${p.id}')">
+        <div class="pkg-name">${p.name}</div>
+        <div class="pkg-price">${vnd(p.price)}</div>
+        <div class="pkg-rows">
+          <div class="pkg-row"><b>Sản phẩm:</b><span>${p.prod}</span></div>
+          <div class="pkg-row"><b>Thiết bị:</b><span>${p.equip}</span></div>
+          <div class="pkg-row"><b>Kịch bản:</b><span>${p.script}</span></div>
+          <div class="pkg-row"><b>Nhân sự:</b><span>${p.staff}</span></div>
+          <div class="pkg-row"><b>Voice:</b><span>${p.voice}</span></div>
+          <div class="pkg-row"><b>Địa điểm:</b><span>${p.loc}</span></div>
+          <div class="pkg-row"><b>Thời gian:</b><span>${p.dur}</span></div>
+          <div class="pkg-row"><b>Hậu kỳ:</b><span>${p.post}</span></div>
+        </div>
+        ${p.gift ? `<div class="pkg-gift">${p.gift}</div>` : ''}
+      </div>`).join('');
+  });
+}
+
+/* ── Build Media list ── */
+function buildMedia() {
+  document.getElementById('media-list').innerHTML = MEDIA.map((cat, idx) => `
+    <div class="svc-cat" data-cat="${cat.cat}" data-idx="${idx}">
+      <div class="svc-cat-hd">${cat.cat}</div>
+      <div class="svc-list">
+        ${cat.items.map(it => `
+          <div class="svc-row" data-search="${(it.name+' '+it.desc).toLowerCase()}">
+            <input class="svc-chk" type="checkbox" id="chk-${it.id}" onchange="toggleMedia('${it.id}',${it.price})">
+            <div class="svc-info">
+              <div class="svc-nm">${it.name}</div>
+              <div class="svc-desc">${it.desc}</div>
+            </div>
+            <span class="svc-unit">${it.unit}</span>
+            <div class="qty-stepper">
+              <button type="button" disabled onclick="stepQty('${it.id}',-1)">−</button>
+              <input class="qty-box" type="number" id="qty-${it.id}" value="1" min="1" disabled onchange="changeQty('${it.id}')">
+              <button type="button" disabled onclick="stepQty('${it.id}',1)">+</button>
+            </div>
+            <div class="svc-price">${vnd(it.price)}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+/* ── Build Media category blocks ── */
+function buildMediaCatGrid() {
+  document.getElementById('media-cat-grid').innerHTML = MEDIA.map((cat, idx) => {
+    const parts = cat.cat.split(' ');
+    const icon = parts[0];
+    const label = parts.slice(1).join(' ');
+    return `<button type="button" class="media-cat-btn${idx===activeMediaCatIdx ? ' active' : ''}" onclick="switchMediaCat(${idx})">
+      <span class="ic">${icon}</span>
+      <span>${label}</span>
+      <span class="badge" id="catbadge-${idx}" style="display:none">0</span>
+    </button>`;
+  }).join('');
+  updateMediaCatBadges();
+}
+
+function updateMediaCatBadges() {
+  MEDIA.forEach((cat, idx) => {
+    const count = cat.items.filter(it => selMedia[it.id] !== undefined).length;
+    const badge = document.getElementById('catbadge-'+idx);
+    if (!badge) return;
+    if (count > 0) { badge.textContent = count; badge.style.display = 'inline-block'; }
+    else { badge.style.display = 'none'; }
+  });
+}
+
+function switchMediaCat(idx) {
+  activeMediaCatIdx = idx;
+  document.querySelectorAll('.media-cat-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  applyMediaFilter();
+}
+
+/* ═══════════════════════════════════════════
+   INTERACTIONS
+═══════════════════════════════════════════ */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pane-'+name).classList.add('active');
+}
+
+function switchTier(tier, btn) {
+  document.querySelectorAll('.tier-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tier-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tier-'+tier).classList.add('active');
+}
+
+function pickTVC(tier, id) {
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
+  if (selTVC && selTVC.id === id) { selTVC = null; }
+  else {
+    selTVC = { tier, id, qty: 1 };
+    document.getElementById('pc-'+id).classList.add('sel');
+  }
+  render();
+}
+
+function stepTVCQty(delta) {
+  if (!selTVC) return;
+  selTVC.qty = Math.max(1, (selTVC.qty || 1) + delta);
+  render();
+}
+
+function setTVCQty(value) {
+  if (!selTVC) return;
+  let v = parseInt(value, 10);
+  if (!v || v < 1) v = 1;
+  selTVC.qty = v;
+  render();
+}
+
+/* ═══════════════════════════════════════════
+   TÙY CHỈNH GIÁ (đặc biệt theo khách hàng)
+═══════════════════════════════════════════ */
+function toggleEditPrice() {
+  editPriceMode = !editPriceMode;
+  const btn = document.getElementById('editPriceBtn');
+  btn.textContent = editPriceMode ? '✓ Xong tùy chỉnh giá' : '🔧 Tùy chỉnh giá';
+  btn.classList.toggle('active-edit', editPriceMode);
+  render();
+}
+
+function setCustomTVCPrice(value) {
+  const v = parseFloat(value);
+  customTVCPrice = (isNaN(v) || v < 0) ? null : v;
+  render();
+}
+
+function resetCustomTVCPrice() {
+  customTVCPrice = null;
+  render();
+}
+
+function setCustomMediaPrice(id, value) {
+  const v = parseFloat(value);
+  if (isNaN(v) || v < 0) { delete customMediaPrice[id]; }
+  else { customMediaPrice[id] = v; }
+  render();
+}
+
+function resetCustomMediaPrice(id) {
+  delete customMediaPrice[id];
+  render();
+}
+
+function toggleMedia(id, price) {
+  const chk = document.getElementById('chk-'+id);
+  const qty = document.getElementById('qty-'+id);
+  const buttons = qty.parentElement.querySelectorAll('button');
+  if (chk.checked) { qty.disabled = false; buttons.forEach(b=>b.disabled=false); selMedia[id] = +qty.value || 1; }
+  else { qty.disabled = true; buttons.forEach(b=>b.disabled=true); delete selMedia[id]; }
+  render();
+}
+
+function stepQty(id, delta) {
+  const qty = document.getElementById('qty-'+id);
+  if (qty.disabled) return;
+  const next = Math.max(1, (+qty.value||1) + delta);
+  qty.value = next;
+  changeQty(id);
+}
+
+function changeQty(id) {
+  const qty = document.getElementById('qty-'+id);
+  if (+qty.value < 1 || !qty.value) qty.value = 1;
+  if (selMedia[id] !== undefined) {
+    selMedia[id] = +qty.value || 1;
+    render();
+  }
+}
+
+function removeItem(type, id) {
+  if (type === 'tvc') {
+    selTVC = null;
+    customTVCPrice = null;
+    document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
+  } else {
+    selMedia[id] !== undefined && delete selMedia[id];
+    delete customMediaPrice[id];
+    const chk = document.getElementById('chk-'+id);
+    const qty = document.getElementById('qty-'+id);
+    if (chk) { chk.checked = false; }
+    if (qty) { qty.disabled = true; qty.value = 1; qty.parentElement.querySelectorAll('button').forEach(b=>b.disabled=true); }
+  }
+  render();
+}
+
+function filterMedia() { applyMediaFilter(); }
+
+function applyMediaFilter() {
+  const q = document.getElementById('mediaSearch').value.trim().toLowerCase();
+  document.querySelectorAll('.svc-row').forEach(row => {
+    row.classList.toggle('hidden', q && !row.dataset.search.includes(q));
+  });
+  document.querySelectorAll('.svc-cat').forEach(cat => {
+    if (q) {
+      // đang tìm kiếm: hiện mọi danh mục có kết quả khớp, bỏ qua khối đang chọn
+      const anyVisible = [...cat.querySelectorAll('.svc-row')].some(r => !r.classList.contains('hidden'));
+      cat.classList.toggle('hidden', !anyVisible);
+    } else {
+      // không tìm kiếm: chỉ hiện danh mục đang chọn ở khối phía trên
+      cat.classList.toggle('hidden', +cat.dataset.idx !== activeMediaCatIdx);
+    }
+  });
+}
+
+function clearAll() {
+  selTVC = null; selMedia = {};
+  customTVCPrice = null; customMediaPrice = {};
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
+  document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
+  document.querySelectorAll('.qty-box').forEach(i => { i.value = 1; i.disabled = true; });
+  document.querySelectorAll('.qty-stepper button').forEach(b => b.disabled = true);
+  render();
+}
+
+/* ═══════════════════════════════════════════
+   RENDER QUOTE
+═══════════════════════════════════════════ */
+function render() {
+  const name = document.getElementById('cName').value.trim();
+  const contact = document.getElementById('cContact').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const date = document.getElementById('cDate').value;
+
+  const custEl = document.getElementById('q-cust');
+  if (name || contact || phone) {
+    custEl.innerHTML =
+      (name ? `<strong>Khách hàng:</strong> ${esc(name)}<br>` : '') +
+      (contact ? `<strong>Liên hệ:</strong> ${esc(contact)}<br>` : '') +
+      (phone ? `<strong>SĐT:</strong> ${esc(phone)}` : '');
+  } else {
+    custEl.textContent = 'Chưa có thông tin khách hàng';
+  }
+  document.getElementById('q-date').textContent = date ? 'Ngày: ' + fmtDate(date) : '';
+
+  const items = getItems();
+  const itemsEl = document.getElementById('q-items');
+  if (!items.length) {
+    itemsEl.innerHTML = '<div class="q-empty"><span class="ic">🧾</span>Chưa chọn dịch vụ nào</div>';
+  } else {
+    const tvcItem = items.find(i => i.type === 'tvc');
+    const mediaItems = items.filter(i => i.type === 'media');
+    let html = '';
+
+    if (tvcItem) {
+      const it = tvcItem;
+      const p = it.pkg;
+      const tvcRows = getTVCRows(p);
+      html += `<div class="q-tvc-block">
+          <div class="q-tvc-hd">
+            <div class="q-tvc-nm">${it.tier.label} – ${p.name}</div>
+            <div style="display:flex;align-items:center;gap:6px">
+              <div class="q-tvc-pr">${vnd(it.total)}</div>
+              <button class="q-item-rm" title="Xóa" onclick="removeItem('tvc')">✕</button>
+            </div>
+          </div>
+          ${it.isCustom ? `<div class="price-custom-tag">💡 Giá tùy chỉnh (giá niêm yết: ${vnd(it.listPrice)}) <span class="price-reset" onclick="resetCustomTVCPrice()">↺ Khôi phục</span></div>` : ''}
+          <table class="q-tvc-tbl">
+            <tr>
+              <th>STT</th><th>Hạng mục</th><th>Nội dung</th>
+              <th style="text-align:center">ĐVT</th><th style="text-align:center">SL</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">T.Tiền</th><th>Ghi chú</th>
+            </tr>
+            ${tvcRows.map((r,i) => `<tr>
+              <td class="q-tvc-dvt">${i+1}</td>
+              <td class="q-tvc-cat">${r.cat}</td>
+              <td>${r.nd}</td>
+              ${i===0 ? `<td class="q-tvc-dvt" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">Gói</td>
+                         <td rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0;text-align:center">
+                           <div class="qty-stepper" style="justify-content:center">
+                             <button type="button" onclick="stepTVCQty(-1)">−</button>
+                             <input class="qty-box" type="number" min="1" value="${it.qty}" onchange="setTVCQty(this.value)">
+                             <button type="button" onclick="stepTVCQty(1)">+</button>
+                           </div>
+                         </td>
+                         <td class="q-tvc-gia" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">${editPriceMode ? `<input type="number" class="price-input" value="${it.unitPrice}" onchange="setCustomTVCPrice(this.value)">` : num(it.unitPrice)}</td>
+                         <td class="q-tvc-gia" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">${num(it.total)}</td>
+                         <td rowspan="${tvcRows.length}" style="vertical-align:top;border-left:1px solid #e0e0e0;font-size:11px;color:#888"></td>` : ''}
+            </tr>`).join('')}
+          </table>
+        </div>`;
+    }
+
+    if (mediaItems.length) {
+      html += `<div class="q-tvc-block">
+          <div class="q-tvc-hd">
+            <div class="q-tvc-nm">📸 Dịch vụ Media</div>
+            <div class="q-tvc-pr">${vnd(mediaItems.reduce((a,i)=>a+i.total,0))}</div>
+          </div>
+          <table class="q-tvc-tbl">
+            <tr>
+              <th>STT</th><th>Hạng mục</th><th>Nội dung</th>
+              <th style="text-align:center">ĐVT</th><th style="text-align:center">SL</th><th style="text-align:right">Đơn giá</th><th style="text-align:right">T.Tiền</th><th>Ghi chú</th>
+            </tr>
+            ${mediaItems.map((it,idx) => `<tr>
+              <td class="q-tvc-dvt">${idx+1}</td>
+              <td class="q-tvc-cat">${it.name}</td>
+              <td>${it.desc}</td>
+              <td class="q-tvc-dvt">${it.unit}</td>
+              <td class="q-tvc-dvt">
+                <div class="qty-stepper" style="justify-content:center">
+                  <button type="button" onclick="stepQty('${it.id}',-1)">−</button>
+                  <input class="qty-box" type="number" min="1" value="${it.qty}" onchange="changeQty('${it.id}')">
+                  <button type="button" onclick="stepQty('${it.id}',1)">+</button>
+                </div>
+              </td>
+              <td class="q-tvc-gia">${editPriceMode ? `<input type="number" class="price-input" value="${it.unitPrice}" onchange="setCustomMediaPrice('${it.id}', this.value)">` : num(it.unitPrice)}</td>
+              <td class="q-tvc-gia">${num(it.total)}</td>
+              <td style="font-size:10.5px">
+                ${it.isCustom ? `<span class="price-custom-tag">💡 Tùy chỉnh</span> <span class="price-reset" onclick="resetCustomMediaPrice('${it.id}')">↺</span><br>` : ''}
+                <button class="q-item-rm" title="Xóa" onclick="removeItem('media','${it.id}')">✕</button>
+              </td>
+            </tr>`).join('')}
+          </table>
+        </div>`;
+    }
+
+    itemsEl.innerHTML = html;
+  }
+
+  const sub = items.reduce((a,i) => a + i.total, 0);
+  const vat = sub * 0.08;
+  const tot = sub + vat;
+  document.getElementById('q-sub').textContent = vnd(sub);
+  document.getElementById('q-vat').textContent = vnd(vat);
+  document.getElementById('q-total').textContent = vnd(tot);
+
+  // media tab counter
+  const mediaCount = Object.keys(selMedia).length;
+  document.getElementById('media-tab-count').textContent = mediaCount ? `(${mediaCount})` : '';
+  updateMediaCatBadges();
+
+  // mobile bar
+  document.getElementById('mb-info').textContent = `${items.length} mục đã chọn`;
+  document.getElementById('mb-total').textContent = vnd(tot);
+}
+
+function getItems() {
+  const items = [];
+  if (selTVC) {
+    const tier = TVC[selTVC.tier];
+    const pkg = tier.pkgs.find(p => p.id === selTVC.id);
+    const qty = selTVC.qty || 1;
+    const unitPrice = customTVCPrice != null ? customTVCPrice : pkg.price;
+    if (pkg) items.push({ type:'tvc', name:`${tier.label} – ${pkg.name}`, meta:pkg.prod,
+      qty, unitPrice, listPrice:pkg.price, isCustom: customTVCPrice != null, total:unitPrice*qty, pkg, tier });
+  }
+  Object.entries(selMedia).forEach(([id, qty]) => {
+    const it = findMedia(id);
+    if (it) {
+      const custom = customMediaPrice[id];
+      const unitPrice = custom != null ? custom : it.price;
+      items.push({ type:'media', id, name:it.name, desc:it.desc, meta:`${qty} ${it.unit}`, qty, unit:it.unit,
+        unitPrice, listPrice:it.price, isCustom: custom != null, total:unitPrice*qty });
+    }
+  });
+  return items;
+}
+
+function getTVCRows(p) {
+  const rows = [
+    { cat:'Sản xuất TVC', nd:p.prod, dvt:'Gói', gia:p.price, tt:p.price },
+    { cat:'Thiết bị', nd:p.equip, dvt:'', gia:null, tt:null },
+    { cat:'Kịch bản', nd:p.script, dvt:'', gia:null, tt:null },
+    { cat:'Nhân sự', nd:p.staff, dvt:'', gia:null, tt:null },
+    { cat:'Voice', nd:p.voice, dvt:'', gia:null, tt:null },
+    { cat:'Địa điểm', nd:p.loc, dvt:'', gia:null, tt:null },
+    { cat:'Thời gian', nd:p.dur, dvt:'', gia:null, tt:null },
+    { cat:'Hậu kỳ', nd:p.post, dvt:'', gia:null, tt:null },
+  ];
+  if (p.gift) rows.push({ cat:'Quà tặng', nd:p.gift, dvt:'', gia:null, tt:null });
+  return rows;
+}
+
+function findMedia(id) {
+  for (const cat of MEDIA) { const f = cat.items.find(i => i.id === id); if (f) return f; }
+  return null;
+}
+
+/* ═══════════════════════════════════════════
+   EXPORT PDF (print)
+═══════════════════════════════════════════ */
+function printPDF() {
+  const name = document.getElementById('cName').value.trim();
+  const contact = document.getElementById('cContact').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const date = document.getElementById('cDate').value;
+  const items = getItems();
+  if (!items.length) { showToast('⚠️ Chưa chọn dịch vụ nào để xuất báo giá'); return; }
+  const sub = items.reduce((a,i) => a + i.total, 0);
+  const vat = sub * 0.08;
+  const tot = sub + vat;
+
+  const hasTVC = items.some(i => i.type === 'tvc');
+  const hasMedia = items.some(i => i.type === 'media');
+  const quoteType = hasTVC && hasMedia ? 'TVC &amp; MEDIA' : hasTVC ? 'TVC' : 'MEDIA';
+  const custDisplay = esc(name && contact ? `${name} – ${contact}` : (name || contact || 'Quý khách hàng'));
+
+  let stt = 1;
+  let allRows = '';
+  items.forEach(it => {
+    if (it.type === 'tvc') {
+      const tvcRows = getTVCRows(it.pkg);
+      tvcRows.forEach((r, i) => {
+        allRows += `<tr>
+          <td class="c">${stt++}</td>
+          <td style="font-weight:${i===0?'700':'400'}">${r.cat}</td>
+          <td style="font-size:10px">${r.nd}</td>
+          ${i===0 ? `<td class="c" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${r.dvt||'Gói'}</td>
+          <td class="c" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${it.qty}</td>
+          <td class="r" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${num(it.unitPrice)}</td>
+          <td class="r" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #dce1e7">${num(it.total)}</td>
+          <td rowspan="${tvcRows.length}" style="border-left:1px solid #dce1e7"></td>` : ''}
+        </tr>`;
+      });
+    } else {
+      allRows += `<tr>
+        <td class="c">${stt++}</td>
+        <td style="font-weight:700">${it.name}</td>
+        <td style="font-size:10px">${it.desc||''}</td>
+        <td class="c">${it.unit||''}</td>
+        <td class="c">${it.qty}</td>
+        <td class="r">${num(it.unitPrice)}</td>
+        <td class="r">${num(it.total)}</td>
+        <td></td>
+      </tr>`;
+    }
+  });
+
+  document.getElementById('print-area').innerHTML = `
+    <div class="p-hdr">
+      <div class="p-logo">
+        <svg width="34" height="34" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="17" cy="17" r="15.5" fill="none" stroke="#4a9a1e" stroke-width="2"/>
+          <path d="M8 20c3-6.5 10-11 18-8.5-2.5 6-8.5 10-15 10-1.2 0-2.2-.4-3-1.5z" fill="#4a9a1e"/>
+        </svg>
+        <div>
+          <div class="p-logo-name">GLOBAL</div>
+          <div class="p-logo-sub">media &amp; events</div>
+        </div>
+      </div>
+      <div class="p-hdr-right">
+        <div class="p-co-name">GLOBAL MEDIA &amp; EVENTS JSC</div>
+        <div class="p-co-sub">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa, Việt Nam</div>
+        <div class="p-co-sub">Contact for work: 033.4412.884 (Mr Phú)</div>
+      </div>
+    </div>
+
+    <div class="p-greet">Kính gửi: Quý Khách hàng <strong>${custDisplay}</strong></div>
+    <div class="p-intro">Công ty Cổ phần Truyền thông &amp; Sự kiện Toàn Cầu - Global Media &amp; Events trân trọng kính gửi đến quý khách hàng báo giá hạng mục <strong>${quoteType}</strong> chi tiết như sau:</div>
+
+    <div class="p-title">BÁO GIÁ ${quoteType}</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:30px">STT</th>
+          <th style="text-align:left;width:90px">Hạng mục</th>
+          <th style="text-align:left">Nội dung</th>
+          <th style="width:32px">ĐVT</th>
+          <th style="width:34px">SL</th>
+          <th style="width:90px">Đơn giá (VND)</th>
+          <th style="width:90px">Thành tiền (VND)</th>
+          <th style="width:55px">Ghi chú</th>
+        </tr>
+      </thead>
+      <tbody>${allRows}</tbody>
+    </table>
+
+    <div class="p-totals">
+      <div class="p-tot-row"><span>Tổng hạng mục:</span><span>${num(sub)} VND</span></div>
+      <div class="p-tot-row"><span>Thuế VAT (8%):</span><span>${num(vat)} VND</span></div>
+      <div class="p-tot-row p-grand"><span>TỔNG THANH TOÁN:</span><span>${num(tot)} VND</span></div>
+    </div>
+
+    <div class="p-notes">
+      <strong>Ghi chú:</strong><br>
+      1. Báo giá đã bao gồm giá trị gia tăng (VAT) 8%.<br>
+      2. Đơn giá được tính dựa trên khối lượng công việc. Đơn giá sẽ thay đổi khi khối lượng hạng mục thay đổi.<br>
+      3. Hình thức thanh toán: thanh toán 70% tại thời điểm bắt đầu triển khai, phần còn lại sau khi nghiệm thu.<br>
+      4. (*) Số lượng có thể thay đổi theo số lượng thực tế.<br>
+    </div>
+
+    <div class="p-endnote">CÔNG TY CỔ PHẦN TRUYỀN THÔNG VÀ GIẢI TRÍ TOÀN CẦU</div>`;
+
+  window.print();
+}
+
+/* ═══════════════════════════════════════════
+   COPY QUOTE TEXT (for Zalo / chat)
+═══════════════════════════════════════════ */
+function copyQuoteText() {
+  const name = document.getElementById('cName').value.trim();
+  const items = getItems();
+  if (!items.length) { showToast('⚠️ Chưa chọn dịch vụ nào'); return; }
+  const sub = items.reduce((a,i) => a + i.total, 0);
+  const vat = sub * 0.08;
+  const tot = sub + vat;
+
+  let lines = [];
+  lines.push('BÁO GIÁ DỊCH VỤ – GLOBAL MEDIA & EVENTS');
+  if (name) lines.push('Khách hàng: ' + name);
+  lines.push('');
+  items.forEach(it => {
+    if (it.type === 'tvc') lines.push(`- ${it.name}${it.qty > 1 ? ' x' + it.qty : ''}: ${vnd(it.total)}`);
+    else lines.push(`- ${it.name} (${it.qty} ${it.unit}): ${vnd(it.total)}`);
+  });
+  lines.push('');
+  lines.push('Tổng hạng mục: ' + vnd(sub));
+  lines.push('VAT (8%): ' + vnd(vat));
+  lines.push('TỔNG THANH TOÁN: ' + vnd(tot));
+  lines.push('');
+  lines.push('☎ 033 4412 884 – Lô 24, TT2, K98-NT, Phường Nha Trang, Khánh Hòa');
+
+  copyText(lines.join('\n'), '🧾 Đã copy nội dung báo giá');
+}
+
+/* ═══════════════════════════════════════════
+   ZALO MODAL
+═══════════════════════════════════════════ */
+function showZalo() { document.getElementById('zalo-modal').classList.add('open'); }
+function closeZalo(e) {
+  if (!e || e.target === document.getElementById('zalo-modal') || e.type === 'click') {
+    document.getElementById('zalo-modal').classList.remove('open');
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '📋 Copy số Zalo';
+    btn.classList.remove('copied');
+  }
+}
+function copyZalo() {
+  copyText('0334412884', '✅ Đã copy số Zalo', document.getElementById('copy-btn'));
+}
+
+/* ═══════════════════════════════════════════
+   DRAFTS (localStorage)
+═══════════════════════════════════════════ */
+function getDrafts() {
+  try { return JSON.parse(localStorage.getItem(DRAFT_KEY) || '[]'); }
+  catch { return []; }
+}
+function setDrafts(list) { localStorage.setItem(DRAFT_KEY, JSON.stringify(list.slice(0,30))); }
+
+function renderDraftCount() {
+  document.getElementById('draft-count').textContent = getDrafts().length;
+}
+
+function saveDraft() {
+  const name = document.getElementById('cName').value.trim();
+  const items = getItems();
+  if (!items.length && !name) { showToast('⚠️ Chưa có nội dung để lưu'); return; }
+  const sub = items.reduce((a,i) => a + i.total, 0);
+  const draft = {
+    id: Date.now(),
+    label: name || '(Chưa đặt tên khách hàng)',
+    savedAt: new Date().toISOString(),
+    total: sub * 1.08,
+    itemCount: items.length,
+    state: {
+      cName: name,
+      cContact: document.getElementById('cContact').value.trim(),
+      cPhone: document.getElementById('cPhone').value.trim(),
+      cDate: document.getElementById('cDate').value,
+      selTVC, selMedia, customTVCPrice, customMediaPrice
+    }
+  };
+  const list = getDrafts();
+  list.unshift(draft);
+  setDrafts(list);
+  renderDraftCount();
+  showToast('💾 Đã lưu nháp báo giá');
+}
+
+function openDrafts() {
+  const list = getDrafts();
+  const el = document.getElementById('draft-list');
+  if (!list.length) {
+    el.innerHTML = '<div class="draft-empty">Chưa có báo giá nào được lưu</div>';
+  } else {
+    el.innerHTML = list.map(d => `
+      <div class="draft-item" onclick="loadDraft(${d.id})">
+        <div class="draft-item-info">
+          <div class="draft-item-nm">${esc(d.label)}</div>
+          <div class="draft-item-mt">${new Date(d.savedAt).toLocaleString('vi-VN')} · ${d.itemCount} mục · ${vnd(d.total)}</div>
+        </div>
+        <button class="draft-item-del" title="Xóa" onclick="event.stopPropagation();deleteDraft(${d.id})">✕</button>
+      </div>`).join('');
+  }
+  document.getElementById('drafts-modal').classList.add('open');
+}
+function closeDrafts(e) {
+  if (!e || e.target === document.getElementById('drafts-modal') || e.type === 'click') {
+    document.getElementById('drafts-modal').classList.remove('open');
+  }
+}
+function deleteDraft(id) {
+  setDrafts(getDrafts().filter(d => d.id !== id));
+  renderDraftCount();
+  openDrafts();
+}
+function loadDraft(id) {
+  const d = getDrafts().find(x => x.id === id);
+  if (!d) return;
+  const s = d.state;
+  document.getElementById('cName').value = s.cName || '';
+  document.getElementById('cContact').value = s.cContact || '';
+  document.getElementById('cPhone').value = s.cPhone || '';
+  if (s.cDate) document.getElementById('cDate').value = s.cDate;
+
+  // reset UI selections
+  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
+  document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
+  document.querySelectorAll('.qty-box').forEach(i => { i.value = 1; i.disabled = true; });
+  document.querySelectorAll('.qty-stepper button').forEach(b => b.disabled = true);
+
+  selTVC = s.selTVC || null;
+  selMedia = s.selMedia || {};
+  customTVCPrice = (s.customTVCPrice != null) ? s.customTVCPrice : null;
+  customMediaPrice = s.customMediaPrice || {};
+
+  if (selTVC) {
+    const card = document.getElementById('pc-'+selTVC.id);
+    if (card) card.classList.add('sel');
+    document.querySelectorAll('.tier-pill').forEach(b => b.classList.toggle('active', b.dataset.tier===selTVC.tier));
+    document.querySelectorAll('.tier-pane').forEach(p => p.classList.toggle('active', p.id==='tier-'+selTVC.tier));
+  }
+  Object.entries(selMedia).forEach(([id, qty]) => {
+    const chk = document.getElementById('chk-'+id);
+    const qtyEl = document.getElementById('qty-'+id);
+    if (chk && qtyEl) {
+      chk.checked = true; qtyEl.disabled = false; qtyEl.value = qty;
+      qtyEl.parentElement.querySelectorAll('button').forEach(b => b.disabled = false);
+    }
+  });
+
+  closeDrafts();
+  render();
+  showToast('📂 Đã tải báo giá đã lưu');
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE SHEET
+═══════════════════════════════════════════ */
+function openSheet() { document.getElementById('rightPanel').classList.add('sheet-open'); }
+function closeSheet() { document.getElementById('rightPanel').classList.remove('sheet-open'); }
+
+/* ═══════════════════════════════════════════
+   TOAST + CLIPBOARD HELPERS
+═══════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function copyText(text, successMsg, btn) {
+  const done = () => {
+    showToast(successMsg);
+    if (btn) {
+      const original = btn.textContent;
+      btn.textContent = successMsg;
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 2200);
+    }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+  } else {
+    fallbackCopy(text, done);
+  }
+}
+function fallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); cb && cb(); } catch (e) {}
+  document.body.removeChild(ta);
+}
+
+// Close modals on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); }
+});
+
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+const vnd = n => new Intl.NumberFormat('vi-VN',{style:'currency',currency:'VND'}).format(n);
+const num = n => new Intl.NumberFormat('vi-VN').format(n);
+function fmtDate(d) {
+  if (!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+</script>
+</body>
+</html>

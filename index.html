@@ -699,7 +699,7 @@ const MEDIA = [
     { id:'sv2', name:'Short video – dưới 10 video', desc:'9:16, 2K, 30–60s. Có kịch bản, biên tập, điều phối, diễn viên', unit:'video', price:2500000 },
   ]},
   { cat:'📦 Chụp hình sản phẩm', items:[
-    { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch<br><span style=\'color:#888;font-style:italic\'>(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio</span>', unit:'gói', price:4000000 },
+    { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
   ]},
 ];
 
@@ -789,11 +789,12 @@ function buildMedia() {
       <div class="svc-cat-hd">${cat.cat}</div>
       <div class="svc-list">
         ${cat.items.map(it => `
-          <div class="svc-row" data-search="${(it.name+' '+it.desc).toLowerCase()}">
+          <div class="svc-row" data-search="${(it.name+' '+it.desc+' '+(it.note||'')).toLowerCase()}">
             <input class="svc-chk" type="checkbox" id="chk-${it.id}" onchange="toggleMedia('${it.id}',${it.price})">
             <div class="svc-info">
               <div class="svc-nm">${it.name}</div>
               <div class="svc-desc">${it.desc}</div>
+              ${it.note ? `<div class="svc-desc" style=\'color:#999;font-style:italic\'>${it.note}</div>` : ''}
             </div>
             <span class="svc-unit">${it.unit}</span>
             <div class="qty-stepper">
@@ -1077,6 +1078,7 @@ function render() {
               <td class="q-tvc-gia">${editPriceMode ? `<input type="number" class="price-input" value="${it.unitPrice}" onchange="setCustomMediaPrice('${it.id}', this.value)">` : num(it.unitPrice)}</td>
               <td class="q-tvc-gia">${num(it.total)}</td>
               <td style="font-size:10.5px">
+                ${it.note ? `<span style="color:#888;font-style:italic">${it.note}</span><br>` : ''}
                 ${it.isCustom ? `<span class="price-custom-tag">💡 Tùy chỉnh</span> <span class="price-reset" onclick="resetCustomMediaPrice('${it.id}')">↺</span><br>` : ''}
                 <button class="q-item-rm" title="Xóa" onclick="removeItem('media','${it.id}')">✕</button>
               </td>
@@ -1120,7 +1122,7 @@ function getItems() {
     if (it) {
       const custom = customMediaPrice[id];
       const unitPrice = custom != null ? custom : it.price;
-      items.push({ type:'media', id, name:it.name, desc:it.desc, meta:`${qty} ${it.unit}`, qty, unit:it.unit,
+      items.push({ type:'media', id, name:it.name, desc:it.desc, note:it.note||'', meta:`${qty} ${it.unit}`, qty, unit:it.unit,
         unitPrice, listPrice:it.price, isCustom: custom != null, total:unitPrice*qty });
     }
   });
@@ -1192,7 +1194,7 @@ function printPDF() {
         <td class="c">${it.qty}</td>
         <td class="r">${num(it.unitPrice)}</td>
         <td class="r">${num(it.total)}</td>
-        <td></td>
+        <td style="font-size:9px">${it.note||''}</td>
       </tr>`;
     }
   });

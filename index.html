@@ -691,6 +691,103 @@
   </div>
 </div>
 
+<div class="overlay" id="contract-modal" onclick="closeContractModal(event)">
+  <div class="modal-box crm-modal-box" style="max-width:640px;max-height:88vh;overflow:auto">
+    <div class="zalo-title" style="color:var(--brand)">📄 Hồ sơ hợp đồng</div>
+
+    <div class="fld">
+      <label>Loại sản phẩm</label>
+      <select id="ct-cat" onchange="onContractCatChange()">
+        <option value="">— Chọn loại sản phẩm —</option>
+        <option value="suKien">Sự kiện</option>
+        <option value="tvc">TVC</option>
+        <option value="media">Media</option>
+      </select>
+    </div>
+
+    <div class="grid2">
+      <div class="fld"><label>Tên đầy đủ khách hàng</label><input id="ct-tenkh" placeholder="Công ty TNHH ABC"></div>
+      <div class="fld"><label>Tên viết tắt khách hàng</label><input id="ct-tenviettat" placeholder="ABC"></div>
+    </div>
+    <div class="fld"><label>Địa chỉ khách hàng</label><input id="ct-diachi"></div>
+    <div class="grid2">
+      <div class="fld"><label>Mã số thuế</label><input id="ct-mst"></div>
+      <div class="fld"><label>Ngày ký hợp đồng</label><input type="date" id="ct-ngayky"></div>
+    </div>
+    <div class="grid2">
+      <div class="fld"><label>Tên người đại diện</label><input id="ct-daidien"></div>
+      <div class="fld"><label>Chức vụ</label><input id="ct-chucvu"></div>
+    </div>
+
+    <!-- Sự kiện -->
+    <div class="ct-cat-fields" id="ct-fields-suKien" style="display:none">
+      <div class="fld"><label>Thời gian tổ chức</label><input id="ct-sk-thoigiantochuc"></div>
+      <div class="fld"><label>Thời gian chuẩn bị</label><input id="ct-sk-thoigianchuanbi"></div>
+      <div class="fld"><label>Địa điểm thực hiện</label><input id="ct-sk-diadiem"></div>
+    </div>
+    <!-- TVC -->
+    <div class="ct-cat-fields" id="ct-fields-tvc" style="display:none">
+      <div class="fld"><label>Địa điểm sản xuất, ghi hình phim</label><input id="ct-tvc-diadiem"></div>
+      <div class="grid2">
+        <div class="fld"><label>Thời gian khảo sát</label><input id="ct-tvc-khaosat" placeholder="VD: 3 ngày"></div>
+        <div class="fld"><label>Thời gian kịch bản</label><input id="ct-tvc-kichban" placeholder="VD: 5 ngày"></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><label>Ngày ghi hình</label><input id="ct-tvc-ngayghihinh"></div>
+        <div class="fld"><label>Ngày bàn giao sản phẩm</label><input id="ct-tvc-bangiao"></div>
+      </div>
+    </div>
+    <!-- Media -->
+    <div class="ct-cat-fields" id="ct-fields-media" style="display:none">
+      <div class="fld"><label>Địa điểm sản xuất, ghi hình</label><input id="ct-media-diadiem"></div>
+      <div class="fld"><label>Thời gian trả kịch bản (nếu có)</label><input id="ct-media-kichban"></div>
+      <div class="grid2">
+        <div class="fld"><label>Ngày ghi hình / Ngày bắt đầu</label><input id="ct-media-ngaybatdau"></div>
+        <div class="fld"><label>Ngày bàn giao sản phẩm</label><input id="ct-media-bangiao"></div>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label>Báo giá đã lưu của khách hàng (tự chèn vào hợp đồng)</label>
+      <select id="ct-draft-select" onchange="onContractDraftPick()">
+        <option value="">— Chọn báo giá đã lưu —</option>
+      </select>
+    </div>
+    <div id="ct-quote-preview" style="margin-bottom:14px"></div>
+
+    <div class="grid2">
+      <div class="fld"><label>Giá trị hợp đồng (VNĐ, đã gồm VAT)</label><input id="ct-giatri" type="number" placeholder="50000000"></div>
+      <div class="fld"><label>% thanh toán lần 1</label><input id="ct-phantram1" type="number" value="50"></div>
+    </div>
+    <div class="fld"><label>Ngày thanh toán lần 1 (hạn chót)</label><input type="date" id="ct-ngaytt1"></div>
+    <div class="grid2">
+      <div class="fld"><label>Số lần chỉnh sửa miễn phí</label><input id="ct-solanchinhsua" type="number" value="2"></div>
+      <div class="fld"><label>Số bản hợp đồng in</label><input id="ct-sobanin" type="number" value="4"></div>
+    </div>
+
+    <div class="zalo-title" style="font-size:13px;color:var(--muted);margin-top:10px">Dùng cho Biên bản nghiệm thu (điền khi nghiệm thu)</div>
+    <div class="grid2">
+      <div class="fld"><label>Giá trị phát sinh tăng</label><input id="ct-phatsinhtang" type="number" placeholder="0"></div>
+      <div class="fld"><label>Giá trị phát sinh giảm</label><input id="ct-phatsinhgiam" type="number" placeholder="0"></div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0">
+      <button class="mini-btn crm-primary" onclick="saveContract(false)">💾 Lưu hồ sơ</button>
+      <button class="mini-btn" onclick="generateContractDoc('HDDV')">📄 Xuất Hợp đồng</button>
+      <button class="mini-btn" onclick="generateContractDoc('BBNT')">📄 Xuất Biên bản NT</button>
+      <button class="mini-btn" onclick="generateContractDoc('DNTT1')">📄 Xuất ĐNTT đợt 1</button>
+      <button class="mini-btn" onclick="generateContractDoc('DNTT2')">📄 Xuất ĐNTT đợt 2</button>
+    </div>
+
+    <div class="zalo-title" style="font-size:13px;color:var(--muted)">File hợp đồng đã ký (lưu lên Google Drive)</div>
+    <div class="fld"><input type="file" id="ct-signed-file" accept=".pdf,.jpg,.jpeg,.png,.docx"></div>
+    <button class="mini-btn crm-primary" onclick="uploadSignedContractFile()">⬆️ Tải lên Google Drive</button>
+    <div id="ct-signed-info" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
+
+    <button class="mini-btn" style="margin-top:16px" onclick="closeContractModal()">Đóng</button>
+  </div>
+</div>
+
 <!-- ZALO MODAL -->
 <div class="overlay" id="zalo-modal" onclick="closeZalo(event)">
   <div class="modal-box">
@@ -730,6 +827,8 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="vendor/pizzip.min.js"></script>
+<script src="vendor/docxtemplater.min.js"></script>
 
 <script>
 /* ═══════════════════════════════════════════
@@ -892,6 +991,7 @@ let authReady = new Promise((resolve) => {
 
 firebase.auth().getRedirectResult().then(res => {
   if (res && res.user && !res.user.isAnonymous) {
+    if (res.credential && res.credential.accessToken) driveAccessToken = res.credential.accessToken;
     onCRMAuthChanged(res.user);
     openCRM();
   }
@@ -937,7 +1037,9 @@ function closeCRM() {
 
 function signInGoogleCRM() {
   const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/drive.file');
   firebase.auth().signInWithPopup(provider).then(res => {
+    if (res.credential && res.credential.accessToken) driveAccessToken = res.credential.accessToken;
     onCRMAuthChanged(res.user);
     checkCRMAccess();
   }).catch(err => {
@@ -1031,6 +1133,7 @@ function renderCustomerTable() {
       <td>
         <div class="crm-row-actions">
           <button class="crm-link-btn" onclick="openCustomerForm('${c.id}')">Sửa</button>
+          <button class="crm-link-btn" onclick="openContractModal('${c.id}')">Hồ sơ HĐ</button>
           <button class="crm-link-btn danger" onclick="deleteCustomerConfirm('${c.id}')">Xóa</button>
         </div>
       </td>
@@ -1171,6 +1274,456 @@ async function removeStaff(email) {
     showToast('❌ Lỗi xóa nhân viên');
   }
 }
+
+
+/* ═══════════════════════════════════════════
+   HỒ SƠ HỢP ĐỒNG (Giai đoạn 2)
+═══════════════════════════════════════════ */
+const contractsCol = db.collection('contracts');
+const configCol = db.collection('config');
+let driveAccessToken = null;
+let crmContracts = {}; // customerId -> contract data (cache)
+
+const CONTRACT_CATS = {
+  suKien: { label: 'Sự kiện', fields: ['thoiGianToChuc','thoiGianChuanBi','diaDiemThucHien'] },
+  tvc:    { label: 'TVC',     fields: ['diaDiemSanXuat','thoiGianKhaoSat','thoiGianKichBan','ngayGhiHinh','ngayBanGiao'] },
+  media:  { label: 'Media',   fields: ['diaDiemSanXuat','thoiGianKichBanTraDate','ngayGhiHinhBatDau','ngayBanGiao'] },
+};
+const CONTRACT_TEMPLATE_FILES = {
+  suKien: { HDDV: 'templates/suKien-HDDV.docx', BBNT: 'templates/suKien-BBNT.docx', DNTT1: 'templates/suKien-DNTT1.docx', DNTT2: 'templates/suKien-DNTT2.docx' },
+  tvc:    { HDDV: 'templates/tvc-HDDV.docx',    BBNT: 'templates/tvc-BBNT.docx',    DNTT1: 'templates/tvc-DNTT1.docx',    DNTT2: 'templates/tvc-DNTT2.docx' },
+  media:  { HDDV: 'templates/media-HDDV.docx',  BBNT: 'templates/media-BBNT.docx',  DNTT1: 'templates/media-DNTT1.docx', DNTT2: 'templates/media-DNTT2.docx' },
+};
+const CONTRACT_DOC_LABELS = { HDDV: 'Hợp đồng dịch vụ', BBNT: 'Biên bản nghiệm thu', DNTT1: 'Đề nghị thanh toán đợt 1', DNTT2: 'Đề nghị thanh toán đợt 2' };
+
+/* ── Số tiền bằng chữ (tiếng Việt) ── */
+function soTienBangChu(soTien) {
+  const n = Math.round(Number(soTien) || 0);
+  if (n === 0) return "Không đồng";
+  const so = ["không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"];
+  function docSo3(baso) {
+    const tram = Math.floor(baso/100), chuc = Math.floor((baso%100)/10), donvi = baso%10;
+    let s = "";
+    if (tram !== 0) {
+      s += so[tram] + " trăm";
+      if (chuc===0 && donvi!==0) s += " lẻ";
+    }
+    if (chuc !== 0 && chuc !== 1) {
+      s += (s?" ":"") + so[chuc] + " mươi";
+    } else if (chuc === 1) {
+      s += (s?" ":"") + "mười";
+    }
+    if (donvi !== 0) {
+      if (donvi === 1 && chuc >= 2) s += " mốt";
+      else if (donvi === 5 && chuc >= 1) s += " lăm";
+      else s += (s?" ":"") + so[donvi];
+    }
+    return s.trim();
+  }
+  const donVi = ["","nghìn","triệu","tỷ"];
+  let str = Math.floor(Math.abs(n)).toString();
+  const groups = [];
+  while (str.length > 0) { groups.unshift(str.slice(-3)); str = str.slice(0, -3); }
+  const words = [];
+  for (let i = 0; i < groups.length; i++) {
+    const g = parseInt(groups[i], 10);
+    if (g === 0) continue;
+    const idx = groups.length - 1 - i;
+    words.push(docSo3(g) + (donVi[idx] ? " " + donVi[idx] : ""));
+  }
+  let result = words.join(" ").replace(/\s+/g," ").trim();
+  result = result.charAt(0).toUpperCase() + result.slice(1);
+  return result + " đồng";
+}
+function formatVND(n) {
+  n = Math.round(Number(n) || 0);
+  return n.toLocaleString('vi-VN');
+}
+
+/* ── Tính toán bảng báo giá từ trạng thái đơn đã lưu ── */
+function computeItemsFromDraftState(s) {
+  const items = [];
+  if (s.selTVC) {
+    const tier = TVC[s.selTVC.tier];
+    const pkg = tier && tier.pkgs.find(p => p.id === s.selTVC.id);
+    if (pkg) {
+      const qty = s.selTVC.qty || 1;
+      const unitPrice = (s.customTVCPrice != null) ? s.customTVCPrice : pkg.price;
+      items.push({ name: `${tier.label} – ${pkg.name}`, unit: 'Gói', qty, unitPrice, total: unitPrice * qty });
+      const travelTotal = (s.tvcTravelFee||0) * (s.tvcTravelQty||1);
+      if (travelTotal > 0) {
+        items.push({ name: s.tvcTravelLabel || 'Di chuyển', unit: 'Gói', qty: s.tvcTravelQty||1, unitPrice: s.tvcTravelFee||0, total: travelTotal });
+      }
+    }
+  }
+  Object.entries(s.selMedia || {}).forEach(([id, qty]) => {
+    const it = findMedia(id);
+    if (it) {
+      const custom = (s.customMediaPrice||{})[id];
+      const unitPrice = custom != null ? custom : it.price;
+      const nameOv = (s.customMediaName||{})[id];
+      const name = nameOv != null ? nameOv : it.name;
+      items.push({ name, unit: it.unit || 'gói', qty, unitPrice, total: unitPrice * qty });
+    }
+  });
+  return items;
+}
+
+/* ── Đọc form hồ sơ hợp đồng hiện tại thành object ── */
+function collectContractFormData() {
+  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const gn = id => { const v = g(id).replace(/[.,\s]/g,''); return v ? Number(v) : 0; };
+  const cat = g('ct-cat');
+  const ngayKy = g('ct-ngayky');
+  let ngay='', thang='', nam='';
+  if (ngayKy) { const d = new Date(ngayKy+'T00:00:00'); ngay = d.getDate(); thang = d.getMonth()+1; nam = d.getFullYear(); }
+  const giaTriHopDong = gn('ct-giatri');
+  const phanTram1 = gn('ct-phantram1') || 50;
+  const soTien1 = Math.round(giaTriHopDong * phanTram1 / 100);
+  const soTien2 = giaTriHopDong - soTien1;
+  const phanTram2 = 100 - phanTram1;
+  const phatSinhTang = gn('ct-phatsinhtang');
+  const phatSinhGiam = gn('ct-phatsinhgiam');
+  const quyetToan = giaTriHopDong + phatSinhTang - phatSinhGiam;
+  const conLai = quyetToan - soTien1;
+  const soBanIn = gn('ct-sobanin') || 4;
+
+  return {
+    customerId: crmContractCustomerId,
+    productCategory: cat,
+    tenKH: g('ct-tenkh'), tenVietTat: g('ct-tenviettat'),
+    diaChiKH: g('ct-diachi'), maSoThue: g('ct-mst'),
+    tenDaiDien: g('ct-daidien'), chucVu: g('ct-chucvu'),
+    ngayKy, ngay, thang, nam,
+    giaTriHopDong, phanTram1, soTien1, phanTram2, soTien2,
+    ngayTT1: g('ct-ngaytt1'),
+    soLanChinhSua: gn('ct-solanchinhsua') || 2,
+    soBanIn, soBanMoiBen: Math.round(soBanIn/2),
+    phatSinhTang, phatSinhGiam, quyetToan, conLai,
+    thoiGianToChuc: g('ct-sk-thoigiantochuc'), thoiGianChuanBi: g('ct-sk-thoigianchuanbi'), diaDiemThucHien: g('ct-sk-diadiem'),
+    diaDiemSanXuatTVC: g('ct-tvc-diadiem'), thoiGianKhaoSat: g('ct-tvc-khaosat'), thoiGianKichBanTVC: g('ct-tvc-kichban'),
+    ngayGhiHinh: g('ct-tvc-ngayghihinh'), ngayBanGiaoTVC: g('ct-tvc-bangiao'),
+    diaDiemSanXuatMedia: g('ct-media-diadiem'), thoiGianKichBanMedia: g('ct-media-kichban'),
+    ngayGhiHinhBatDau: g('ct-media-ngaybatdau'), ngayBanGiaoMedia: g('ct-media-bangiao'),
+    quoteItems: crmContractQuoteItems || [],
+    quoteTotal: (crmContractQuoteItems||[]).reduce((a,i)=>a+i.total,0),
+    signedFileDriveLink: crmContractCurrent ? (crmContractCurrent.signedFileDriveLink||'') : '',
+    signedFileName: crmContractCurrent ? (crmContractCurrent.signedFileName||'') : '',
+  };
+}
+
+function soHopDongTuSinh(c) {
+  if (!c.ngayKy) return '';
+  const d = new Date(c.ngayKy+'T00:00:00');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yy = String(d.getFullYear()).slice(-2);
+  return dd+mm+yy;
+}
+
+function buildTemplateData(c, docType) {
+  const soHD = soHopDongTuSinh(c);
+  const data = {
+    "Số hợp đồng": soHD,
+    "Tên viết tắt của khách hàng": c.tenVietTat,
+    "ngày": c.ngay, "tháng": c.thang, "năm": c.nam,
+    "TÊN ĐẦY ĐỦ CỦA KHÁCH HÀNG": c.tenKH,
+    "Địa chỉ khách hàng": c.diaChiKH,
+    "Mã số thuế": c.maSoThue,
+    "TÊN ĐẠI DIỆN": c.tenDaiDien,
+    "CHỨC VỤ": c.chucVu,
+    "Giá trị hợp đồng": formatVND(c.giaTriHopDong),
+    "Giá trị hợp đồng bằng chữ": soTienBangChu(c.giaTriHopDong),
+    "Giá trị số tiền bằng chữ": soTienBangChu(c.giaTriHopDong),
+    "Phần trăm thanh toán lần 1": c.phanTram1 + "%",
+    "Phần trăm thanh toán lần 2": c.phanTram2 + "%",
+    "Phần trăm thanh toán đợt 1": c.phanTram1 + "%",
+    "Phần trăm thanh toán đợt 2": c.phanTram2 + "%",
+    "Số tiền thanh toán lần 1": formatVND(c.soTien1),
+    "Số tiền thanh toán lần 1 bằng chữ": soTienBangChu(c.soTien1),
+    "Số tiền thanh toán lần 2": formatVND(c.soTien2),
+    "Số tiền thanh toán lần 2 bằng chữ": soTienBangChu(c.soTien2),
+    "Số tiền thanh toán đợt 1": formatVND(c.soTien1),
+    "Số tiền thanh toán đợt 1 bằng chữ": soTienBangChu(c.soTien1),
+    "Số tiền thanh toán đợt 2": formatVND(c.soTien2),
+    "Số tiền thanh toán đợt 2 bằng chữ": soTienBangChu(c.soTien2),
+    "Ngày thanh toán lần 1": c.ngayTT1 ? new Date(c.ngayTT1+'T00:00:00').toLocaleDateString('vi-VN') : '',
+    "Ngày thanh toán đợt 1": c.ngayTT1 ? new Date(c.ngayTT1+'T00:00:00').toLocaleDateString('vi-VN') : '',
+    "Số lần chỉnh sửa sản phẩm/kịch bản miễn phí": c.soLanChinhSua,
+    "Số bảng": c.soBanIn, "Số bảng mỗi bên": c.soBanMoiBen,
+    "Số bản": c.soBanIn, "Số bản mỗi bên": c.soBanMoiBen,
+    "Số bản được lập": c.soBanIn, "Số bản mỗi bên sẽ giữ": c.soBanMoiBen,
+    "Giá trị phát sinh tăng": formatVND(c.phatSinhTang), "Giá trị phát sinh tăng bằng chữ": soTienBangChu(c.phatSinhTang),
+    "Giá trị phát sinh giảm": formatVND(c.phatSinhGiam), "Giá trị phát sinh giảm bằng chữ": soTienBangChu(c.phatSinhGiam),
+    "Giá trị quyết toán": formatVND(c.quyetToan), "Giá trị quyết toán bằng chữ": soTienBangChu(c.quyetToan),
+    "Số tiền thanh toán còn lại": formatVND(c.conLai), "Số tiền thanh toán còn lại bằng chữ": soTienBangChu(c.conLai),
+    "Thời gian tổ chức": c.thoiGianToChuc, "Thời gian chuẩn bị": c.thoiGianChuanBi, "Địa điểm thực hiện": c.diaDiemThucHien,
+    "Địa điểm sản xuất, ghi hình phim": c.productCategory === 'tvc' ? c.diaDiemSanXuatTVC : c.diaDiemSanXuatMedia,
+    "Thời gian khảo sát": c.thoiGianKhaoSat,
+    "Thời gian kịch bản": c.productCategory === 'tvc' ? c.thoiGianKichBanTVC : c.thoiGianKichBanMedia,
+    "Ngày ghi hình": c.ngayGhiHinh,
+    "Ngày ghi hình/Ngày bắt đầu": c.ngayGhiHinhBatDau,
+    "Ngày bàn giao sản phẩm": c.productCategory === 'tvc' ? c.ngayBanGiaoTVC : c.ngayBanGiaoMedia,
+  };
+  if (docType === 'HDDV') {
+    data.items = (c.quoteItems||[]).map((it, i) => ({
+      stt: i+1, ten: it.name, dvt: it.unit||'', sl: it.qty, dongia: formatVND(it.unitPrice), thanhtien: formatVND(it.total)
+    }));
+    data.tongCong = formatVND(c.quoteTotal);
+  }
+  return data;
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+async function generateContractDoc(docType) {
+  const c = collectContractFormData();
+  if (!c.productCategory) { showToast('⚠️ Chưa chọn loại sản phẩm'); return; }
+  if (!c.tenKH) { showToast('⚠️ Chưa nhập tên khách hàng'); return; }
+  try {
+    const url = CONTRACT_TEMPLATE_FILES[c.productCategory][docType];
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Không tải được file mẫu (' + res.status + ')');
+    const arrBuf = await res.arrayBuffer();
+    const zip = new PizZip(arrBuf);
+    const doc = new docxtemplater(zip, { paragraphLoop: true, linebreaks: true, delimiters: {start:'{{', end:'}}'}, nullGetter: () => '' });
+    const data = buildTemplateData(c, docType);
+    doc.render(data);
+    const out = doc.getZip().generate({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', compression: 'DEFLATE' });
+    const soHD = soHopDongTuSinh(c);
+    const fname = `${CONTRACT_CATS[c.productCategory].label}_${(c.tenKH||'KhachHang').replace(/[\\/:*?"<>|]/g,'')}_${docType}_${soHD}.docx`;
+    downloadBlob(out, fname);
+    await saveContract(true);
+    showToast('✅ Đã xuất ' + CONTRACT_DOC_LABELS[docType]);
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi xuất file: ' + err.message);
+  }
+}
+
+/* ── Lưu / tải hồ sơ hợp đồng ── */
+let crmContractCustomerId = null;
+let crmContractCurrent = null;
+let crmContractQuoteItems = [];
+
+async function openContractModal(customerId) {
+  crmContractCustomerId = customerId;
+  const cust = customersCache.find(x => x.id === customerId);
+  document.getElementById('contract-modal').classList.add('open');
+  document.getElementById('ct-tenkh').value = cust ? (cust.name||'') : '';
+  document.getElementById('ct-cat').value = '';
+  onContractCatChange();
+  crmContractCurrent = null;
+  crmContractQuoteItems = [];
+  renderContractQuotePreview();
+  document.getElementById('ct-draft-select').innerHTML = '<option value="">— Chọn báo giá đã lưu —</option>';
+  document.getElementById('ct-signed-info').textContent = '';
+  try {
+    const snap = await contractsCol.where('customerId', '==', customerId).limit(1).get();
+    if (!snap.empty) {
+      const d = snap.docs[0];
+      crmContractCurrent = { id: d.id, ...d.data() };
+      fillContractForm(crmContractCurrent);
+    }
+  } catch (err) { console.error(err); }
+  try {
+    if (!draftsCache.length) draftsCache = await getDrafts();
+    const nameQ = (cust && cust.name || '').toLowerCase();
+    const matched = draftsCache.filter(d => nameQ && (d.label||'').toLowerCase().includes(nameQ));
+    const list = matched.length ? matched : draftsCache;
+    const sel = document.getElementById('ct-draft-select');
+    sel.innerHTML = '<option value="">— Chọn báo giá đã lưu —</option>' +
+      list.map(d => `<option value="${d.id}">${esc(d.label)} (${new Date(d.savedAt).toLocaleDateString('vi-VN')})</option>`).join('');
+  } catch (err) { console.error(err); }
+}
+
+function closeContractModal(e) {
+  if (!e || e.target === document.getElementById('contract-modal')) {
+    document.getElementById('contract-modal').classList.remove('open');
+  }
+}
+
+function onContractCatChange() {
+  const cat = document.getElementById('ct-cat').value;
+  document.querySelectorAll('.ct-cat-fields').forEach(el => el.style.display = 'none');
+  if (cat) {
+    const el = document.getElementById('ct-fields-' + cat);
+    if (el) el.style.display = 'block';
+  }
+}
+
+function onContractDraftPick() {
+  const id = document.getElementById('ct-draft-select').value;
+  if (!id) { crmContractQuoteItems = []; renderContractQuotePreview(); return; }
+  const d = draftsCache.find(x => x.id === id);
+  if (!d) return;
+  crmContractQuoteItems = computeItemsFromDraftState(d.state || {});
+  if (!document.getElementById('ct-giatri').value) {
+    const total = crmContractQuoteItems.reduce((a,i)=>a+i.total,0);
+    document.getElementById('ct-giatri').value = Math.round(total * 1.08);
+  }
+  renderContractQuotePreview();
+}
+
+function renderContractQuotePreview() {
+  const wrap = document.getElementById('ct-quote-preview');
+  if (!crmContractQuoteItems.length) { wrap.innerHTML = '<div class="crm-empty" style="padding:14px 0">Chưa chọn báo giá</div>'; return; }
+  const total = crmContractQuoteItems.reduce((a,i)=>a+i.total,0);
+  wrap.innerHTML = `
+    <table class="crm-table" style="min-width:0">
+      <thead><tr><th>Hạng mục</th><th>SL</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
+      <tbody>
+        ${crmContractQuoteItems.map(i => `<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${vnd(i.unitPrice)}</td><td>${vnd(i.total)}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <div style="text-align:right;font-weight:800;margin-top:6px">Tổng: ${vnd(total)}</div>
+  `;
+}
+
+function fillContractForm(c) {
+  document.getElementById('ct-cat').value = c.productCategory || '';
+  onContractCatChange();
+  document.getElementById('ct-tenkh').value = c.tenKH || '';
+  document.getElementById('ct-tenviettat').value = c.tenVietTat || '';
+  document.getElementById('ct-diachi').value = c.diaChiKH || '';
+  document.getElementById('ct-mst').value = c.maSoThue || '';
+  document.getElementById('ct-daidien').value = c.tenDaiDien || '';
+  document.getElementById('ct-chucvu').value = c.chucVu || '';
+  document.getElementById('ct-ngayky').value = c.ngayKy || '';
+  document.getElementById('ct-giatri').value = c.giaTriHopDong || '';
+  document.getElementById('ct-phantram1').value = c.phanTram1 || 50;
+  document.getElementById('ct-ngaytt1').value = c.ngayTT1 || '';
+  document.getElementById('ct-solanchinhsua').value = c.soLanChinhSua || 2;
+  document.getElementById('ct-sobanin').value = c.soBanIn || 4;
+  document.getElementById('ct-phatsinhtang').value = c.phatSinhTang || '';
+  document.getElementById('ct-phatsinhgiam').value = c.phatSinhGiam || '';
+  document.getElementById('ct-sk-thoigiantochuc').value = c.thoiGianToChuc || '';
+  document.getElementById('ct-sk-thoigianchuanbi').value = c.thoiGianChuanBi || '';
+  document.getElementById('ct-sk-diadiem').value = c.diaDiemThucHien || '';
+  document.getElementById('ct-tvc-diadiem').value = c.diaDiemSanXuatTVC || '';
+  document.getElementById('ct-tvc-khaosat').value = c.thoiGianKhaoSat || '';
+  document.getElementById('ct-tvc-kichban').value = c.thoiGianKichBanTVC || '';
+  document.getElementById('ct-tvc-ngayghihinh').value = c.ngayGhiHinh || '';
+  document.getElementById('ct-tvc-bangiao').value = c.ngayBanGiaoTVC || '';
+  document.getElementById('ct-media-diadiem').value = c.diaDiemSanXuatMedia || '';
+  document.getElementById('ct-media-kichban').value = c.thoiGianKichBanMedia || '';
+  document.getElementById('ct-media-ngaybatdau').value = c.ngayGhiHinhBatDau || '';
+  document.getElementById('ct-media-bangiao').value = c.ngayBanGiaoMedia || '';
+  crmContractQuoteItems = c.quoteItems || [];
+  renderContractQuotePreview();
+  if (c.signedFileDriveLink) {
+    document.getElementById('ct-signed-info').innerHTML = `Đã lưu file ký: <a href="${esc(c.signedFileDriveLink)}" target="_blank">${esc(c.signedFileName||'Xem file')}</a>`;
+  }
+}
+
+async function saveContract(silent) {
+  const c = collectContractFormData();
+  if (!c.tenKH) { if (!silent) showToast('⚠️ Chưa nhập tên khách hàng'); return; }
+  const cust = customersCache.find(x => x.id === crmContractCustomerId);
+  c.assignedTo = cust ? (cust.assignedTo || crmEmail) : crmEmail;
+  c.soHopDong = soHopDongTuSinh(c);
+  c.updatedAt = new Date().toISOString();
+  c.updatedBy = crmEmail;
+  try {
+    if (crmContractCurrent && crmContractCurrent.id) {
+      await contractsCol.doc(crmContractCurrent.id).set(c, { merge: true });
+      crmContractCurrent = { id: crmContractCurrent.id, ...c };
+    } else {
+      c.createdAt = c.updatedAt; c.createdBy = crmEmail;
+      const ref = await contractsCol.add(c);
+      crmContractCurrent = { id: ref.id, ...c };
+    }
+    if (!silent) showToast('💾 Đã lưu hồ sơ hợp đồng');
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi lưu hồ sơ: ' + err.message);
+  }
+}
+
+/* ── Upload file hợp đồng đã ký lên Google Drive ── */
+async function ensureDriveToken() {
+  if (driveAccessToken) return driveAccessToken;
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/drive.file');
+  try {
+    const res = await firebase.auth().currentUser.reauthenticateWithPopup(provider);
+    if (res.credential && res.credential.accessToken) driveAccessToken = res.credential.accessToken;
+    return driveAccessToken;
+  } catch (err) {
+    if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user')) {
+      showToast('⚠️ Trình duyệt chặn popup — đang chuyển sang đăng nhập lại để lấy quyền Drive...');
+      firebase.auth().currentUser.reauthenticateWithRedirect(provider);
+      return null;
+    }
+    throw err;
+  }
+}
+
+async function ensureDriveFolder(token) {
+  const cfgDoc = await configCol.doc('drive').get();
+  if (cfgDoc.exists && cfgDoc.data().folderId) return cfgDoc.data().folderId;
+  const q = encodeURIComponent("name='Global Media - Ho so hop dong' and mimeType='application/vnd.google-apps.folder' and trashed=false");
+  const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`, { headers: { Authorization: 'Bearer ' + token } });
+  const searchData = await searchRes.json();
+  let folderId;
+  if (searchData.files && searchData.files.length) {
+    folderId = searchData.files[0].id;
+  } else {
+    const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Global Media - Ho so hop dong', mimeType: 'application/vnd.google-apps.folder' })
+    });
+    const createData = await createRes.json();
+    folderId = createData.id;
+  }
+  await configCol.doc('drive').set({ folderId }, { merge: true });
+  return folderId;
+}
+
+async function uploadSignedContractFile() {
+  const fileInput = document.getElementById('ct-signed-file');
+  const file = fileInput.files[0];
+  if (!file) { showToast('⚠️ Chưa chọn file'); return; }
+  if (!crmContractCurrent || !crmContractCurrent.id) { await saveContract(true); }
+  if (!crmContractCurrent || !crmContractCurrent.id) { showToast('❌ Chưa lưu được hồ sơ, thử lại'); return; }
+  showToast('⏳ Đang tải file lên Google Drive...');
+  try {
+    const token = await ensureDriveToken();
+    if (!token) return;
+    const folderId = await ensureDriveFolder(token);
+    const metadata = { name: file.name, parents: [folderId] };
+    const boundary = 'globalmedia' + Date.now();
+    const delimiter = "\r\n--" + boundary + "\r\n";
+    const closeDelim = "\r\n--" + boundary + "--";
+    const fileContent = await file.arrayBuffer();
+    const encoder = new TextEncoder();
+    const metaPart = encoder.encode(delimiter + "Content-Type: application/json; charset=UTF-8\r\n\r\n" + JSON.stringify(metadata));
+    const mediaHeader = encoder.encode(delimiter + "Content-Type: " + (file.type || "application/octet-stream") + "\r\n\r\n");
+    const closeBytes = encoder.encode(closeDelim);
+    const body = new Blob([metaPart, mediaHeader, fileContent, closeBytes]);
+    const res = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'multipart/related; boundary=' + boundary },
+      body
+    });
+    if (!res.ok) { const t = await res.text(); throw new Error(t); }
+    const data = await res.json();
+    await contractsCol.doc(crmContractCurrent.id).update({ signedFileDriveLink: data.webViewLink, signedFileName: file.name, signedFileUploadedAt: new Date().toISOString() });
+    document.getElementById('ct-signed-info').innerHTML = `Đã lưu file ký: <a href="${esc(data.webViewLink)}" target="_blank">${esc(file.name)}</a>`;
+    showToast('✅ Đã tải file lên Google Drive');
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi tải file lên Drive: ' + err.message);
+  }
+}
+
 
 /* Mã PIN dùng chung để truy cập đơn đã lưu (chỉ là lớp chặn phía giao diện) */
 const DRAFT_PIN = '2884';
@@ -2089,7 +2642,7 @@ function fallbackCopy(text, cb) {
 
 // Close modals on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); }
+  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); closeCustomerForm(); closeStaffManager(); closeContractModal(); }
 });
 
 /* ═══════════════════════════════════════════

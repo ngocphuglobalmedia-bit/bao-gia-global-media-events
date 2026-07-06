@@ -429,7 +429,7 @@
       <img src="Logo.png" alt="Global Media & Events" class="brand-logo-img">
     </div>
     <div>
-      <div class="brand-addr">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa &nbsp;|&nbsp; Contact for work: 033.4412.884 (Mr Phú)</div>
+      <div class="brand-addr">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa &nbsp;|&nbsp; Hotline: (+84) 85 966 6579 &nbsp;|&nbsp; Mr Phú: 033 4412 884</div>
     </div>
   </div>
   <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
@@ -1370,7 +1370,7 @@ function printPDF() {
       <div class="p-hdr-right">
         <div class="p-co-name">GLOBAL MEDIA &amp; EVENTS JSC</div>
         <div class="p-co-sub">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa, Việt Nam</div>
-        <div class="p-co-sub">Contact for work: 033.4412.884 (Mr Phú)</div>
+        <div class="p-co-sub">Hotline: (+84) 85 966 6579 &nbsp;|&nbsp; Mr Phú: 033 4412 884</div>
       </div>
     </div>
 
@@ -1535,140 +1535,4 @@ async function openDrafts() {
   document.getElementById('drafts-modal').classList.add('open');
   const el = document.getElementById('draft-list');
   el.innerHTML = '<div class="draft-empty">Đang tải...</div>';
-  document.getElementById('draft-search').value = '';
-  try {
-    draftsCache = await getDrafts();
-    renderDraftList(draftsCache);
-  } catch (e) {
-    console.error(e);
-    el.innerHTML = '<div class="draft-empty">Lỗi tải dữ liệu, vui lòng thử lại</div>';
-  }
-}
-function closeDrafts(e) {
-  if (!e || e.target === document.getElementById('drafts-modal')) {
-    document.getElementById('drafts-modal').classList.remove('open');
-  }
-}
-async function deleteDraft(id) {
-  try {
-    await authReady;
-    await draftsCol.doc(id).delete();
-    renderDraftCount();
-    draftsCache = await getDrafts();
-    filterDrafts();
-  } catch (e) {
-    console.error(e);
-    showToast('❌ Lỗi khi xóa, vui lòng thử lại');
-  }
-}
-function loadDraft(id) {
-  const d = draftsCache.find(x => x.id === id);
-  if (!d) return;
-  const s = d.state;
-  document.getElementById('cName').value = s.cName || '';
-  document.getElementById('cContact').value = s.cContact || '';
-  document.getElementById('cPhone').value = s.cPhone || '';
-  if (s.cDate) document.getElementById('cDate').value = s.cDate;
-
-  // reset UI selections
-  document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
-  document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
-  document.querySelectorAll('.qty-box').forEach(i => { i.value = 1; i.disabled = true; });
-  document.querySelectorAll('.qty-stepper button').forEach(b => b.disabled = true);
-
-  selTVC = s.selTVC || null;
-  selMedia = s.selMedia || {};
-  customTVCPrice = (s.customTVCPrice != null) ? s.customTVCPrice : null;
-  customMediaPrice = s.customMediaPrice || {};
-  customMediaName = s.customMediaName || {};
-  customMediaDesc = s.customMediaDesc || {};
-  customTVCRowCat = s.customTVCRowCat || {};
-  customTVCRowContent = s.customTVCRowContent || {};
-  tvcTravelLabel = s.tvcTravelLabel || 'Di chuyển';
-  tvcTravelContent = (s.tvcTravelContent != null) ? s.tvcTravelContent : '';
-  tvcTravelFee = s.tvcTravelFee || 0;
-  tvcTravelQty = s.tvcTravelQty || 1;
-
-  if (selTVC) {
-    const card = document.getElementById('pc-'+selTVC.id);
-    if (card) card.classList.add('sel');
-    document.querySelectorAll('.tier-pill').forEach(b => b.classList.toggle('active', b.dataset.tier===selTVC.tier));
-    document.querySelectorAll('.tier-pane').forEach(p => p.classList.toggle('active', p.id==='tier-'+selTVC.tier));
-  }
-  Object.entries(selMedia).forEach(([id, qty]) => {
-    const chk = document.getElementById('chk-'+id);
-    const qtyEl = document.getElementById('qty-'+id);
-    if (chk && qtyEl) {
-      chk.checked = true; qtyEl.disabled = false; qtyEl.value = qty;
-      qtyEl.parentElement.querySelectorAll('button').forEach(b => b.disabled = false);
-    }
-  });
-
-  closeDrafts();
-  render();
-  showToast('📂 Đã tải báo giá đã lưu');
-}
-
-/* ═══════════════════════════════════════════
-   MOBILE SHEET
-═══════════════════════════════════════════ */
-function openSheet() { document.getElementById('rightPanel').classList.add('sheet-open'); }
-function closeSheet() { document.getElementById('rightPanel').classList.remove('sheet-open'); }
-
-/* ═══════════════════════════════════════════
-   TOAST + CLIPBOARD HELPERS
-═══════════════════════════════════════════ */
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
-}
-
-function copyText(text, successMsg, btn) {
-  const done = () => {
-    showToast(successMsg);
-    if (btn) {
-      const original = btn.textContent;
-      btn.textContent = successMsg;
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 2200);
-    }
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-  } else {
-    fallbackCopy(text, done);
-  }
-}
-function fallbackCopy(text, cb) {
-  const ta = document.createElement('textarea');
-  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); cb && cb(); } catch (e) {}
-  document.body.removeChild(ta);
-}
-
-// Close modals on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); }
-});
-
-/* ═══════════════════════════════════════════
-   HELPERS
-═══════════════════════════════════════════ */
-const vnd = n => new Intl.NumberFormat('vi-VN',{style:'currency',currency:'VND'}).format(n);
-const num = n => new Intl.NumberFormat('vi-VN').format(n);
-function fmtDate(d) {
-  if (!d) return '';
-  const [y,m,day] = d.split('-');
-  return `${day}/${m}/${y}`;
-}
-function esc(s) {
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-</script>
-</body>
-</html>
+  document.getElementById('draft-search').value = ''

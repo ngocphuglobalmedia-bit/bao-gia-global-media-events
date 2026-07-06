@@ -418,6 +418,51 @@
     .p-sign{text-align:center}
     .p-sign .sign-line{width:140px;border-bottom:1px solid #000;margin:40px auto 0}
   }
+
+  /* ── CRM ── */
+  .hdr-crm-btn{
+    background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);color:#fff;
+    font-size:11.5px;font-weight:700;padding:8px 14px;border-radius:20px;cursor:pointer;
+    display:flex;align-items:center;gap:6px;transition:background .15s;
+  }
+  .hdr-crm-btn:hover{background:rgba(255,255,255,.3)}
+  .crm-app{padding:22px 28px;max-width:1200px;margin:0 auto}
+  .crm-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+  .crm-topbar-title{font-size:18px;font-weight:900;color:var(--brand)}
+  .crm-userbox{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+  .crm-role-badge{font-size:10.5px;font-weight:800;padding:3px 10px;border-radius:20px;color:#fff;background:var(--brand-lt)}
+  .crm-role-badge.staff{background:var(--blue2)}
+  .crm-center{display:flex;align-items:center;justify-content:center;min-height:60vh}
+  .crm-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:34px 30px;text-align:center;max-width:360px;box-shadow:var(--shadow-sm)}
+  .crm-card-title{font-size:15.5px;font-weight:800;color:var(--brand);margin-bottom:14px}
+  .crm-card-sub{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:18px}
+  .crm-google-btn{
+    width:100%;padding:12px;border-radius:9px;border:1px solid var(--border);background:#fff;
+    font-size:13.5px;font-weight:700;color:#333;cursor:pointer;margin-bottom:12px;
+    display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s;
+  }
+  .crm-google-btn:hover{opacity:.8}
+  .crm-toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+  .crm-toolbar select{padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12.5px;background:#fbfcfd}
+  .mini-btn.crm-primary{background:var(--brand);color:#fff;border-color:var(--brand);flex:none}
+  .mini-btn.crm-primary:hover{opacity:.88;background:var(--brand)}
+  .crm-table-wrap{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:auto;box-shadow:var(--shadow-sm)}
+  .crm-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:820px}
+  .crm-table th{background:#f4f7f2;color:var(--brand-dk);font-weight:800;padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap}
+  .crm-table td{padding:10px 12px;border-bottom:1px solid #eef1f0;vertical-align:top}
+  .crm-table tr:hover td{background:#f9fbf7}
+  .crm-stage-tag{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;background:#eef3e8;color:var(--brand-dk);white-space:nowrap}
+  .crm-row-actions{display:flex;gap:8px;white-space:nowrap}
+  .crm-link-btn{border:none;background:none;color:var(--blue2);cursor:pointer;font-size:12px;font-weight:700}
+  .crm-link-btn.danger{color:var(--red)}
+  .crm-empty{text-align:center;color:#aaa;font-size:12.5px;padding:40px 0}
+  .crm-modal-box{text-align:left;max-width:420px}
+  .crm-modal-box .fld{margin-bottom:12px}
+  .fld select{
+    width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);
+    font-size:13.5px;color:var(--text);background:#fbfcfd;
+  }
+  .crm-staff-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12px}
 </style>
 </head>
 <body>
@@ -432,7 +477,10 @@
       <div class="brand-addr">24-K98 Trần Nhật Duật nối dài, Phường Nha Trang, Tỉnh Khánh Hòa &nbsp;|&nbsp; Hotline: (+84) 85 966 6579 &nbsp;|&nbsp; Mr Phú: 033 4412 884</div>
     </div>
   </div>
-  <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
+    <button class="hdr-crm-btn" onclick="openCRM()">👥 CRM</button>
+  </div>
 </header>
 
 <div class="layout">
@@ -540,6 +588,107 @@
     <div class="mb-total" id="mb-total">0 đ</div>
   </div>
   <button onclick="event.stopPropagation();openSheet()">Xem báo giá ▲</button>
+</div>
+
+<!-- CRM APP -->
+<div id="crmApp" class="crm-app" style="display:none">
+  <div class="crm-topbar">
+    <div class="crm-topbar-title">👥 Quản lý khách hàng (CRM)</div>
+    <div class="crm-userbox" id="crm-userbox"></div>
+  </div>
+
+  <div id="crm-login" class="crm-center" style="display:none">
+    <div class="crm-card">
+      <div class="crm-card-title">Đăng nhập để sử dụng CRM</div>
+      <div class="crm-card-sub">Vui lòng đăng nhập bằng tài khoản Google được cấp quyền để truy cập.</div>
+      <button class="crm-google-btn" onclick="signInGoogleCRM()">🔐 Đăng nhập bằng Google</button>
+      <button class="mini-btn" onclick="closeCRM()">← Quay lại Báo giá</button>
+    </div>
+  </div>
+
+  <div id="crm-denied" class="crm-center" style="display:none">
+    <div class="crm-card">
+      <div class="crm-card-title">Chưa được cấp quyền truy cập</div>
+      <div class="crm-card-sub">Tài khoản <b id="crm-denied-email"></b> chưa được cấp quyền sử dụng CRM. Vui lòng liên hệ quản trị viên để được thêm vào hệ thống.</div>
+      <button class="mini-btn" onclick="signOutCRM()">Đăng xuất</button>
+      <button class="mini-btn" onclick="closeCRM()">← Quay lại Báo giá</button>
+    </div>
+  </div>
+
+  <div id="crm-main" style="display:none">
+    <button class="mini-btn" onclick="closeCRM()" style="margin-bottom:14px;max-width:200px">← Quay lại Báo giá</button>
+
+    <div class="crm-toolbar">
+      <button class="mini-btn crm-primary" onclick="openCustomerForm()">➕ Thêm khách hàng</button>
+      <select id="crm-filter-stage" onchange="renderCustomerTable()">
+        <option value="">Tất cả giai đoạn</option>
+        <option>Đang tư vấn</option>
+        <option>Đã ký</option>
+        <option>Đã hủy</option>
+        <option>Nghiệm thu</option>
+        <option>Done job</option>
+      </select>
+      <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">⚙ Quản lý nhân viên</button>
+    </div>
+
+    <div class="crm-table-wrap">
+      <table class="crm-table">
+        <thead>
+          <tr>
+            <th>Tên / Công ty</th><th>Người liên hệ</th><th>SĐT</th><th>Email</th><th>Nguồn</th><th>Giai đoạn</th><th>Phụ trách</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="crm-tbody"></tbody>
+      </table>
+      <div id="crm-empty" class="crm-empty" style="display:none">Chưa có khách hàng nào</div>
+    </div>
+  </div>
+</div>
+
+<!-- CRM CUSTOMER FORM MODAL -->
+<div class="overlay" id="crm-cust-modal" onclick="closeCustomerForm(event)">
+  <div class="modal-box crm-modal-box">
+    <div class="zalo-title" style="color:var(--brand)" id="crm-cust-modal-title">Thêm khách hàng</div>
+    <input type="hidden" id="cf-id">
+    <div class="fld"><label>Tên / Công ty</label><input id="cf-name"></div>
+    <div class="fld"><label>Người liên hệ</label><input id="cf-contact"></div>
+    <div class="fld"><label>Số điện thoại</label><input id="cf-phone"></div>
+    <div class="fld"><label>Email</label><input id="cf-email"></div>
+    <div class="fld"><label>Nguồn khách hàng</label><input id="cf-source" placeholder="Facebook, giới thiệu, website..."></div>
+    <div class="fld">
+      <label>Giai đoạn</label>
+      <select id="cf-stage">
+        <option>Đang tư vấn</option>
+        <option>Đã ký</option>
+        <option>Đã hủy</option>
+        <option>Nghiệm thu</option>
+        <option>Done job</option>
+      </select>
+    </div>
+    <div class="fld" id="cf-assigned-wrap">
+      <label>Nhân viên phụ trách</label>
+      <select id="cf-assigned"></select>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:14px">
+      <button class="modal-btn" onclick="saveCustomer()" style="margin-bottom:0">Lưu</button>
+      <button class="modal-close" onclick="closeCustomerForm()">Hủy</button>
+    </div>
+  </div>
+</div>
+
+<!-- CRM STAFF MANAGER MODAL -->
+<div class="overlay" id="crm-staff-modal" onclick="closeStaffManager(event)">
+  <div class="modal-box crm-modal-box">
+    <div class="zalo-title" style="color:var(--brand)">⚙ Quản lý nhân viên</div>
+    <div class="fld"><label>Email Gmail nhân viên</label><input id="sf-email" placeholder="ten@gmail.com"></div>
+    <div class="fld">
+      <label>Vai trò</label>
+      <select id="sf-role"><option value="staff">Nhân viên</option><option value="admin">Quản trị</option></select>
+    </div>
+    <button class="modal-btn" onclick="addStaff()">➕ Thêm nhân viên</button>
+    <div id="crm-staff-list" style="margin-top:14px"></div>
+    <button class="modal-close" onclick="closeStaffManager()" style="margin-top:10px">Đóng</button>
+  </div>
 </div>
 
 <!-- ZALO MODAL -->
@@ -729,12 +878,288 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const draftsCol = db.collection('drafts');
+const usersCol = db.collection('users');
+const customersCol = db.collection('customers');
 let authReady = new Promise((resolve) => {
   firebase.auth().onAuthStateChanged(user => {
-    if (user) resolve(user);
+    if (user) {
+      resolve(user);
+      onCRMAuthChanged(user);
+    } else {
+      firebase.auth().signInAnonymously().catch(err => console.error('Lỗi đăng nhập Firebase:', err));
+    }
   });
-  firebase.auth().signInAnonymously().catch(err => console.error('Lỗi đăng nhập Firebase:', err));
 });
+
+/* ═══════════════════════════════════════════
+   CRM (đăng nhập Google, phân quyền, khách hàng)
+═══════════════════════════════════════════ */
+let crmUser = null;
+let crmRole = null;
+let crmEmail = null;
+let staffListCache = [];
+let customersCache = [];
+
+function onCRMAuthChanged(user) {
+  if (user && !user.isAnonymous) {
+    crmUser = user;
+    crmEmail = (user.email || '').toLowerCase();
+  } else {
+    crmUser = null; crmEmail = null; crmRole = null;
+  }
+}
+
+function openCRM() {
+  document.querySelector('.layout').style.display = 'none';
+  document.getElementById('crmApp').style.display = 'block';
+  document.getElementById('crm-login').style.display = 'none';
+  document.getElementById('crm-denied').style.display = 'none';
+  document.getElementById('crm-main').style.display = 'none';
+  document.getElementById('crm-userbox').innerHTML = '';
+  if (crmUser) {
+    checkCRMAccess();
+  } else {
+    document.getElementById('crm-login').style.display = 'flex';
+  }
+}
+
+function closeCRM() {
+  document.getElementById('crmApp').style.display = 'none';
+  document.querySelector('.layout').style.display = '';
+}
+
+function signInGoogleCRM() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider).then(res => {
+    onCRMAuthChanged(res.user);
+    checkCRMAccess();
+  }).catch(err => {
+    console.error(err);
+    showToast('❌ Đăng nhập Google thất bại');
+  });
+}
+
+function signOutCRM() {
+  firebase.auth().signOut().then(() => {
+    crmUser = null; crmEmail = null; crmRole = null;
+    firebase.auth().signInAnonymously().catch(()=>{});
+    document.getElementById('crm-denied').style.display = 'none';
+    document.getElementById('crm-main').style.display = 'none';
+    document.getElementById('crm-userbox').innerHTML = '';
+    document.getElementById('crm-login').style.display = 'flex';
+  });
+}
+
+async function checkCRMAccess() {
+  if (!crmUser || !crmEmail) { document.getElementById('crm-login').style.display = 'flex'; return; }
+  document.getElementById('crm-login').style.display = 'none';
+  try {
+    const doc = await usersCol.doc(crmEmail).get();
+    if (!doc.exists) {
+      crmRole = null;
+      document.getElementById('crm-denied-email').textContent = crmEmail;
+      document.getElementById('crm-denied').style.display = 'flex';
+      document.getElementById('crm-main').style.display = 'none';
+      return;
+    }
+    crmRole = doc.data().role || 'staff';
+    document.getElementById('crm-denied').style.display = 'none';
+    document.getElementById('crm-main').style.display = 'block';
+    document.getElementById('crm-staff-btn').style.display = (crmRole === 'admin') ? '' : 'none';
+    document.getElementById('crm-userbox').innerHTML =
+      '<span>' + esc(crmEmail) + '</span>' +
+      '<span class="crm-role-badge' + (crmRole === 'admin' ? '' : ' staff') + '">' + (crmRole === 'admin' ? 'Quản trị' : 'Nhân viên') + '</span>' +
+      '<button class="crm-link-btn" onclick="signOutCRM()">Đăng xuất</button>';
+    await loadStaffList();
+    await loadCustomers();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi kiểm tra quyền truy cập');
+  }
+}
+
+/* ── Khách hàng (CRUD) ── */
+async function loadCustomers() {
+  try {
+    let snap;
+    if (crmRole === 'admin') {
+      snap = await customersCol.get();
+    } else {
+      snap = await customersCol.where('assignedTo', '==', crmEmail).get();
+    }
+    customersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderCustomerTable();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi tải danh sách khách hàng');
+  }
+}
+
+function renderCustomerTable() {
+  const filterEl = document.getElementById('crm-filter-stage');
+  const filter = filterEl ? filterEl.value : '';
+  let list = customersCache.slice();
+  if (filter) list = list.filter(c => c.stage === filter);
+  const tbody = document.getElementById('crm-tbody');
+  const empty = document.getElementById('crm-empty');
+  if (!list.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = list.map(c => `
+    <tr>
+      <td><b>${esc(c.name||'')}</b></td>
+      <td>${esc(c.contact||'')}</td>
+      <td>${esc(c.phone||'')}</td>
+      <td>${esc(c.email||'')}</td>
+      <td>${esc(c.source||'')}</td>
+      <td><span class="crm-stage-tag">${esc(c.stage||'')}</span></td>
+      <td>${esc(c.assignedTo||'')}</td>
+      <td>
+        <div class="crm-row-actions">
+          <button class="crm-link-btn" onclick="openCustomerForm('${c.id}')">Sửa</button>
+          <button class="crm-link-btn danger" onclick="deleteCustomerConfirm('${c.id}')">Xóa</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openCustomerForm(id) {
+  const isEdit = !!id;
+  document.getElementById('crm-cust-modal-title').textContent = isEdit ? 'Sửa khách hàng' : 'Thêm khách hàng';
+  document.getElementById('cf-id').value = id || '';
+  const c = isEdit ? customersCache.find(x => x.id === id) : null;
+  document.getElementById('cf-name').value = c ? (c.name||'') : '';
+  document.getElementById('cf-contact').value = c ? (c.contact||'') : '';
+  document.getElementById('cf-phone').value = c ? (c.phone||'') : '';
+  document.getElementById('cf-email').value = c ? (c.email||'') : '';
+  document.getElementById('cf-source').value = c ? (c.source||'') : '';
+  document.getElementById('cf-stage').value = c ? (c.stage||'Đang tư vấn') : 'Đang tư vấn';
+
+  const assignedWrap = document.getElementById('cf-assigned-wrap');
+  const assignedSel = document.getElementById('cf-assigned');
+  if (crmRole === 'admin') {
+    assignedWrap.style.display = '';
+    assignedSel.innerHTML = staffListCache.map(s => `<option value="${esc(s.email)}">${esc(s.email)} (${s.role==='admin'?'Quản trị':'Nhân viên'})</option>`).join('');
+    assignedSel.value = c ? (c.assignedTo||crmEmail) : crmEmail;
+  } else {
+    assignedWrap.style.display = 'none';
+  }
+  document.getElementById('crm-cust-modal').classList.add('open');
+}
+
+function closeCustomerForm(e) {
+  if (!e || e.target === document.getElementById('crm-cust-modal')) {
+    document.getElementById('crm-cust-modal').classList.remove('open');
+  }
+}
+
+async function saveCustomer() {
+  const id = document.getElementById('cf-id').value;
+  const name = document.getElementById('cf-name').value.trim();
+  if (!name) { showToast('❌ Vui lòng nhập tên/công ty khách hàng'); return; }
+  const data = {
+    name,
+    contact: document.getElementById('cf-contact').value.trim(),
+    phone: document.getElementById('cf-phone').value.trim(),
+    email: document.getElementById('cf-email').value.trim(),
+    source: document.getElementById('cf-source').value.trim(),
+    stage: document.getElementById('cf-stage').value,
+    assignedTo: crmRole === 'admin' ? document.getElementById('cf-assigned').value : crmEmail,
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  try {
+    if (id) {
+      await customersCol.doc(id).update(data);
+      showToast('✅ Đã cập nhật khách hàng');
+    } else {
+      data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      data.createdBy = crmEmail;
+      await customersCol.add(data);
+      showToast('✅ Đã thêm khách hàng');
+    }
+    document.getElementById('crm-cust-modal').classList.remove('open');
+    await loadCustomers();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi lưu khách hàng');
+  }
+}
+
+async function deleteCustomerConfirm(id) {
+  if (!confirm('Xóa khách hàng này? Hành động không thể hoàn tác.')) return;
+  try {
+    await customersCol.doc(id).delete();
+    showToast('✅ Đã xóa khách hàng');
+    await loadCustomers();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi xóa khách hàng');
+  }
+}
+
+/* ── Quản lý nhân viên (admin) ── */
+async function loadStaffList() {
+  if (crmRole !== 'admin') { staffListCache = [{ email: crmEmail, role: crmRole }]; return; }
+  try {
+    const snap = await usersCol.get();
+    staffListCache = snap.docs.map(d => ({ email: d.id, ...d.data() }));
+    renderStaffList();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function renderStaffList() {
+  const el = document.getElementById('crm-staff-list');
+  if (!el) return;
+  el.innerHTML = staffListCache.map(s => `
+    <div class="crm-staff-item">
+      <span>${esc(s.email)} — ${s.role==='admin'?'Quản trị':'Nhân viên'}</span>
+      ${s.email !== crmEmail ? `<button class="crm-link-btn danger" onclick="removeStaff('${esc(s.email)}')">Xóa</button>` : ''}
+    </div>
+  `).join('');
+}
+
+function openStaffManager() {
+  renderStaffList();
+  document.getElementById('crm-staff-modal').classList.add('open');
+}
+function closeStaffManager(e) {
+  if (!e || e.target === document.getElementById('crm-staff-modal')) {
+    document.getElementById('crm-staff-modal').classList.remove('open');
+  }
+}
+
+async function addStaff() {
+  const email = document.getElementById('sf-email').value.trim().toLowerCase();
+  const role = document.getElementById('sf-role').value;
+  if (!email || !email.includes('@')) { showToast('❌ Vui lòng nhập email hợp lệ'); return; }
+  try {
+    await usersCol.doc(email).set({ email, role });
+    document.getElementById('sf-email').value = '';
+    showToast('✅ Đã thêm nhân viên');
+    await loadStaffList();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi thêm nhân viên');
+  }
+}
+
+async function removeStaff(email) {
+  if (!confirm('Xóa quyền truy cập của ' + email + '?')) return;
+  try {
+    await usersCol.doc(email).delete();
+    showToast('✅ Đã xóa nhân viên');
+    await loadStaffList();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi xóa nhân viên');
+  }
+}
 
 /* Mã PIN dùng chung để truy cập đơn đã lưu (chỉ là lớp chặn phía giao diện) */
 const DRAFT_PIN = '2884';

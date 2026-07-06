@@ -889,6 +889,13 @@ let authReady = new Promise((resolve) => {
       firebase.auth().signInAnonymously().catch(err => console.error('Lỗi đăng nhập Firebase:', err));
     }
   });
+
+firebase.auth().getRedirectResult().then(res => {
+  if (res && res.user && !res.user.isAnonymous) {
+    onCRMAuthChanged(res.user);
+    openCRM();
+  }
+}).catch(err => console.error('Lỗi xử lý đăng nhập Google (redirect):', err));
 });
 
 /* ═══════════════════════════════════════════
@@ -934,8 +941,12 @@ function signInGoogleCRM() {
     onCRMAuthChanged(res.user);
     checkCRMAccess();
   }).catch(err => {
-    console.error(err);
-    showToast('❌ Đăng nhập Google thất bại');
+    if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user')) {
+      firebase.auth().signInWithRedirect(provider);
+    } else {
+      console.error(err);
+      showToast('❌ Đăng nhập Google thất bại');
+    }
   });
 }
 

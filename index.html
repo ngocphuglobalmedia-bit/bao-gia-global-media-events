@@ -462,6 +462,21 @@
     width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);
     font-size:13.5px;color:var(--text);background:#fbfcfd;
   }
+  .pm-board{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
+  .pm-col{flex:1;min-width:250px;background:#f4f7f2;border-radius:12px;padding:10px;display:flex;flex-direction:column}
+  .pm-col-header{font-weight:800;color:var(--brand-dk);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;font-size:13px}
+  .pm-col-count{background:#fff;border-radius:10px;padding:1px 8px;font-size:11px}
+  .pm-cards{flex:1;min-height:60px;display:flex;flex-direction:column;gap:8px}
+  .pm-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:grab;box-shadow:var(--shadow-sm);font-size:12.5px}
+  .pm-card.dragging{opacity:.4}
+  .pm-card-title{font-weight:700;margin-bottom:4px;color:var(--text)}
+  .pm-card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+  .pm-card-deadline.overdue{color:var(--red);font-weight:700}
+  .pm-col.dragover{outline:2px dashed var(--brand);outline-offset:-4px}
+  .pm-todo-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px}
+  .pm-todo-row input[type=text]{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px}
+  .pm-todo-row select{padding:6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px}
+  .mini-btn.danger{color:var(--red);border-color:var(--red)}
   .crm-staff-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12px}
 </style>
 </head>
@@ -628,6 +643,7 @@
         <option>Nghiệm thu</option>
         <option>Done job</option>
       </select>
+      <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">📁 Quản trị dự án</button>
       <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">⚙ Quản lý nhân viên</button>
     </div>
 
@@ -785,6 +801,55 @@
     <div id="ct-signed-info" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
 
     <button class="mini-btn" style="margin-top:16px" onclick="closeContractModal()">Đóng</button>
+  </div>
+</div>
+
+<div id="projectApp" class="crm-app" style="display:none">
+  <div class="crm-topbar">
+    <div class="crm-topbar-title">📁 Quản trị dự án</div>
+    <div class="crm-userbox" id="pm-userbox"></div>
+  </div>
+  <button class="mini-btn" onclick="closeProjectApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+  <div class="crm-toolbar">
+    <button class="mini-btn crm-primary" onclick="openProjectModal()">➕ Thêm dự án</button>
+  </div>
+  <div class="pm-board" id="pm-board"></div>
+</div>
+
+<div class="overlay" id="project-modal" onclick="closeProjectModal(event)">
+  <div class="modal-box crm-modal-box" style="max-width:480px;max-height:88vh;overflow:auto">
+    <div class="zalo-title" style="color:var(--brand)" id="pm-modal-title">Thêm dự án</div>
+    <input type="hidden" id="pm-id">
+    <div class="fld"><label>Tên dự án / khách hàng</label><input id="pm-title" placeholder="VD: TVC - Công ty ABC"></div>
+    <div class="grid2">
+      <div class="fld">
+        <label>Người phụ trách chính</label>
+        <select id="pm-assignee"><option value="">— Chưa gán —</option></select>
+      </div>
+      <div class="fld"><label>Hạn chót</label><input type="date" id="pm-deadline"></div>
+    </div>
+    <div class="fld">
+      <label>Trạng thái</label>
+      <select id="pm-stage">
+        <option value="start">Mới bắt đầu</option>
+        <option value="process">Đang xử lý</option>
+        <option value="acceptance">Nghiệm thu</option>
+        <option value="done">Hoàn thành</option>
+      </select>
+    </div>
+
+    <div class="zalo-title" style="font-size:13px;color:var(--muted);margin-top:6px">Danh sách việc cần làm</div>
+    <div id="pm-todo-list" style="margin-bottom:10px"></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <input id="pm-todo-input" placeholder="Thêm việc mới..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)">
+      <button class="mini-btn" onclick="addTodoToForm()">➕</button>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="mini-btn crm-primary" onclick="saveProject()">💾 Lưu dự án</button>
+      <button class="mini-btn danger" id="pm-delete-btn" style="display:none" onclick="deleteProjectConfirm()">🗑 Xóa dự án</button>
+      <button class="mini-btn" onclick="closeProjectModal()">Đóng</button>
+    </div>
   </div>
 </div>
 
@@ -1217,13 +1282,13 @@ async function deleteCustomerConfirm(id) {
 
 /* ── Quản lý nhân viên (admin) ── */
 async function loadStaffList() {
-  if (crmRole !== 'admin') { staffListCache = [{ email: crmEmail, role: crmRole }]; return; }
   try {
     const snap = await usersCol.get();
     staffListCache = snap.docs.map(d => ({ email: d.id, ...d.data() }));
-    renderStaffList();
+    if (crmRole === 'admin') renderStaffList();
   } catch (err) {
     console.error(err);
+    staffListCache = [{ email: crmEmail, role: crmRole }];
   }
 }
 
@@ -1723,6 +1788,222 @@ async function uploadSignedContractFile() {
     showToast('❌ Lỗi tải file lên Drive: ' + err.message);
   }
 }
+
+
+/* ═══════════════════════════════════════════
+   QUẢN TRỊ DỰ ÁN (Giai đoạn 3)
+═══════════════════════════════════════════ */
+const projectsCol = db.collection('projects');
+let projectsCache = [];
+let pmCurrentTodos = [];
+let pmEditingId = null;
+
+const PM_STAGES = ['start', 'process', 'acceptance', 'done'];
+const PM_STAGE_LABELS = { start: 'Mới bắt đầu', process: 'Đang xử lý', acceptance: 'Nghiệm thu', done: 'Hoàn thành' };
+
+function openProjectApp() {
+  document.getElementById('crmApp').style.display = 'none';
+  document.getElementById('projectApp').style.display = 'block';
+  document.getElementById('pm-userbox').innerHTML =
+    '<span>' + esc(crmEmail) + '</span>' +
+    '<span class="crm-role-badge' + (crmRole === 'admin' ? '' : ' staff') + '">' + (crmRole === 'admin' ? 'Quản trị' : 'Nhân viên') + '</span>';
+  loadProjects();
+}
+
+function closeProjectApp() {
+  document.getElementById('projectApp').style.display = 'none';
+  document.getElementById('crmApp').style.display = 'block';
+}
+
+async function loadProjects() {
+  try {
+    const snap = await projectsCol.get();
+    projectsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderKanban();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi tải danh sách dự án');
+  }
+}
+
+function todoProgress(p) {
+  const todos = p.todos || [];
+  if (!todos.length) return '';
+  const done = todos.filter(t => t.done).length;
+  return `${done}/${todos.length} việc`;
+}
+
+function isOverdue(p) {
+  if (!p.deadline || p.stage === 'done') return false;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(p.deadline + 'T00:00:00');
+  return d < today;
+}
+
+function renderKanban() {
+  const board = document.getElementById('pm-board');
+  board.innerHTML = PM_STAGES.map(stage => {
+    const items = projectsCache.filter(p => (p.stage || 'start') === stage);
+    return `
+      <div class="pm-col" data-stage="${stage}" ondragover="pmDragOver(event)" ondragleave="pmDragLeave(event)" ondrop="pmDrop(event, '${stage}')">
+        <div class="pm-col-header"><span>${PM_STAGE_LABELS[stage]}</span><span class="pm-col-count">${items.length}</span></div>
+        <div class="pm-cards">
+          ${items.map(p => `
+            <div class="pm-card" draggable="true" ondragstart="pmDragStart(event, '${p.id}')" ondragend="pmDragEnd(event)" onclick="openProjectModal('${p.id}')">
+              <div class="pm-card-title">${esc(p.title || '(Chưa đặt tên)')}</div>
+              <div class="pm-card-meta">
+                <span>${p.assignee ? esc(p.assignee) : 'Chưa gán'}</span>
+                <span class="pm-card-deadline${isOverdue(p) ? ' overdue' : ''}">${p.deadline ? fmtDate(p.deadline) : ''}</span>
+              </div>
+              ${todoProgress(p) ? `<div class="pm-card-meta"><span>${todoProgress(p)}</span></div>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+let pmDraggingId = null;
+function pmDragStart(e, id) {
+  pmDraggingId = id;
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function pmDragEnd(e) {
+  e.target.classList.remove('dragging');
+  pmDraggingId = null;
+}
+function pmDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('dragover');
+}
+function pmDragLeave(e) {
+  e.currentTarget.classList.remove('dragover');
+}
+async function pmDrop(e, stage) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dragover');
+  if (!pmDraggingId) return;
+  const id = pmDraggingId;
+  pmDraggingId = null;
+  const p = projectsCache.find(x => x.id === id);
+  if (!p || p.stage === stage) return;
+  p.stage = stage;
+  renderKanban();
+  try {
+    await projectsCol.doc(id).update({ stage, updatedAt: new Date().toISOString(), updatedBy: crmEmail });
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi cập nhật trạng thái');
+  }
+}
+
+function populateAssigneeSelect() {
+  const sel = document.getElementById('pm-assignee');
+  const emails = staffListCache.map(s => s.id || s.email).filter(Boolean);
+  if (crmEmail && !emails.includes(crmEmail)) emails.unshift(crmEmail);
+  sel.innerHTML = '<option value="">— Chưa gán —</option>' + emails.map(e => `<option value="${esc(e)}">${esc(e)}</option>`).join('');
+}
+
+function openProjectModal(id) {
+  pmEditingId = id || null;
+  document.getElementById('project-modal').classList.add('open');
+  document.getElementById('pm-modal-title').textContent = id ? 'Sửa dự án' : 'Thêm dự án';
+  document.getElementById('pm-delete-btn').style.display = id ? '' : 'none';
+  populateAssigneeSelect();
+  const p = id ? projectsCache.find(x => x.id === id) : null;
+  document.getElementById('pm-id').value = id || '';
+  document.getElementById('pm-title').value = p ? (p.title || '') : '';
+  document.getElementById('pm-assignee').value = p ? (p.assignee || '') : '';
+  document.getElementById('pm-deadline').value = p ? (p.deadline || '') : '';
+  document.getElementById('pm-stage').value = p ? (p.stage || 'start') : 'start';
+  pmCurrentTodos = p ? JSON.parse(JSON.stringify(p.todos || [])) : [];
+  renderTodoList();
+  document.getElementById('pm-todo-input').value = '';
+}
+
+function closeProjectModal(e) {
+  if (!e || e.target === document.getElementById('project-modal')) {
+    document.getElementById('project-modal').classList.remove('open');
+  }
+}
+
+function renderTodoList() {
+  const wrap = document.getElementById('pm-todo-list');
+  const emails = staffListCache.map(s => s.id || s.email).filter(Boolean);
+  if (crmEmail && !emails.includes(crmEmail)) emails.unshift(crmEmail);
+  if (!pmCurrentTodos.length) { wrap.innerHTML = '<div class="crm-empty" style="padding:8px 0">Chưa có việc nào</div>'; return; }
+  wrap.innerHTML = pmCurrentTodos.map((t, i) => `
+    <div class="pm-todo-row">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodoInForm(${i})">
+      <input type="text" value="${esc(t.text)}" onchange="editTodoText(${i}, this.value)" style="${t.done ? 'text-decoration:line-through;color:#aaa' : ''}">
+      <select onchange="assignTodoInForm(${i}, this.value)">
+        <option value="">Ai làm?</option>
+        ${emails.map(em => `<option value="${esc(em)}" ${t.assignee === em ? 'selected' : ''}>${esc(em)}</option>`).join('')}
+      </select>
+      <button class="crm-link-btn danger" onclick="removeTodoFromForm(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function addTodoToForm() {
+  const input = document.getElementById('pm-todo-input');
+  const text = input.value.trim();
+  if (!text) return;
+  pmCurrentTodos.push({ text, done: false, assignee: '' });
+  input.value = '';
+  renderTodoList();
+}
+function toggleTodoInForm(i) { pmCurrentTodos[i].done = !pmCurrentTodos[i].done; renderTodoList(); }
+function editTodoText(i, val) { pmCurrentTodos[i].text = val; }
+function assignTodoInForm(i, val) { pmCurrentTodos[i].assignee = val; }
+function removeTodoFromForm(i) { pmCurrentTodos.splice(i, 1); renderTodoList(); }
+
+async function saveProject() {
+  const title = document.getElementById('pm-title').value.trim();
+  if (!title) { showToast('⚠️ Chưa nhập tên dự án'); return; }
+  const data = {
+    title,
+    assignee: document.getElementById('pm-assignee').value,
+    deadline: document.getElementById('pm-deadline').value,
+    stage: document.getElementById('pm-stage').value,
+    todos: pmCurrentTodos,
+    updatedAt: new Date().toISOString(),
+    updatedBy: crmEmail,
+  };
+  try {
+    if (pmEditingId) {
+      await projectsCol.doc(pmEditingId).set(data, { merge: true });
+      showToast('💾 Đã cập nhật dự án');
+    } else {
+      data.createdAt = data.updatedAt;
+      data.createdBy = crmEmail;
+      await projectsCol.add(data);
+      showToast('💾 Đã tạo dự án mới');
+    }
+    document.getElementById('project-modal').classList.remove('open');
+    await loadProjects();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi lưu dự án: ' + err.message);
+  }
+}
+
+async function deleteProjectConfirm() {
+  if (!pmEditingId) return;
+  if (!confirm('Xóa dự án này?')) return;
+  try {
+    await projectsCol.doc(pmEditingId).delete();
+    document.getElementById('project-modal').classList.remove('open');
+    showToast('✅ Đã xóa dự án');
+    await loadProjects();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi xóa dự án');
+  }
+}
+
 
 
 /* Mã PIN dùng chung để truy cập đơn đã lưu (chỉ là lớp chặn phía giao diện) */

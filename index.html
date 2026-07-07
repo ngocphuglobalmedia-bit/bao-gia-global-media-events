@@ -500,9 +500,55 @@
   .care-log-item:last-child{border-bottom:none}
   .care-log-date{font-size:11px;color:var(--muted);margin-bottom:2px}
   .crm-staff-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12px}
+
+  /* ── SIDEBAR ĐIỀU HƯỚNG CHÍNH ── */
+  #appSidebar{
+    width:230px;flex:none;position:fixed;left:0;top:0;bottom:0;
+    background:#fff;border-right:1px solid var(--border);
+    padding:20px 14px;overflow-y:auto;z-index:600;
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .sb-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding:2px 8px}
+  .sb-logo img{width:34px;height:34px;object-fit:contain;border-radius:8px}
+  .sb-logo-text{font-weight:800;font-size:12.5px;color:var(--brand-dk);line-height:1.35}
+  .sb-item{
+    display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:12px;
+    font-size:13.5px;font-weight:700;color:#4a4f57;cursor:pointer;
+    border:1px solid transparent;transition:.15s;user-select:none;
+  }
+  .sb-item:hover{background:#f2f6ef}
+  .sb-item.active{background:#eaf4e2;color:var(--brand-dk);border-color:#cfe8bd}
+  .sb-item .sb-ic{font-size:16px;width:20px;text-align:center;flex:none}
+  #mainContent{margin-left:230px}
+  @media (max-width:900px){
+    #appSidebar{
+      position:static;width:100%;height:auto;border-right:none;border-bottom:1px solid var(--border);
+      flex-direction:row;overflow-x:auto;padding:10px 12px;gap:8px;
+    }
+    .sb-logo{display:none}
+    .sb-item{flex:none;white-space:nowrap;padding:9px 13px;font-size:12.5px}
+    #mainContent{margin-left:0}
+  }
+  .supplier-placeholder{padding:60px 20px;text-align:center;color:var(--muted)}
+  .supplier-placeholder .ic{font-size:44px;margin-bottom:14px}
+  .supplier-placeholder .msg{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
 </style>
 </head>
 <body>
+
+<div id="appSidebar">
+  <div class="sb-logo">
+    <img src="Logo.png" alt="Global Media &amp; Events">
+    <div class="sb-logo-text">Global Media<br>&amp; Events</div>
+  </div>
+  <div class="sb-item active" data-section="baogia" onclick="sbGoTo('baogia')"><span class="sb-ic">🧾</span>Báo giá tự động</div>
+  <div class="sb-item" data-section="project" onclick="sbGoTo('project')"><span class="sb-ic">📁</span>Quản trị dự án</div>
+  <div class="sb-item" data-section="debt" onclick="sbGoTo('debt')"><span class="sb-ic">💰</span>Công nợ</div>
+  <div class="sb-item" data-section="care" onclick="sbGoTo('care')"><span class="sb-ic">❤️</span>Chăm sóc khách hàng</div>
+  <div class="sb-item" data-section="supplier" onclick="sbGoTo('supplier')"><span class="sb-ic">🚚</span>Nhà Cung cấp</div>
+  <div class="sb-item" data-section="staff" onclick="sbGoTo('staff')"><span class="sb-ic">⚙</span>Quản lý nhân viên</div>
+</div>
+<div id="mainContent">
 
 <!-- HEADER -->
 <header class="hdr">
@@ -516,7 +562,6 @@
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
-    <button class="hdr-crm-btn" onclick="openCRM()">👥 CRM</button>
   </div>
 </header>
 
@@ -837,7 +882,7 @@
     <div class="crm-topbar-title">📁 Quản trị dự án</div>
     <div class="crm-userbox" id="pm-userbox"></div>
   </div>
-  <button class="mini-btn" onclick="closeProjectApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+  <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
   <div class="crm-toolbar">
     <button class="mini-btn crm-primary" onclick="openProjectModal()">➕ Thêm dự án</button>
   </div>
@@ -886,7 +931,7 @@
     <div class="crm-topbar-title">💰 Theo dõi công nợ</div>
     <div class="crm-userbox" id="debt-userbox"></div>
   </div>
-  <button class="mini-btn" onclick="closeDebtApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+  <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
 
   <div class="debt-summary" id="debt-summary"></div>
 
@@ -918,9 +963,10 @@
     <div class="crm-topbar-title">❤️ Chăm sóc khách hàng</div>
     <div class="crm-userbox" id="care-userbox"></div>
   </div>
-  <button class="mini-btn" onclick="closeCareApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+  <button class="mini-btn" onclick="sbGoTo('baogia')" style="margin-bottom:14px;max-width:200px">← Về Báo giá</button>
 
   <div class="debt-toolbar">
+    <button class="mini-btn crm-primary" onclick="openCustomerForm()">➕ Thêm khách hàng</button>
     <select id="care-filter-stage" onchange="renderCareTable()">
       <option>Đang tư vấn</option>
       <option value="">Tất cả giai đoạn</option>
@@ -935,7 +981,7 @@
     <table class="crm-table">
       <thead>
         <tr>
-          <th>Khách hàng</th><th>SĐT</th><th>Giai đoạn</th><th>Cập nhật gần nhất</th><th>Trạng thái</th><th></th>
+          <th>Khách hàng</th><th>SĐT</th><th>Email</th><th>Nguồn</th><th>Giai đoạn</th><th>Phụ trách</th><th>Cập nhật gần nhất</th><th>Trạng thái</th><th></th>
         </tr>
       </thead>
       <tbody id="care-tbody"></tbody>
@@ -953,6 +999,19 @@
       <button class="mini-btn crm-primary" onclick="saveCareLog()">✅ Lưu & đánh dấu đã chăm sóc</button>
       <button class="mini-btn" onclick="closeCareLogModal()">Đóng</button>
     </div>
+  </div>
+</div>
+
+<div id="supplierApp" class="crm-app" style="display:none">
+  <div class="crm-topbar">
+    <div class="crm-topbar-title">🚚 Nhà Cung cấp</div>
+    <div class="crm-userbox" id="supplier-userbox"></div>
+  </div>
+  <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
+  <div class="supplier-placeholder">
+    <div class="ic">🚚</div>
+    <div class="msg">Đang cập nhật nội dung</div>
+    <div>Mục Nhà Cung cấp sẽ sớm được bổ sung thông tin.</div>
   </div>
 </div>
 
@@ -987,6 +1046,8 @@
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+</div><!-- /mainContent -->
 
 <!-- PRINT AREA -->
 <div id="print-area"></div>
@@ -1161,7 +1222,7 @@ firebase.auth().getRedirectResult().then(res => {
   if (res && res.user && !res.user.isAnonymous) {
     if (res.credential && res.credential.accessToken) driveAccessToken = res.credential.accessToken;
     onCRMAuthChanged(res.user);
-    openCRM();
+    sbGoTo('care');
   }
 }).catch(err => console.error('Lỗi xử lý đăng nhập Google (redirect):', err));
 });
@@ -1241,11 +1302,11 @@ async function checkCRMAccess() {
       document.getElementById('crm-denied-email').textContent = crmEmail;
       document.getElementById('crm-denied').style.display = 'flex';
       document.getElementById('crm-main').style.display = 'none';
+      sbPendingTarget = null;
       return;
     }
     crmRole = doc.data().role || 'staff';
     document.getElementById('crm-denied').style.display = 'none';
-    document.getElementById('crm-main').style.display = 'block';
     document.getElementById('crm-staff-btn').style.display = (crmRole === 'admin') ? '' : 'none';
     document.getElementById('crm-userbox').innerHTML =
       '<span>' + esc(crmEmail) + '</span>' +
@@ -1253,6 +1314,17 @@ async function checkCRMAccess() {
       '<button class="crm-link-btn" onclick="signOutCRM()">Đăng xuất</button>';
     await loadStaffList();
     await loadCustomers();
+    if (sbPendingTarget) {
+      const t = sbPendingTarget; sbPendingTarget = null;
+      if (t === 'staff') {
+        if (crmRole === 'admin') { document.getElementById('crmApp').style.display = 'none'; openStaffManager(); }
+        else { showToast('❌ Bạn không có quyền truy cập mục này'); sbGoTo('care'); }
+      } else {
+        sbRouteToSection(t);
+      }
+    } else {
+      document.getElementById('crm-main').style.display = 'block';
+    }
   } catch (err) {
     console.error(err);
     showToast('❌ Lỗi kiểm tra quyền truy cập');
@@ -1270,6 +1342,7 @@ async function loadCustomers() {
     }
     customersCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderCustomerTable();
+    if (document.getElementById('careApp').style.display !== 'none') renderCareTable();
   } catch (err) {
     console.error(err);
     showToast('❌ Lỗi tải danh sách khách hàng');
@@ -2343,11 +2416,17 @@ function renderCareTable() {
       <tr class="${st==='overdue' ? 'care-row-overdue' : ''}">
         <td><b>${esc(c.name||'')}</b><div style="font-size:11.5px;color:var(--muted)">${esc(c.contact||'')}</div></td>
         <td>${esc(c.phone||'')}</td>
+        <td>${esc(c.email||'')}</td>
+        <td>${esc(c.source||'')}</td>
         <td><span class="crm-stage-tag">${esc(c.stage||'')}</span></td>
+        <td>${esc(c.assignedTo||'')}</td>
         <td>${dayLabel}</td>
         <td><span class="care-badge ${st}">${st==='overdue' ? 'Cần chăm sóc' : 'Ổn'}</span></td>
         <td>
           <div class="crm-row-actions">
+            <button class="crm-link-btn" onclick="openCustomerForm('${c.id}')">Sửa</button>
+            <button class="crm-link-btn" onclick="openContractModal('${c.id}')">Hồ sơ HĐ</button>
+            <button class="crm-link-btn danger" onclick="deleteCustomerConfirm('${c.id}')">Xóa</button>
             ${zaloBtn}
             <button class="crm-link-btn" onclick="openCareLogModal('${c.id}')">📝 Nhật ký</button>
           </div>
@@ -2393,6 +2472,84 @@ async function saveCareLog() {
     console.error(err);
     showToast('❌ Lỗi lưu nhật ký');
   }
+}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR ĐIỀU HƯỚNG CHÍNH
+═══════════════════════════════════════════ */
+let sbPendingTarget = null;
+
+function sbHideAllTop() {
+  document.querySelector('.layout').style.display = 'none';
+  document.getElementById('mobileBar').style.display = 'none';
+  document.getElementById('crmApp').style.display = 'none';
+  document.getElementById('projectApp').style.display = 'none';
+  document.getElementById('debtApp').style.display = 'none';
+  document.getElementById('careApp').style.display = 'none';
+  document.getElementById('supplierApp').style.display = 'none';
+}
+
+function sbSetActive(section) {
+  document.querySelectorAll('.sb-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === section);
+  });
+}
+
+function sbShowLoginGate() {
+  sbHideAllTop();
+  document.getElementById('crmApp').style.display = 'block';
+  document.getElementById('crm-login').style.display = 'flex';
+  document.getElementById('crm-denied').style.display = 'none';
+  document.getElementById('crm-main').style.display = 'none';
+}
+
+function sbRouteToSection(section) {
+  sbHideAllTop();
+  if (section === 'project') openProjectApp();
+  else if (section === 'debt') openDebtApp();
+  else if (section === 'care') openCareApp();
+  else if (section === 'supplier') openSupplierApp();
+}
+
+function sbGoTo(section) {
+  if (section === 'baogia') {
+    sbHideAllTop();
+    document.querySelector('.layout').style.display = '';
+    document.getElementById('mobileBar').style.display = '';
+    sbSetActive('baogia');
+    return;
+  }
+  if (section === 'staff') {
+    sbSetActive('staff');
+    if (!crmUser) { sbPendingTarget = 'staff'; sbShowLoginGate(); return; }
+    if (crmRole == null) {
+      sbPendingTarget = 'staff';
+      sbHideAllTop();
+      document.getElementById('crmApp').style.display = 'block';
+      checkCRMAccess();
+      return;
+    }
+    if (crmRole !== 'admin') { showToast('❌ Bạn không có quyền truy cập mục này'); return; }
+    openStaffManager();
+    return;
+  }
+  sbSetActive(section);
+  if (!crmUser) { sbPendingTarget = section; sbShowLoginGate(); return; }
+  if (crmRole == null) {
+    sbPendingTarget = section;
+    sbHideAllTop();
+    document.getElementById('crmApp').style.display = 'block';
+    checkCRMAccess();
+    return;
+  }
+  sbRouteToSection(section);
+}
+
+function openSupplierApp() {
+  document.getElementById('supplierApp').style.display = 'block';
+  document.getElementById('supplier-userbox').innerHTML =
+    '<span>' + esc(crmEmail) + '</span>' +
+    '<span class="crm-role-badge' + (crmRole === 'admin' ? '' : ' staff') + '">' + (crmRole === 'admin' ? 'Quản trị' : 'Nhân viên') + '</span>';
 }
 
 

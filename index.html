@@ -477,6 +477,21 @@
   .pm-todo-row input[type=text]{flex:1;padding:6px 8px;border:1px solid var(--border);border-radius:6px}
   .pm-todo-row select{padding:6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px}
   .mini-btn.danger{color:var(--red);border-color:var(--red)}
+  .debt-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px}
+  .debt-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+  .debt-card .lbl{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .debt-card .val{font-size:20px;font-weight:900}
+  .debt-card.overdue .val{color:var(--red)}
+  .debt-card.paid .val{color:#1a9e5c}
+  .debt-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .debt-badge.overdue{background:#fde8e8;color:var(--red)}
+  .debt-badge.upcoming{background:#fff3d6;color:#a86a00}
+  .debt-badge.paid{background:#e6f7ee;color:#1a9e5c}
+  .debt-badge.normal{background:#eef1f5;color:var(--muted)}
+  .debt-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+  .debt-paid-cell{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .debt-paid-cell input[type=date]{padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px}
+  tr.debt-row-overdue td{background:#fef6f6}
   .crm-staff-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12px}
 </style>
 </head>
@@ -644,6 +659,7 @@
         <option>Done job</option>
       </select>
       <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">📁 Quản trị dự án</button>
+      <button class="mini-btn" onclick="openDebtApp()" style="max-width:200px">💰 Công nợ</button>
       <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">⚙ Quản lý nhân viên</button>
     </div>
 
@@ -775,7 +791,10 @@
       <div class="fld"><label>Giá trị hợp đồng (VNĐ, đã gồm VAT)</label><input id="ct-giatri" type="number" placeholder="50000000"></div>
       <div class="fld"><label>% thanh toán lần 1</label><input id="ct-phantram1" type="number" value="50"></div>
     </div>
-    <div class="fld"><label>Ngày thanh toán lần 1 (hạn chót)</label><input type="date" id="ct-ngaytt1"></div>
+    <div class="grid2">
+      <div class="fld"><label>Ngày thanh toán lần 1 (hạn chót)</label><input type="date" id="ct-ngaytt1"></div>
+      <div class="fld"><label>Ngày thanh toán lần 2 (hạn chót)</label><input type="date" id="ct-ngaytt2"></div>
+    </div>
     <div class="grid2">
       <div class="fld"><label>Số lần chỉnh sửa miễn phí</label><input id="ct-solanchinhsua" type="number" value="2"></div>
       <div class="fld"><label>Số bản hợp đồng in</label><input id="ct-sobanin" type="number" value="4"></div>
@@ -850,6 +869,38 @@
       <button class="mini-btn danger" id="pm-delete-btn" style="display:none" onclick="deleteProjectConfirm()">🗑 Xóa dự án</button>
       <button class="mini-btn" onclick="closeProjectModal()">Đóng</button>
     </div>
+  </div>
+</div>
+
+<div id="debtApp" class="crm-app" style="display:none">
+  <div class="crm-topbar">
+    <div class="crm-topbar-title">💰 Theo dõi công nợ</div>
+    <div class="crm-userbox" id="debt-userbox"></div>
+  </div>
+  <button class="mini-btn" onclick="closeDebtApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+
+  <div class="debt-summary" id="debt-summary"></div>
+
+  <div class="debt-toolbar">
+    <select id="debt-filter" onchange="renderDebtTable()">
+      <option value="">Tất cả</option>
+      <option value="overdue">Quá hạn</option>
+      <option value="upcoming">Sắp đến hạn (≤7 ngày)</option>
+      <option value="normal">Chưa đến hạn</option>
+      <option value="paid">Đã thu</option>
+    </select>
+  </div>
+
+  <div class="crm-table-wrap">
+    <table class="crm-table">
+      <thead>
+        <tr>
+          <th>Khách hàng</th><th>Loại SP</th><th>Số HĐ</th><th>Đợt</th><th>Số tiền</th><th>Ngày hạn</th><th>Trạng thái</th><th>Đã thu</th>
+        </tr>
+      </thead>
+      <tbody id="debt-tbody"></tbody>
+    </table>
+    <div id="debt-empty" class="crm-empty" style="display:none">Không có công nợ nào</div>
   </div>
 </div>
 
@@ -1462,6 +1513,7 @@ function collectContractFormData() {
     ngayKy, ngay, thang, nam,
     giaTriHopDong, phanTram1, soTien1, phanTram2, soTien2,
     ngayTT1: g('ct-ngaytt1'),
+    ngayTT2: g('ct-ngaytt2'),
     soLanChinhSua: gn('ct-solanchinhsua') || 2,
     soBanIn, soBanMoiBen: Math.round(soBanIn/2),
     phatSinhTang, phatSinhGiam, quyetToan, conLai,
@@ -1514,6 +1566,8 @@ function buildTemplateData(c, docType) {
     "Số tiền thanh toán đợt 2 bằng chữ": soTienBangChu(c.soTien2),
     "Ngày thanh toán lần 1": c.ngayTT1 ? new Date(c.ngayTT1+'T00:00:00').toLocaleDateString('vi-VN') : '',
     "Ngày thanh toán đợt 1": c.ngayTT1 ? new Date(c.ngayTT1+'T00:00:00').toLocaleDateString('vi-VN') : '',
+    "Ngày thanh toán lần 2": c.ngayTT2 ? new Date(c.ngayTT2+'T00:00:00').toLocaleDateString('vi-VN') : '',
+    "Ngày thanh toán đợt 2": c.ngayTT2 ? new Date(c.ngayTT2+'T00:00:00').toLocaleDateString('vi-VN') : '',
     "Số lần chỉnh sửa sản phẩm/kịch bản miễn phí": c.soLanChinhSua,
     "Số bảng": c.soBanIn, "Số bảng mỗi bên": c.soBanMoiBen,
     "Số bản": c.soBanIn, "Số bản mỗi bên": c.soBanMoiBen,
@@ -1664,6 +1718,7 @@ function fillContractForm(c) {
   document.getElementById('ct-giatri').value = c.giaTriHopDong || '';
   document.getElementById('ct-phantram1').value = c.phanTram1 || 50;
   document.getElementById('ct-ngaytt1').value = c.ngayTT1 || '';
+  document.getElementById('ct-ngaytt2').value = c.ngayTT2 || '';
   document.getElementById('ct-solanchinhsua').value = c.soLanChinhSua || 2;
   document.getElementById('ct-sobanin').value = c.soBanIn || 4;
   document.getElementById('ct-phatsinhtang').value = c.phatSinhTang || '';
@@ -2001,6 +2056,161 @@ async function deleteProjectConfirm() {
   } catch (err) {
     console.error(err);
     showToast('❌ Lỗi xóa dự án');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   THEO DÕI CÔNG NỢ (Giai đoạn 4)
+═══════════════════════════════════════════ */
+let debtContractsCache = [];
+let debtItemsCache = [];
+
+function openDebtApp() {
+  document.getElementById('crmApp').style.display = 'none';
+  document.getElementById('debtApp').style.display = 'block';
+  document.getElementById('debt-userbox').innerHTML =
+    '<span>' + esc(crmEmail) + '</span>' +
+    '<span class="crm-role-badge' + (crmRole === 'admin' ? '' : ' staff') + '">' + (crmRole === 'admin' ? 'Quản trị' : 'Nhân viên') + '</span>';
+  loadDebts();
+}
+
+function closeDebtApp() {
+  document.getElementById('debtApp').style.display = 'none';
+  document.getElementById('crmApp').style.display = 'block';
+}
+
+async function loadDebts() {
+  try {
+    let snap;
+    if (crmRole === 'admin') {
+      snap = await contractsCol.get();
+    } else {
+      snap = await contractsCol.where('assignedTo', '==', crmEmail).get();
+    }
+    debtContractsCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    debtItemsCache = buildDebtItems(debtContractsCache);
+    renderDebtSummary();
+    renderDebtTable();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi tải công nợ');
+  }
+}
+
+function buildDebtItems(contracts) {
+  const items = [];
+  contracts.forEach(c => {
+    if (!c.giaTriHopDong) return;
+    const catLabel = (CONTRACT_CATS[c.productCategory] && CONTRACT_CATS[c.productCategory].label) || c.productCategory || '';
+    items.push({
+      contractId: c.id, dot: 1, khachHang: c.tenKH || '(Chưa đặt tên)', loaiSP: catLabel,
+      soHopDong: c.soHopDong || '', soTien: c.soTien1 || 0, ngayHan: c.ngayTT1 || '',
+      daThu: !!c.daThu1, ngayThucNhan: c.ngayThucNhan1 || '',
+    });
+    items.push({
+      contractId: c.id, dot: 2, khachHang: c.tenKH || '(Chưa đặt tên)', loaiSP: catLabel,
+      soHopDong: c.soHopDong || '', soTien: c.soTien2 || 0, ngayHan: c.ngayTT2 || '',
+      daThu: !!c.daThu2, ngayThucNhan: c.ngayThucNhan2 || '',
+    });
+  });
+  return items;
+}
+
+function debtStatus(item) {
+  if (item.daThu) return 'paid';
+  if (!item.ngayHan) return 'normal';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const due = new Date(item.ngayHan + 'T00:00:00');
+  const diffDays = Math.round((due - today) / 86400000);
+  if (diffDays < 0) return 'overdue';
+  if (diffDays <= 7) return 'upcoming';
+  return 'normal';
+}
+
+const DEBT_STATUS_LABEL = { overdue: 'Quá hạn', upcoming: 'Sắp đến hạn', paid: 'Đã thu', normal: 'Chưa đến hạn' };
+
+function renderDebtSummary() {
+  const wrap = document.getElementById('debt-summary');
+  const tong = debtItemsCache.reduce((a,i)=>a+i.soTien,0);
+  const daThu = debtItemsCache.filter(i=>i.daThu).reduce((a,i)=>a+i.soTien,0);
+  const conLai = tong - daThu;
+  const quaHan = debtItemsCache.filter(i=>debtStatus(i)==='overdue').reduce((a,i)=>a+i.soTien,0);
+  wrap.innerHTML = `
+    <div class="debt-card"><div class="lbl">Tổng công nợ</div><div class="val">${vnd(tong)}</div></div>
+    <div class="debt-card paid"><div class="lbl">Đã thu</div><div class="val">${vnd(daThu)}</div></div>
+    <div class="debt-card"><div class="lbl">Còn lại</div><div class="val">${vnd(conLai)}</div></div>
+    <div class="debt-card overdue"><div class="lbl">Quá hạn</div><div class="val">${vnd(quaHan)}</div></div>
+  `;
+}
+
+function renderDebtTable() {
+  const filter = document.getElementById('debt-filter').value;
+  const tbody = document.getElementById('debt-tbody');
+  const emptyEl = document.getElementById('debt-empty');
+  let items = debtItemsCache.filter(i => i.soTien > 0);
+  if (filter) items = items.filter(i => debtStatus(i) === filter);
+  items.sort((a,b) => (a.ngayHan||'9999').localeCompare(b.ngayHan||'9999'));
+  if (!items.length) {
+    tbody.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  tbody.innerHTML = items.map(i => {
+    const st = debtStatus(i);
+    return `
+      <tr class="${st==='overdue' ? 'debt-row-overdue' : ''}">
+        <td>${esc(i.khachHang)}</td>
+        <td>${esc(i.loaiSP)}</td>
+        <td>${esc(i.soHopDong)}</td>
+        <td>Đợt ${i.dot}</td>
+        <td>${vnd(i.soTien)}</td>
+        <td>${i.ngayHan ? fmtDate(i.ngayHan) : ''}</td>
+        <td><span class="debt-badge ${st}">${DEBT_STATUS_LABEL[st]}</span></td>
+        <td>
+          <div class="debt-paid-cell">
+            <input type="checkbox" ${i.daThu ? 'checked' : ''} onchange="toggleDebtPaid('${i.contractId}', ${i.dot}, this.checked)">
+            <input type="date" value="${esc(i.ngayThucNhan)}" ${i.daThu ? '' : 'disabled'} onchange="onDebtPaidDateChange('${i.contractId}', ${i.dot}, this.value)">
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+async function toggleDebtPaid(contractId, dot, checked) {
+  const item = debtItemsCache.find(i => i.contractId === contractId && i.dot === dot);
+  if (!item) return;
+  item.daThu = checked;
+  if (checked && !item.ngayThucNhan) {
+    item.ngayThucNhan = new Date().toISOString().slice(0,10);
+  }
+  renderDebtSummary();
+  renderDebtTable();
+  try {
+    const upd = {};
+    upd['daThu' + dot] = checked;
+    upd['ngayThucNhan' + dot] = checked ? item.ngayThucNhan : '';
+    await contractsCol.doc(contractId).update(upd);
+    showToast(checked ? '✅ Đã đánh dấu đã thu' : '↩️ Đã bỏ đánh dấu đã thu');
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi cập nhật công nợ');
+  }
+}
+
+async function onDebtPaidDateChange(contractId, dot, value) {
+  const item = debtItemsCache.find(i => i.contractId === contractId && i.dot === dot);
+  if (!item) return;
+  item.ngayThucNhan = value;
+  try {
+    const upd = {};
+    upd['ngayThucNhan' + dot] = value;
+    await contractsCol.doc(contractId).update(upd);
+    showToast('💾 Đã cập nhật ngày thực nhận');
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi cập nhật ngày');
   }
 }
 

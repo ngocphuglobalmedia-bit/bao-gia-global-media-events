@@ -6,6 +6,9 @@
 <title>Báo Giá Nhanh – Global Media &amp; Events</title>
 <meta name="description" content="Công cụ báo giá nhanh dịch vụ TVC &amp; Media – Global Media &amp; Events">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234a9a1e'/%3E%3Cstop offset='1' stop-color='%232a5a0e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-size='26' font-weight='900' fill='white' text-anchor='middle' font-family='Arial'%3EGM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
@@ -32,7 +35,7 @@
 
   html{scroll-behavior:smooth}
   body{
-    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    font-family:'Be Vietnam Pro','Segoe UI',Roboto,Arial,sans-serif;
     font-size:14px;
     color:var(--text);
     background:
@@ -541,12 +544,12 @@
     <img src="Logo.png" alt="Global Media &amp; Events">
     <div class="sb-logo-text">Global Media<br>&amp; Events</div>
   </div>
-  <div class="sb-item active" data-section="baogia" onclick="sbGoTo('baogia')"><span class="sb-ic">🧾</span>Báo giá tự động</div>
-  <div class="sb-item" data-section="project" onclick="sbGoTo('project')"><span class="sb-ic">📁</span>Quản trị dự án</div>
-  <div class="sb-item" data-section="debt" onclick="sbGoTo('debt')"><span class="sb-ic">💰</span>Công nợ</div>
-  <div class="sb-item" data-section="care" onclick="sbGoTo('care')"><span class="sb-ic">❤️</span>Chăm sóc khách hàng</div>
-  <div class="sb-item" data-section="supplier" onclick="sbGoTo('supplier')"><span class="sb-ic">🚚</span>Nhà Cung cấp</div>
-  <div class="sb-item" data-section="staff" onclick="sbGoTo('staff')"><span class="sb-ic">⚙</span>Quản lý nhân viên</div>
+  <div class="sb-item active" data-section="baogia" onclick="sbGoTo('baogia')">Báo giá tự động</div>
+  <div class="sb-item" data-section="project" onclick="sbGoTo('project')">Quản trị dự án</div>
+  <div class="sb-item" data-section="debt" onclick="sbGoTo('debt')">Công nợ</div>
+  <div class="sb-item" data-section="care" onclick="sbGoTo('care')">Chăm sóc khách hàng</div>
+  <div class="sb-item" data-section="supplier" onclick="sbGoTo('supplier')">Nhà Cung cấp</div>
+  <div class="sb-item" data-section="staff" onclick="sbGoTo('staff')">Quản lý nhân viên</div>
 </div>
 <div id="mainContent">
 
@@ -561,7 +564,7 @@
     </div>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
-    <div class="hdr-title">🧾 CÔNG CỤ BÁO GIÁ NHANH</div>
+    <div class="hdr-title">CÔNG CỤ BÁO GIÁ NHANH</div>
   </div>
 </header>
 
@@ -572,7 +575,7 @@
 
     <!-- Customer info -->
     <div class="card">
-      <div class="card-title">📋 Thông tin khách hàng</div>
+      <div class="card-title">Thông tin khách hàng</div>
       <div class="grid2" style="margin-bottom:12px">
         <div class="fld">
           <label>Tên khách hàng / Công ty</label>
@@ -594,20 +597,20 @@
         </div>
       </div>
       <div class="draft-row">
-        <button class="mini-btn" onclick="saveDraft()">💾 Lưu nháp báo giá</button>
-        <button class="mini-btn" onclick="openDrafts()">📂 Đơn đã lưu (<span id="draft-count">0</span>)</button>
+        <button class="mini-btn" onclick="saveDraft()">Lưu nháp báo giá</button>
+        <button class="mini-btn" onclick="openDrafts()">Đơn đã lưu (<span id="draft-count">0</span>)</button>
       </div>
     </div>
 
     <!-- Tabs -->
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tvc',this)">🎬 Sản xuất TVC</button>
-      <button class="tab-btn" onclick="switchTab('media',this)">📸 Dịch vụ Media <span id="media-tab-count"></span></button>
+      <button class="tab-btn active" onclick="switchTab('tvc',this)">Sản xuất TVC</button>
+      <button class="tab-btn" onclick="switchTab('media',this)">Dịch vụ Media <span id="media-tab-count"></span></button>
     </div>
 
     <!-- TVC PANE -->
     <div id="pane-tvc" class="tab-pane active card" style="border-radius:0 12px 12px 12px">
-      <div class="card-title">🎬 Chọn gói sản xuất TVC</div>
+      <div class="card-title">Chọn gói sản xuất TVC</div>
       <div class="tier-pills">
         <button class="tier-pill active" data-tier="basic" onclick="switchTier('basic',this)">Gói BASIC</button>
         <button class="tier-pill" data-tier="caocap" onclick="switchTier('caocap',this)">Gói CAO CẤP</button>
@@ -620,7 +623,7 @@
 
     <!-- MEDIA PANE -->
     <div id="pane-media" class="tab-pane card" style="border-radius:0 12px 12px 12px">
-      <div class="card-title">📸 Chọn dịch vụ quay chụp &amp; media</div>
+      <div class="card-title">Chọn dịch vụ quay chụp &amp; media</div>
       <div class="media-cat-grid" id="media-cat-grid"></div>
       <div class="media-search">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -635,21 +638,21 @@
   <div class="right" id="rightPanel">
     <button class="sheet-close" onclick="closeSheet()">✕</button>
     <div class="sheet-handle"></div>
-    <div class="q-title">📄 Báo giá</div>
+    <div class="q-title">Báo giá</div>
     <div class="q-date" id="q-date"></div>
     <div class="q-cust" id="q-cust">Chưa có thông tin khách hàng</div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px">
-      <button class="mini-btn" id="editContentBtn" style="flex:none" onclick="toggleEditContent()">📝 Tùy chỉnh nội dung</button>
-      <button class="mini-btn" id="editPriceBtn" style="flex:none" onclick="toggleEditPrice()">🔧 Tùy chỉnh giá</button>
+      <button class="mini-btn" id="editContentBtn" style="flex:none" onclick="toggleEditContent()">Tùy chỉnh nội dung</button>
+      <button class="mini-btn" id="editPriceBtn" style="flex:none" onclick="toggleEditPrice()">Tùy chỉnh giá</button>
     </div>
-    <div class="q-items" id="q-items"><div class="q-empty"><span class="ic">🧾</span>Chưa chọn dịch vụ nào</div></div>
+    <div class="q-items" id="q-items"><div class="q-empty">Chưa chọn dịch vụ nào</div></div>
     <div class="q-totals">
       <div class="q-row"><span>Tổng hạng mục</span><span id="q-sub">0 đ</span></div>
       <div class="q-row"><span>Thuế VAT (8%)</span><span id="q-vat">0 đ</span></div>
       <div class="q-row grand"><span>TỔNG THANH TOÁN</span><span id="q-total">0 đ</span></div>
     </div>
     <div class="q-btns">
-      <button class="btn btn-pdf" onclick="printPDF()" style="grid-column:span 2">⬇ Xuất PDF báo giá</button>
+      <button class="btn btn-pdf" onclick="printPDF()" style="grid-column:span 2">Xuất PDF báo giá</button>
       <button class="btn-zalo" onclick="showZalo()">
         <svg width="20" height="20" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
           <rect width="40" height="40" rx="8" fill="white"/>
@@ -657,7 +660,7 @@
         </svg>
         Liên hệ tư vấn qua Zalo
       </button>
-      <button class="btn btn-clr" onclick="clearAll()">🗑 Xóa tất cả</button>
+      <button class="btn btn-clr" onclick="clearAll()">Xóa tất cả</button>
     </div>
   </div>
 
@@ -675,7 +678,7 @@
 <!-- CRM APP -->
 <div id="crmApp" class="crm-app" style="display:none">
   <div class="crm-topbar">
-    <div class="crm-topbar-title">👥 Quản lý khách hàng (CRM)</div>
+    <div class="crm-topbar-title">Quản lý khách hàng (CRM)</div>
     <div class="crm-userbox" id="crm-userbox"></div>
   </div>
 
@@ -683,7 +686,7 @@
     <div class="crm-card">
       <div class="crm-card-title">Đăng nhập để sử dụng CRM</div>
       <div class="crm-card-sub">Vui lòng đăng nhập bằng tài khoản Google được cấp quyền để truy cập.</div>
-      <button class="crm-google-btn" onclick="signInGoogleCRM()">🔐 Đăng nhập bằng Google</button>
+      <button class="crm-google-btn" onclick="signInGoogleCRM()">Đăng nhập bằng Google</button>
       <button class="mini-btn" onclick="closeCRM()">← Quay lại Báo giá</button>
     </div>
   </div>
@@ -701,7 +704,7 @@
     <button class="mini-btn" onclick="closeCRM()" style="margin-bottom:14px;max-width:200px">← Quay lại Báo giá</button>
 
     <div class="crm-toolbar">
-      <button class="mini-btn crm-primary" onclick="openCustomerForm()">➕ Thêm khách hàng</button>
+      <button class="mini-btn crm-primary" onclick="openCustomerForm()">Thêm khách hàng</button>
       <select id="crm-filter-stage" onchange="renderCustomerTable()">
         <option value="">Tất cả giai đoạn</option>
         <option>Đang tư vấn</option>
@@ -710,10 +713,10 @@
         <option>Nghiệm thu</option>
         <option>Done job</option>
       </select>
-      <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">📁 Quản trị dự án</button>
-      <button class="mini-btn" onclick="openDebtApp()" style="max-width:200px">💰 Công nợ</button>
-      <button class="mini-btn" onclick="openCareApp()" style="max-width:200px">❤️ Chăm sóc KH</button>
-      <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">⚙ Quản lý nhân viên</button>
+      <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">Quản trị dự án</button>
+      <button class="mini-btn" onclick="openDebtApp()" style="max-width:200px">Công nợ</button>
+      <button class="mini-btn" onclick="openCareApp()" style="max-width:200px">Chăm sóc KH</button>
+      <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">Quản lý nhân viên</button>
     </div>
 
     <div class="crm-table-wrap">
@@ -765,13 +768,13 @@
 <!-- CRM STAFF MANAGER MODAL -->
 <div class="overlay" id="crm-staff-modal" onclick="closeStaffManager(event)">
   <div class="modal-box crm-modal-box">
-    <div class="zalo-title" style="color:var(--brand)">⚙ Quản lý nhân viên</div>
+    <div class="zalo-title" style="color:var(--brand)">Quản lý nhân viên</div>
     <div class="fld"><label>Email Gmail nhân viên</label><input id="sf-email" placeholder="ten@gmail.com"></div>
     <div class="fld">
       <label>Vai trò</label>
       <select id="sf-role"><option value="staff">Nhân viên</option><option value="admin">Quản trị</option></select>
     </div>
-    <button class="modal-btn" onclick="addStaff()">➕ Thêm nhân viên</button>
+    <button class="modal-btn" onclick="addStaff()">Thêm nhân viên</button>
     <div id="crm-staff-list" style="margin-top:14px"></div>
     <button class="modal-close" onclick="closeStaffManager()" style="margin-top:10px">Đóng</button>
   </div>
@@ -779,7 +782,7 @@
 
 <div class="overlay" id="contract-modal" onclick="closeContractModal(event)">
   <div class="modal-box crm-modal-box" style="max-width:640px;max-height:88vh;overflow:auto">
-    <div class="zalo-title" style="color:var(--brand)">📄 Hồ sơ hợp đồng</div>
+    <div class="zalo-title" style="color:var(--brand)">Hồ sơ hợp đồng</div>
 
     <div class="fld">
       <label>Loại sản phẩm</label>
@@ -861,16 +864,16 @@
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin:14px 0">
-      <button class="mini-btn crm-primary" onclick="saveContract(false)">💾 Lưu hồ sơ</button>
-      <button class="mini-btn" onclick="generateContractDoc('HDDV')">📄 Xuất Hợp đồng</button>
-      <button class="mini-btn" onclick="generateContractDoc('BBNT')">📄 Xuất Biên bản NT</button>
-      <button class="mini-btn" onclick="generateContractDoc('DNTT1')">📄 Xuất ĐNTT đợt 1</button>
-      <button class="mini-btn" onclick="generateContractDoc('DNTT2')">📄 Xuất ĐNTT đợt 2</button>
+      <button class="mini-btn crm-primary" onclick="saveContract(false)">Lưu hồ sơ</button>
+      <button class="mini-btn" onclick="generateContractDoc('HDDV')">Xuất Hợp đồng</button>
+      <button class="mini-btn" onclick="generateContractDoc('BBNT')">Xuất Biên bản NT</button>
+      <button class="mini-btn" onclick="generateContractDoc('DNTT1')">Xuất ĐNTT đợt 1</button>
+      <button class="mini-btn" onclick="generateContractDoc('DNTT2')">Xuất ĐNTT đợt 2</button>
     </div>
 
     <div class="zalo-title" style="font-size:13px;color:var(--muted)">File hợp đồng đã ký (lưu lên Google Drive)</div>
     <div class="fld"><input type="file" id="ct-signed-file" accept=".pdf,.jpg,.jpeg,.png,.docx"></div>
-    <button class="mini-btn crm-primary" onclick="uploadSignedContractFile()">⬆️ Tải lên Google Drive</button>
+    <button class="mini-btn crm-primary" onclick="uploadSignedContractFile()">Tải lên Google Drive</button>
     <div id="ct-signed-info" style="font-size:12px;margin-top:8px;color:var(--muted)"></div>
 
     <button class="mini-btn" style="margin-top:16px" onclick="closeContractModal()">Đóng</button>
@@ -879,12 +882,12 @@
 
 <div id="projectApp" class="crm-app" style="display:none">
   <div class="crm-topbar">
-    <div class="crm-topbar-title">📁 Quản trị dự án</div>
+    <div class="crm-topbar-title">Quản trị dự án</div>
     <div class="crm-userbox" id="pm-userbox"></div>
   </div>
   <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
   <div class="crm-toolbar">
-    <button class="mini-btn crm-primary" onclick="openProjectModal()">➕ Thêm dự án</button>
+    <button class="mini-btn crm-primary" onclick="openProjectModal()">Thêm dự án</button>
   </div>
   <div class="pm-board" id="pm-board"></div>
 </div>
@@ -915,12 +918,12 @@
     <div id="pm-todo-list" style="margin-bottom:10px"></div>
     <div style="display:flex;gap:8px;margin-bottom:14px">
       <input id="pm-todo-input" placeholder="Thêm việc mới..." style="flex:1;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm)">
-      <button class="mini-btn" onclick="addTodoToForm()">➕</button>
+      <button class="mini-btn" onclick="addTodoToForm()">Thêm</button>
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="mini-btn crm-primary" onclick="saveProject()">💾 Lưu dự án</button>
-      <button class="mini-btn danger" id="pm-delete-btn" style="display:none" onclick="deleteProjectConfirm()">🗑 Xóa dự án</button>
+      <button class="mini-btn crm-primary" onclick="saveProject()">Lưu dự án</button>
+      <button class="mini-btn danger" id="pm-delete-btn" style="display:none" onclick="deleteProjectConfirm()">Xóa dự án</button>
       <button class="mini-btn" onclick="closeProjectModal()">Đóng</button>
     </div>
   </div>
@@ -928,7 +931,7 @@
 
 <div id="debtApp" class="crm-app" style="display:none">
   <div class="crm-topbar">
-    <div class="crm-topbar-title">💰 Theo dõi công nợ</div>
+    <div class="crm-topbar-title">Theo dõi công nợ</div>
     <div class="crm-userbox" id="debt-userbox"></div>
   </div>
   <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
@@ -960,13 +963,13 @@
 
 <div id="careApp" class="crm-app" style="display:none">
   <div class="crm-topbar">
-    <div class="crm-topbar-title">❤️ Chăm sóc khách hàng</div>
+    <div class="crm-topbar-title">Chăm sóc khách hàng</div>
     <div class="crm-userbox" id="care-userbox"></div>
   </div>
   <button class="mini-btn" onclick="sbGoTo('baogia')" style="margin-bottom:14px;max-width:200px">← Về Báo giá</button>
 
   <div class="debt-toolbar">
-    <button class="mini-btn crm-primary" onclick="openCustomerForm()">➕ Thêm khách hàng</button>
+    <button class="mini-btn crm-primary" onclick="openCustomerForm()">Thêm khách hàng</button>
     <select id="care-filter-stage" onchange="renderCareTable()">
       <option>Đang tư vấn</option>
       <option value="">Tất cả giai đoạn</option>
@@ -996,7 +999,7 @@
     <div id="care-log-list" style="margin-bottom:12px"></div>
     <div class="fld"><label>Ghi chú chăm sóc mới</label><textarea id="care-log-note" rows="3" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit" placeholder="VD: Đã gọi điện tư vấn thêm về gói VIP..."></textarea></div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-      <button class="mini-btn crm-primary" onclick="saveCareLog()">✅ Lưu & đánh dấu đã chăm sóc</button>
+      <button class="mini-btn crm-primary" onclick="saveCareLog()">Lưu & đánh dấu đã chăm sóc</button>
       <button class="mini-btn" onclick="closeCareLogModal()">Đóng</button>
     </div>
   </div>
@@ -1004,12 +1007,11 @@
 
 <div id="supplierApp" class="crm-app" style="display:none">
   <div class="crm-topbar">
-    <div class="crm-topbar-title">🚚 Nhà Cung cấp</div>
+    <div class="crm-topbar-title">Nhà Cung cấp</div>
     <div class="crm-userbox" id="supplier-userbox"></div>
   </div>
   <button class="mini-btn" onclick="sbGoTo('care')" style="margin-bottom:14px;max-width:200px">← Về Chăm sóc KH</button>
   <div class="supplier-placeholder">
-    <div class="ic">🚚</div>
     <div class="msg">Đang cập nhật nội dung</div>
     <div>Mục Nhà Cung cấp sẽ sớm được bổ sung thông tin.</div>
   </div>
@@ -1018,16 +1020,15 @@
 <!-- ZALO MODAL -->
 <div class="overlay" id="zalo-modal" onclick="closeZalo(event)">
   <div class="modal-box">
-    <div class="zalo-icon">💬</div>
     <div class="zalo-title">Liên hệ tư vấn qua Zalo</div>
     <div class="zalo-sub">Thêm số này vào Zalo để nhắn tin trực tiếp</div>
     <div class="zalo-num" id="zalo-number">033 4412 884</div>
     <div class="zalo-hint">
-      📱 <strong>Trên điện thoại:</strong> Mở app Zalo → Tìm kiếm số <strong>0334412884</strong><br>
-      💻 <strong>Trên máy tính:</strong> Copy số và tìm trong Zalo Desktop
+      <strong>Trên điện thoại:</strong> Mở app Zalo → Tìm kiếm số <strong>0334412884</strong><br>
+      <strong>Trên máy tính:</strong> Copy số và tìm trong Zalo Desktop
     </div>
-    <button class="modal-btn" id="copy-btn" onclick="copyZalo()">📋 Copy số Zalo</button>
-    <button class="modal-btn secondary" onclick="copyQuoteText()">🧾 Copy nội dung báo giá</button>
+    <button class="modal-btn" id="copy-btn" onclick="copyZalo()">Copy số Zalo</button>
+    <button class="modal-btn secondary" onclick="copyQuoteText()">Copy nội dung báo giá</button>
     <button class="modal-close" onclick="closeZalo()">Đóng</button>
   </div>
 </div>
@@ -1035,9 +1036,9 @@
 <!-- DRAFTS MODAL -->
 <div class="overlay" id="drafts-modal" onclick="closeDrafts(event)">
   <div class="modal-box" style="max-width:380px">
-    <div class="zalo-title" style="color:var(--brand)">📂 Báo giá đã lưu</div>
+    <div class="zalo-title" style="color:var(--brand)">Báo giá đã lưu</div>
     <div class="zalo-sub">Chọn một đơn để tải lại, hoặc xóa đơn không cần dùng</div>
-    <input type="text" id="draft-search" placeholder="🔍 Tìm theo tên khách hàng..." oninput="filterDrafts()"
+    <input type="text" id="draft-search" placeholder="Tìm theo tên khách hàng..." oninput="filterDrafts()"
       style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid #dcdfe4;border-radius:8px;font-size:14px;margin-bottom:10px;outline:none">
     <div class="draft-list" id="draft-list"></div>
     <button class="modal-close" onclick="closeDrafts()">Đóng</button>
@@ -1128,7 +1129,7 @@ const TVC = {
         voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
         dur:'01 ngày khảo sát + 01 ngày quay (8t) + Dự phòng 01 ngày',
         post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần',
-        gift:'🎁 Tặng 01 video phiên bản rút gọn' },
+        gift:'Tặng 01 video phiên bản rút gọn' },
       { id:'v2', name:'Gói VIP 2', price:90000000,
         prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
         equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
@@ -1137,7 +1138,7 @@ const TVC = {
         voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
         dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
         post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 5 lần',
-        gift:'🎁 Tặng 01 video phiên bản rút gọn' },
+        gift:'Tặng 01 video phiên bản rút gọn' },
       { id:'v3', name:'Gói VIP 3', price:99000000,
         prod:'TVC Quảng cáo | 3–5 phút | 02 Phiên bản: Việt+Sub English & English+Sub Việt',
         equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Màn hình monitor, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
@@ -1146,48 +1147,48 @@ const TVC = {
         voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
         dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
         post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 5 lần',
-        gift:'🎁 Tặng 02 video phiên bản rút gọn' }
+        gift:'Tặng 02 video phiên bản rút gọn' }
     ]
   }
 };
 
 const MEDIA = [
-  { cat:'🎥 Quay phim sự kiện', items:[
+  { cat:'Quay phim sự kiện', items:[
     { id:'s1', name:'Quay phim – Buổi / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:3000000 },
     { id:'s2', name:'Quay phim – Buổi / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:5000000 },
     { id:'s3', name:'Quay phim – Ngày / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:5000000 },
     { id:'s4', name:'Quay phim – Ngày / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:9000000 },
     { id:'s5', name:'Video recap sự kiện', desc:'01 video tổng kết / phim tổng kết sự kiện', unit:'video', price:1500000 },
   ]},
-  { cat:'📺 Livestream LED/TV', items:[
+  { cat:'Livestream LED/TV', items:[
     { id:'ll1', name:'Livestream LED/TV – Buổi / 1 máy', desc:'01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led', unit:'buổi', price:5000000 },
     { id:'ll2', name:'Livestream LED/TV – Ngày / 1 máy', desc:'01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led', unit:'ngày', price:7000000 },
     { id:'ll3', name:'Livestream LED/TV – Buổi / 2 máy', desc:'01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led', unit:'buổi', price:12000000 },
     { id:'ll4', name:'Livestream LED/TV – Ngày / 2 máy', desc:'01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led', unit:'ngày', price:20000000 },
   ]},
-  { cat:'🚁 Flycam', items:[
+  { cat:'Flycam', items:[
     { id:'f1', name:'Flycam – Buổi', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'buổi', price:1500000 },
     { id:'f2', name:'Flycam – Ngày', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'ngày', price:2500000 },
   ]},
-  { cat:'📷 Chụp hình sự kiện (4 tiếng)', items:[
+  { cat:'Chụp hình sự kiện (4 tiếng)', items:[
     { id:'p1', name:'Chụp hình – Buổi / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:2500000 },
     { id:'p2', name:'Chụp hình – Buổi / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:4000000 },
     { id:'p3', name:'Chụp hình – Ngày / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:4000000 },
     { id:'p4', name:'Chụp hình – Ngày / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:7000000 },
     { id:'p5', name:'Bộ ảnh gốc + ảnh retouch', desc:'01 bộ ảnh gốc + 01 bộ ảnh đã retouch', unit:'gói', price:1000000 },
   ]},
-  { cat:'✂️ Sameday (chỉnh trong ngày)', items:[
+  { cat:'Sameday (chỉnh trong ngày)', items:[
     { id:'d1', name:'Sameday edit – video', desc:'Chỉnh video trong ngày chiếu tối Gala – Nhận file trước 12h, hoàn thành trước 18h', unit:'gói', price:5000000 },
     { id:'d2', name:'Sameday retouch – ảnh', desc:'Chỉnh hình teambuilding làm slide chiều, chiếu tối Gala', unit:'gói', price:2000000 },
   ]},
-  { cat:'📱 Sản xuất Short Video', items:[
+  { cat:'Sản xuất Short Video', items:[
     { id:'sv1', name:'Short video – từ 10 video', desc:'Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video', unit:'video', price:1200000 },
     { id:'sv2', name:'Short video – dưới 10 video', desc:'Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video', unit:'video', price:2500000 },
   ]},
-  { cat:'📦 Chụp hình sản phẩm', items:[
+  { cat:'Chụp hình sản phẩm', items:[
     { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
   ]},
-  { cat:'🚗 Chi phí di chuyển', items:[
+  { cat:'Chi phí di chuyển', items:[
     { id:'dc1', name:'Chi phí di chuyển', desc:'', unit:'gói', price:0 },
   ]},
 ];
@@ -1276,7 +1277,7 @@ function signInGoogleCRM() {
       firebase.auth().signInWithRedirect(provider);
     } else {
       console.error(err);
-      showToast('❌ Đăng nhập Google thất bại');
+      showToast('Đăng nhập Google thất bại');
     }
   });
 }
@@ -1318,7 +1319,7 @@ async function checkCRMAccess() {
       const t = sbPendingTarget; sbPendingTarget = null;
       if (t === 'staff') {
         if (crmRole === 'admin') { document.getElementById('crmApp').style.display = 'none'; openStaffManager(); }
-        else { showToast('❌ Bạn không có quyền truy cập mục này'); sbGoTo('care'); }
+        else { showToast('Bạn không có quyền truy cập mục này'); sbGoTo('care'); }
       } else {
         sbRouteToSection(t);
       }
@@ -1327,7 +1328,7 @@ async function checkCRMAccess() {
     }
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi kiểm tra quyền truy cập');
+    showToast('Lỗi kiểm tra quyền truy cập');
   }
 }
 
@@ -1345,7 +1346,7 @@ async function loadCustomers() {
     if (document.getElementById('careApp').style.display !== 'none') renderCareTable();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi tải danh sách khách hàng');
+    showToast('Lỗi tải danh sách khách hàng');
   }
 }
 
@@ -1416,7 +1417,7 @@ function closeCustomerForm(e) {
 async function saveCustomer() {
   const id = document.getElementById('cf-id').value;
   const name = document.getElementById('cf-name').value.trim();
-  if (!name) { showToast('❌ Vui lòng nhập tên/công ty khách hàng'); return; }
+  if (!name) { showToast('Vui lòng nhập tên/công ty khách hàng'); return; }
   const data = {
     name,
     contact: document.getElementById('cf-contact').value.trim(),
@@ -1431,18 +1432,18 @@ async function saveCustomer() {
   try {
     if (id) {
       await customersCol.doc(id).update(data);
-      showToast('✅ Đã cập nhật khách hàng');
+      showToast('Đã cập nhật khách hàng');
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       data.createdBy = crmEmail;
       await customersCol.add(data);
-      showToast('✅ Đã thêm khách hàng');
+      showToast('Đã thêm khách hàng');
     }
     document.getElementById('crm-cust-modal').classList.remove('open');
     await loadCustomers();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi lưu khách hàng');
+    showToast('Lỗi lưu khách hàng');
   }
 }
 
@@ -1450,11 +1451,11 @@ async function deleteCustomerConfirm(id) {
   if (!confirm('Xóa khách hàng này? Hành động không thể hoàn tác.')) return;
   try {
     await customersCol.doc(id).delete();
-    showToast('✅ Đã xóa khách hàng');
+    showToast('Đã xóa khách hàng');
     await loadCustomers();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi xóa khách hàng');
+    showToast('Lỗi xóa khách hàng');
   }
 }
 
@@ -1494,15 +1495,15 @@ function closeStaffManager(e) {
 async function addStaff() {
   const email = document.getElementById('sf-email').value.trim().toLowerCase();
   const role = document.getElementById('sf-role').value;
-  if (!email || !email.includes('@')) { showToast('❌ Vui lòng nhập email hợp lệ'); return; }
+  if (!email || !email.includes('@')) { showToast('Vui lòng nhập email hợp lệ'); return; }
   try {
     await usersCol.doc(email).set({ email, role });
     document.getElementById('sf-email').value = '';
-    showToast('✅ Đã thêm nhân viên');
+    showToast('Đã thêm nhân viên');
     await loadStaffList();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi thêm nhân viên');
+    showToast('Lỗi thêm nhân viên');
   }
 }
 
@@ -1510,11 +1511,11 @@ async function removeStaff(email) {
   if (!confirm('Xóa quyền truy cập của ' + email + '?')) return;
   try {
     await usersCol.doc(email).delete();
-    showToast('✅ Đã xóa nhân viên');
+    showToast('Đã xóa nhân viên');
     await loadStaffList();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi xóa nhân viên');
+    showToast('Lỗi xóa nhân viên');
   }
 }
 
@@ -1730,8 +1731,8 @@ function downloadBlob(blob, filename) {
 
 async function generateContractDoc(docType) {
   const c = collectContractFormData();
-  if (!c.productCategory) { showToast('⚠️ Chưa chọn loại sản phẩm'); return; }
-  if (!c.tenKH) { showToast('⚠️ Chưa nhập tên khách hàng'); return; }
+  if (!c.productCategory) { showToast('Chưa chọn loại sản phẩm'); return; }
+  if (!c.tenKH) { showToast('Chưa nhập tên khách hàng'); return; }
   try {
     const url = CONTRACT_TEMPLATE_FILES[c.productCategory][docType];
     const res = await fetch(url);
@@ -1746,10 +1747,10 @@ async function generateContractDoc(docType) {
     const fname = `${CONTRACT_CATS[c.productCategory].label}_${(c.tenKH||'KhachHang').replace(/[\\/:*?"<>|]/g,'')}_${docType}_${soHD}.docx`;
     downloadBlob(out, fname);
     await saveContract(true);
-    showToast('✅ Đã xuất ' + CONTRACT_DOC_LABELS[docType]);
+    showToast('Đã xuất ' + CONTRACT_DOC_LABELS[docType]);
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi xuất file: ' + err.message);
+    showToast('Lỗi xuất file: ' + err.message);
   }
 }
 
@@ -1871,7 +1872,7 @@ function fillContractForm(c) {
 
 async function saveContract(silent) {
   const c = collectContractFormData();
-  if (!c.tenKH) { if (!silent) showToast('⚠️ Chưa nhập tên khách hàng'); return; }
+  if (!c.tenKH) { if (!silent) showToast('Chưa nhập tên khách hàng'); return; }
   const cust = customersCache.find(x => x.id === crmContractCustomerId);
   c.assignedTo = cust ? (cust.assignedTo || crmEmail) : crmEmail;
   c.soHopDong = soHopDongTuSinh(c);
@@ -1886,10 +1887,10 @@ async function saveContract(silent) {
       const ref = await contractsCol.add(c);
       crmContractCurrent = { id: ref.id, ...c };
     }
-    if (!silent) showToast('💾 Đã lưu hồ sơ hợp đồng');
+    if (!silent) showToast('Đã lưu hồ sơ hợp đồng');
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi lưu hồ sơ: ' + err.message);
+    showToast('Lỗi lưu hồ sơ: ' + err.message);
   }
 }
 
@@ -1904,7 +1905,7 @@ async function ensureDriveToken() {
     return driveAccessToken;
   } catch (err) {
     if (err && (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request' || err.code === 'auth/popup-closed-by-user')) {
-      showToast('⚠️ Trình duyệt chặn popup — đang chuyển sang đăng nhập lại để lấy quyền Drive...');
+      showToast('Trình duyệt chặn popup — đang chuyển sang đăng nhập lại để lấy quyền Drive...');
       firebase.auth().currentUser.reauthenticateWithRedirect(provider);
       return null;
     }
@@ -1937,10 +1938,10 @@ async function ensureDriveFolder(token) {
 async function uploadSignedContractFile() {
   const fileInput = document.getElementById('ct-signed-file');
   const file = fileInput.files[0];
-  if (!file) { showToast('⚠️ Chưa chọn file'); return; }
+  if (!file) { showToast('Chưa chọn file'); return; }
   if (!crmContractCurrent || !crmContractCurrent.id) { await saveContract(true); }
-  if (!crmContractCurrent || !crmContractCurrent.id) { showToast('❌ Chưa lưu được hồ sơ, thử lại'); return; }
-  showToast('⏳ Đang tải file lên Google Drive...');
+  if (!crmContractCurrent || !crmContractCurrent.id) { showToast('Chưa lưu được hồ sơ, thử lại'); return; }
+  showToast('Đang tải file lên Google Drive...');
   try {
     const token = await ensureDriveToken();
     if (!token) return;
@@ -1964,10 +1965,10 @@ async function uploadSignedContractFile() {
     const data = await res.json();
     await contractsCol.doc(crmContractCurrent.id).update({ signedFileDriveLink: data.webViewLink, signedFileName: file.name, signedFileUploadedAt: new Date().toISOString() });
     document.getElementById('ct-signed-info').innerHTML = `Đã lưu file ký: <a href="${esc(data.webViewLink)}" target="_blank">${esc(file.name)}</a>`;
-    showToast('✅ Đã tải file lên Google Drive');
+    showToast('Đã tải file lên Google Drive');
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi tải file lên Drive: ' + err.message);
+    showToast('Lỗi tải file lên Drive: ' + err.message);
   }
 }
 
@@ -2004,7 +2005,7 @@ async function loadProjects() {
     renderKanban();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi tải danh sách dự án');
+    showToast('Lỗi tải danh sách dự án');
   }
 }
 
@@ -2077,7 +2078,7 @@ async function pmDrop(e, stage) {
     await projectsCol.doc(id).update({ stage, updatedAt: new Date().toISOString(), updatedBy: crmEmail });
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi cập nhật trạng thái');
+    showToast('Lỗi cập nhật trạng thái');
   }
 }
 
@@ -2144,7 +2145,7 @@ function removeTodoFromForm(i) { pmCurrentTodos.splice(i, 1); renderTodoList(); 
 
 async function saveProject() {
   const title = document.getElementById('pm-title').value.trim();
-  if (!title) { showToast('⚠️ Chưa nhập tên dự án'); return; }
+  if (!title) { showToast('Chưa nhập tên dự án'); return; }
   const data = {
     title,
     assignee: document.getElementById('pm-assignee').value,
@@ -2157,18 +2158,18 @@ async function saveProject() {
   try {
     if (pmEditingId) {
       await projectsCol.doc(pmEditingId).set(data, { merge: true });
-      showToast('💾 Đã cập nhật dự án');
+      showToast('Đã cập nhật dự án');
     } else {
       data.createdAt = data.updatedAt;
       data.createdBy = crmEmail;
       await projectsCol.add(data);
-      showToast('💾 Đã tạo dự án mới');
+      showToast('Đã tạo dự án mới');
     }
     document.getElementById('project-modal').classList.remove('open');
     await loadProjects();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi lưu dự án: ' + err.message);
+    showToast('Lỗi lưu dự án: ' + err.message);
   }
 }
 
@@ -2178,11 +2179,11 @@ async function deleteProjectConfirm() {
   try {
     await projectsCol.doc(pmEditingId).delete();
     document.getElementById('project-modal').classList.remove('open');
-    showToast('✅ Đã xóa dự án');
+    showToast('Đã xóa dự án');
     await loadProjects();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi xóa dự án');
+    showToast('Lỗi xóa dự án');
   }
 }
 
@@ -2220,7 +2221,7 @@ async function loadDebts() {
     renderDebtTable();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi tải công nợ');
+    showToast('Lỗi tải công nợ');
   }
 }
 
@@ -2319,10 +2320,10 @@ async function toggleDebtPaid(contractId, dot, checked) {
     upd['daThu' + dot] = checked;
     upd['ngayThucNhan' + dot] = checked ? item.ngayThucNhan : '';
     await contractsCol.doc(contractId).update(upd);
-    showToast(checked ? '✅ Đã đánh dấu đã thu' : '↩️ Đã bỏ đánh dấu đã thu');
+    showToast(checked ? 'Đã đánh dấu đã thu' : 'Đã bỏ đánh dấu đã thu');
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi cập nhật công nợ');
+    showToast('Lỗi cập nhật công nợ');
   }
 }
 
@@ -2334,10 +2335,10 @@ async function onDebtPaidDateChange(contractId, dot, value) {
     const upd = {};
     upd['ngayThucNhan' + dot] = value;
     await contractsCol.doc(contractId).update(upd);
-    showToast('💾 Đã cập nhật ngày thực nhận');
+    showToast('Đã cập nhật ngày thực nhận');
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi cập nhật ngày');
+    showToast('Lỗi cập nhật ngày');
   }
 }
 
@@ -2410,7 +2411,7 @@ function renderCareTable() {
     const st = careStatus(c);
     const dayLabel = days === null ? 'Chưa rõ' : (days === 0 ? 'Hôm nay' : `${days} ngày trước`);
     const zaloBtn = c.zaloGroupLink
-      ? `<button class="crm-link-btn" onclick="window.open('${esc(c.zaloGroupLink)}','_blank')">💬 Mở Zalo</button>`
+      ? `<button class="crm-link-btn" onclick="window.open('${esc(c.zaloGroupLink)}','_blank')">Mở Zalo</button>`
       : `<span style="color:var(--muted);font-size:11.5px">Chưa có link Zalo</span>`;
     return `
       <tr class="${st==='overdue' ? 'care-row-overdue' : ''}">
@@ -2428,7 +2429,7 @@ function renderCareTable() {
             <button class="crm-link-btn" onclick="openContractModal('${c.id}')">Hồ sơ HĐ</button>
             <button class="crm-link-btn danger" onclick="deleteCustomerConfirm('${c.id}')">Xóa</button>
             ${zaloBtn}
-            <button class="crm-link-btn" onclick="openCareLogModal('${c.id}')">📝 Nhật ký</button>
+            <button class="crm-link-btn" onclick="openCareLogModal('${c.id}')">Nhật ký</button>
           </div>
         </td>
       </tr>
@@ -2465,12 +2466,12 @@ async function saveCareLog() {
       careLogs: firebase.firestore.FieldValue.arrayUnion(entry),
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    showToast('✅ Đã lưu nhật ký chăm sóc');
+    showToast('Đã lưu nhật ký chăm sóc');
     document.getElementById('care-log-modal').classList.remove('open');
     await loadCareCustomers();
   } catch (err) {
     console.error(err);
-    showToast('❌ Lỗi lưu nhật ký');
+    showToast('Lỗi lưu nhật ký');
   }
 }
 
@@ -2529,7 +2530,7 @@ function sbGoTo(section) {
       checkCRMAccess();
       return;
     }
-    if (crmRole !== 'admin') { showToast('❌ Bạn không có quyền truy cập mục này'); return; }
+    if (crmRole !== 'admin') { showToast('Bạn không có quyền truy cập mục này'); return; }
     openStaffManager();
     return;
   }
@@ -2561,7 +2562,7 @@ function checkPin() {
   const p = prompt('Nhập mã PIN để truy cập đơn báo giá đã lưu:');
   if (p === null) return false;
   if (p === DRAFT_PIN) { sessionStorage.setItem('gme_pin_ok', '1'); return true; }
-  showToast('❌ Mã PIN không đúng');
+  showToast('Mã PIN không đúng');
   return false;
 }
 
@@ -2726,7 +2727,7 @@ function setTVCQty(value) {
 function toggleEditPrice() {
   editPriceMode = !editPriceMode;
   const btn = document.getElementById('editPriceBtn');
-  btn.textContent = editPriceMode ? '✓ Xong tùy chỉnh giá' : '🔧 Tùy chỉnh giá';
+  btn.textContent = editPriceMode ? 'Xong tùy chỉnh giá' : 'Tùy chỉnh giá';
   btn.classList.toggle('active-edit', editPriceMode);
   render();
 }
@@ -2760,7 +2761,7 @@ function resetCustomMediaPrice(id) {
 function toggleEditContent() {
   editContentMode = !editContentMode;
   const btn = document.getElementById('editContentBtn');
-  btn.textContent = editContentMode ? '✓ Xong tùy chỉnh nội dung' : '📝 Tùy chỉnh nội dung';
+  btn.textContent = editContentMode ? 'Xong tùy chỉnh nội dung' : 'Tùy chỉnh nội dung';
   btn.classList.toggle('active-edit', editContentMode);
   render();
 }
@@ -2947,7 +2948,7 @@ function render() {
   const items = getItems();
   const itemsEl = document.getElementById('q-items');
   if (!items.length) {
-    itemsEl.innerHTML = '<div class="q-empty"><span class="ic">🧾</span>Chưa chọn dịch vụ nào</div>';
+    itemsEl.innerHTML = '<div class="q-empty">Chưa chọn dịch vụ nào</div>';
   } else {
     const tvcItem = items.find(i => i.type === 'tvc');
     const mediaItems = items.filter(i => i.type === 'media');
@@ -2965,7 +2966,7 @@ function render() {
               <button class="q-item-rm" title="Xóa" onclick="removeItem('tvc')">✕</button>
             </div>
           </div>
-          ${it.isCustom ? `<div class="price-custom-tag">💡 Giá tùy chỉnh (giá niêm yết: ${vnd(it.listPrice)}) <span class="price-reset" onclick="resetCustomTVCPrice()">↺ Khôi phục</span></div>` : ''}
+          ${it.isCustom ? `<div class="price-custom-tag">Giá tùy chỉnh (giá niêm yết: ${vnd(it.listPrice)}) <span class="price-reset" onclick="resetCustomTVCPrice()">↺ Khôi phục</span></div>` : ''}
           <table class="q-tvc-tbl">
             <tr>
               <th>STT</th><th>Hạng mục</th><th>Nội dung</th>
@@ -2974,7 +2975,7 @@ function render() {
             ${tvcRows.map((r,i) => `<tr>
               <td class="q-tvc-dvt">${i+1}</td>
               <td class="q-tvc-cat">${editContentMode ? `<input type="text" class="name-input" value="${esc(r.cat)}" onchange="setCustomTVCRowCat('${r.key}', this.value)">` : r.cat}</td>
-              <td>${editContentMode ? `<textarea class="content-input" rows="2" onchange="setCustomTVCRowContent('${r.key}', this.value)">${esc(descToPlain(r.nd))}</textarea>` : `${r.nd}${r.isRowCustom ? `<br><span class="price-custom-tag">📝 Tùy chỉnh</span> <span class="price-reset" onclick="resetCustomTVCRowContent('${r.key}')">↺</span>` : ''}`}</td>
+              <td>${editContentMode ? `<textarea class="content-input" rows="2" onchange="setCustomTVCRowContent('${r.key}', this.value)">${esc(descToPlain(r.nd))}</textarea>` : `${r.nd}${r.isRowCustom ? `<br><span class="price-custom-tag">Tùy chỉnh</span> <span class="price-reset" onclick="resetCustomTVCRowContent('${r.key}')">↺</span>` : ''}`}</td>
               ${i===0 ? `<td class="q-tvc-dvt" rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0">Gói</td>
                          <td rowspan="${tvcRows.length}" style="vertical-align:middle;border-left:1px solid #e0e0e0;text-align:center">
                            <div class="qty-stepper" style="justify-content:center">
@@ -3010,7 +3011,7 @@ function render() {
     if (mediaItems.length) {
       html += `<div class="q-tvc-block">
           <div class="q-tvc-hd">
-            <div class="q-tvc-nm">📸 Dịch vụ Media</div>
+            <div class="q-tvc-nm">Dịch vụ Media</div>
             <div class="q-tvc-pr">${vnd(mediaItems.reduce((a,i)=>a+i.total,0))}</div>
           </div>
           <table class="q-tvc-tbl">
@@ -3034,8 +3035,8 @@ function render() {
               <td class="q-tvc-gia">${num(it.total)}</td>
               <td style="font-size:10.5px">
                 ${it.note ? `<span style="color:#888;font-style:italic">${it.note}</span><br>` : ''}
-                ${it.isCustom ? `<span class="price-custom-tag">💡 Tùy chỉnh giá</span> <span class="price-reset" onclick="resetCustomMediaPrice('${it.id}')">↺</span><br>` : ''}
-                ${it.isContentCustom ? `<span class="price-custom-tag">📝 Tùy chỉnh ND</span> <span class="price-reset" onclick="resetCustomMediaContent('${it.id}')">↺</span><br>` : ''}
+                ${it.isCustom ? `<span class="price-custom-tag">Tùy chỉnh giá</span> <span class="price-reset" onclick="resetCustomMediaPrice('${it.id}')">↺</span><br>` : ''}
+                ${it.isContentCustom ? `<span class="price-custom-tag">Tùy chỉnh ND</span> <span class="price-reset" onclick="resetCustomMediaContent('${it.id}')">↺</span><br>` : ''}
                 <button class="q-item-rm" title="Xóa" onclick="removeItem('media','${it.id}')">✕</button>
               </td>
             </tr>`).join('')}
@@ -3129,7 +3130,7 @@ function printPDF() {
   const phone = document.getElementById('cPhone').value.trim();
   const date = document.getElementById('cDate').value;
   const items = getItems();
-  if (!items.length) { showToast('⚠️ Chưa chọn dịch vụ nào để xuất báo giá'); return; }
+  if (!items.length) { showToast('Chưa chọn dịch vụ nào để xuất báo giá'); return; }
   const sub = items.reduce((a,i) => a + i.total, 0);
   const vat = sub * 0.08;
   const tot = sub + vat;
@@ -3238,7 +3239,7 @@ function printPDF() {
 function copyQuoteText() {
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
-  if (!items.length) { showToast('⚠️ Chưa chọn dịch vụ nào'); return; }
+  if (!items.length) { showToast('Chưa chọn dịch vụ nào'); return; }
   const sub = items.reduce((a,i) => a + i.total, 0);
   const vat = sub * 0.08;
   const tot = sub + vat;
@@ -3256,9 +3257,9 @@ function copyQuoteText() {
   lines.push('VAT (8%): ' + vnd(vat));
   lines.push('TỔNG THANH TOÁN: ' + vnd(tot));
   lines.push('');
-  lines.push('☎ 033 4412 884 – Lô 24, TT2, K98-NT, Phường Nha Trang, Khánh Hòa');
+  lines.push('033 4412 884 – Lô 24, TT2, K98-NT, Phường Nha Trang, Khánh Hòa');
 
-  copyText(lines.join('\n'), '🧾 Đã copy nội dung báo giá');
+  copyText(lines.join('\n'), 'Đã copy nội dung báo giá');
 }
 
 /* ═══════════════════════════════════════════
@@ -3269,12 +3270,12 @@ function closeZalo(e) {
   if (!e || e.target === document.getElementById('zalo-modal') || e.type === 'click') {
     document.getElementById('zalo-modal').classList.remove('open');
     const btn = document.getElementById('copy-btn');
-    btn.textContent = '📋 Copy số Zalo';
+    btn.textContent = 'Copy số Zalo';
     btn.classList.remove('copied');
   }
 }
 function copyZalo() {
-  copyText('0334412884', '✅ Đã copy số Zalo', document.getElementById('copy-btn'));
+  copyText('0334412884', 'Đã copy số Zalo', document.getElementById('copy-btn'));
 }
 
 /* ═══════════════════════════════════════════
@@ -3298,7 +3299,7 @@ async function saveDraft() {
   if (!checkPin()) return;
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
-  if (!items.length && !name) { showToast('⚠️ Chưa có nội dung để lưu'); return; }
+  if (!items.length && !name) { showToast('Chưa có nội dung để lưu'); return; }
   const sub = items.reduce((a,i) => a + i.total, 0);
   const draft = {
     label: name || '(Chưa đặt tên khách hàng)',
@@ -3319,10 +3320,10 @@ async function saveDraft() {
     await authReady;
     await draftsCol.add(draft);
     renderDraftCount();
-    showToast('💾 Đã lưu nháp báo giá (đồng bộ mọi thiết bị)');
+    showToast('Đã lưu nháp báo giá (đồng bộ mọi thiết bị)');
   } catch (e) {
     console.error(e);
-    showToast('❌ Lỗi khi lưu, vui lòng thử lại');
+    showToast('Lỗi khi lưu, vui lòng thử lại');
   }
 }
 
@@ -3376,7 +3377,7 @@ async function deleteDraft(id) {
     filterDrafts();
   } catch (e) {
     console.error(e);
-    showToast('❌ Lỗi khi xóa, vui lòng thử lại');
+    showToast('Lỗi khi xóa, vui lòng thử lại');
   }
 }
 function loadDraft(id) {
@@ -3424,7 +3425,7 @@ function loadDraft(id) {
 
   closeDrafts();
   render();
-  showToast('📂 Đã tải báo giá đã lưu');
+  showToast('Đã tải báo giá đã lưu');
 }
 
 /* ═══════════════════════════════════════════

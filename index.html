@@ -2646,12 +2646,8 @@ function buildMedia() {
 /* ── Build Media category blocks ── */
 function buildMediaCatGrid() {
   document.getElementById('media-cat-grid').innerHTML = MEDIA.map((cat, idx) => {
-    const parts = cat.cat.split(' ');
-    const icon = parts[0];
-    const label = parts.slice(1).join(' ');
     return `<button type="button" class="media-cat-btn${idx===activeMediaCatIdx ? ' active' : ''}" onclick="switchMediaCat(${idx})">
-      <span class="ic">${icon}</span>
-      <span>${label}</span>
+      <span>${cat.cat}</span>
       <span class="badge" id="catbadge-${idx}" style="display:none">0</span>
     </button>`;
   }).join('');

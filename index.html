@@ -492,6 +492,13 @@
   .debt-paid-cell{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
   .debt-paid-cell input[type=date]{padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:11.5px}
   tr.debt-row-overdue td{background:#fef6f6}
+  .care-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .care-badge.overdue{background:#fde8e8;color:var(--red)}
+  .care-badge.ok{background:#e6f7ee;color:#1a9e5c}
+  tr.care-row-overdue td{background:#fef6f6}
+  .care-log-item{border-bottom:1px solid var(--border);padding:8px 0;font-size:12.5px}
+  .care-log-item:last-child{border-bottom:none}
+  .care-log-date{font-size:11px;color:var(--muted);margin-bottom:2px}
   .crm-staff-item{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;font-size:12px}
 </style>
 </head>
@@ -660,6 +667,7 @@
       </select>
       <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">📁 Quản trị dự án</button>
       <button class="mini-btn" onclick="openDebtApp()" style="max-width:200px">💰 Công nợ</button>
+      <button class="mini-btn" onclick="openCareApp()" style="max-width:200px">❤️ Chăm sóc KH</button>
       <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">⚙ Quản lý nhân viên</button>
     </div>
 
@@ -687,6 +695,7 @@
     <div class="fld"><label>Số điện thoại</label><input id="cf-phone"></div>
     <div class="fld"><label>Email</label><input id="cf-email"></div>
     <div class="fld"><label>Nguồn khách hàng</label><input id="cf-source" placeholder="Facebook, giới thiệu, website..."></div>
+    <div class="fld"><label>Link nhóm Zalo (nếu có)</label><input id="cf-zalolink" placeholder="https://zalo.me/g/..."></div>
     <div class="fld">
       <label>Giai đoạn</label>
       <select id="cf-stage">
@@ -901,6 +910,49 @@
       <tbody id="debt-tbody"></tbody>
     </table>
     <div id="debt-empty" class="crm-empty" style="display:none">Không có công nợ nào</div>
+  </div>
+</div>
+
+<div id="careApp" class="crm-app" style="display:none">
+  <div class="crm-topbar">
+    <div class="crm-topbar-title">❤️ Chăm sóc khách hàng</div>
+    <div class="crm-userbox" id="care-userbox"></div>
+  </div>
+  <button class="mini-btn" onclick="closeCareApp()" style="margin-bottom:14px;max-width:200px">← Quay lại CRM</button>
+
+  <div class="debt-toolbar">
+    <select id="care-filter-stage" onchange="renderCareTable()">
+      <option>Đang tư vấn</option>
+      <option value="">Tất cả giai đoạn</option>
+      <option>Đã ký</option>
+      <option>Đã hủy</option>
+      <option>Nghiệm thu</option>
+      <option>Done job</option>
+    </select>
+  </div>
+
+  <div class="crm-table-wrap">
+    <table class="crm-table">
+      <thead>
+        <tr>
+          <th>Khách hàng</th><th>SĐT</th><th>Giai đoạn</th><th>Cập nhật gần nhất</th><th>Trạng thái</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="care-tbody"></tbody>
+    </table>
+    <div id="care-empty" class="crm-empty" style="display:none">Không có khách hàng nào</div>
+  </div>
+</div>
+
+<div class="overlay" id="care-log-modal" onclick="closeCareLogModal(event)">
+  <div class="modal-box crm-modal-box" style="max-width:480px;max-height:85vh;overflow:auto">
+    <div class="zalo-title" style="color:var(--brand)" id="care-log-title">Nhật ký chăm sóc</div>
+    <div id="care-log-list" style="margin-bottom:12px"></div>
+    <div class="fld"><label>Ghi chú chăm sóc mới</label><textarea id="care-log-note" rows="3" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:inherit" placeholder="VD: Đã gọi điện tư vấn thêm về gói VIP..."></textarea></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button class="mini-btn crm-primary" onclick="saveCareLog()">✅ Lưu & đánh dấu đã chăm sóc</button>
+      <button class="mini-btn" onclick="closeCareLogModal()">Đóng</button>
+    </div>
   </div>
 </div>
 
@@ -1267,6 +1319,7 @@ function openCustomerForm(id) {
   document.getElementById('cf-phone').value = c ? (c.phone||'') : '';
   document.getElementById('cf-email').value = c ? (c.email||'') : '';
   document.getElementById('cf-source').value = c ? (c.source||'') : '';
+  document.getElementById('cf-zalolink').value = c ? (c.zaloGroupLink||'') : '';
   document.getElementById('cf-stage').value = c ? (c.stage||'Đang tư vấn') : 'Đang tư vấn';
 
   const assignedWrap = document.getElementById('cf-assigned-wrap');
@@ -1297,6 +1350,7 @@ async function saveCustomer() {
     phone: document.getElementById('cf-phone').value.trim(),
     email: document.getElementById('cf-email').value.trim(),
     source: document.getElementById('cf-source').value.trim(),
+    zaloGroupLink: document.getElementById('cf-zalolink').value.trim(),
     stage: document.getElementById('cf-stage').value,
     assignedTo: crmRole === 'admin' ? document.getElementById('cf-assigned').value : crmEmail,
     updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -2211,6 +2265,133 @@ async function onDebtPaidDateChange(contractId, dot, value) {
   } catch (err) {
     console.error(err);
     showToast('❌ Lỗi cập nhật ngày');
+  }
+}
+
+/* ═══════════════════════════════════════════
+   CHĂM SÓC KHÁCH HÀNG (Giai đoạn 5)
+═══════════════════════════════════════════ */
+const CARE_OVERDUE_DAYS = 2;
+let careLogCustomerId = null;
+
+function openCareApp() {
+  document.getElementById('crmApp').style.display = 'none';
+  document.getElementById('careApp').style.display = 'block';
+  document.getElementById('care-userbox').innerHTML =
+    '<span>' + esc(crmEmail) + '</span>' +
+    '<span class="crm-role-badge' + (crmRole === 'admin' ? '' : ' staff') + '">' + (crmRole === 'admin' ? 'Quản trị' : 'Nhân viên') + '</span>';
+  loadCareCustomers();
+}
+
+function closeCareApp() {
+  document.getElementById('careApp').style.display = 'none';
+  document.getElementById('crmApp').style.display = 'block';
+}
+
+async function loadCareCustomers() {
+  try {
+    await loadCustomers();
+  } catch (err) { console.error(err); }
+  renderCareTable();
+}
+
+function toDateSafe(v) {
+  if (!v) return null;
+  if (v.toDate) return v.toDate();
+  const d = new Date(v);
+  return isNaN(d) ? null : d;
+}
+
+function daysSince(date) {
+  if (!date) return null;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(date); d.setHours(0,0,0,0);
+  return Math.round((today - d) / 86400000);
+}
+
+function careStatus(c) {
+  const d = toDateSafe(c.updatedAt);
+  const days = daysSince(d);
+  if (days === null) return 'ok';
+  return days >= CARE_OVERDUE_DAYS ? 'overdue' : 'ok';
+}
+
+function renderCareTable() {
+  const stageFilter = document.getElementById('care-filter-stage').value;
+  let list = customersCache.slice();
+  if (stageFilter) list = list.filter(c => c.stage === stageFilter);
+  list.sort((a,b) => {
+    const sa = careStatus(a) === 'overdue' ? 0 : 1;
+    const sb = careStatus(b) === 'overdue' ? 0 : 1;
+    if (sa !== sb) return sa - sb;
+    const da = toDateSafe(a.updatedAt); const db = toDateSafe(b.updatedAt);
+    return (da ? da.getTime() : 0) - (db ? db.getTime() : 0);
+  });
+  const tbody = document.getElementById('care-tbody');
+  const emptyEl = document.getElementById('care-empty');
+  if (!list.length) { tbody.innerHTML = ''; emptyEl.style.display = 'block'; return; }
+  emptyEl.style.display = 'none';
+  tbody.innerHTML = list.map(c => {
+    const d = toDateSafe(c.updatedAt);
+    const days = daysSince(d);
+    const st = careStatus(c);
+    const dayLabel = days === null ? 'Chưa rõ' : (days === 0 ? 'Hôm nay' : `${days} ngày trước`);
+    const zaloBtn = c.zaloGroupLink
+      ? `<button class="crm-link-btn" onclick="window.open('${esc(c.zaloGroupLink)}','_blank')">💬 Mở Zalo</button>`
+      : `<span style="color:var(--muted);font-size:11.5px">Chưa có link Zalo</span>`;
+    return `
+      <tr class="${st==='overdue' ? 'care-row-overdue' : ''}">
+        <td><b>${esc(c.name||'')}</b><div style="font-size:11.5px;color:var(--muted)">${esc(c.contact||'')}</div></td>
+        <td>${esc(c.phone||'')}</td>
+        <td><span class="crm-stage-tag">${esc(c.stage||'')}</span></td>
+        <td>${dayLabel}</td>
+        <td><span class="care-badge ${st}">${st==='overdue' ? 'Cần chăm sóc' : 'Ổn'}</span></td>
+        <td>
+          <div class="crm-row-actions">
+            ${zaloBtn}
+            <button class="crm-link-btn" onclick="openCareLogModal('${c.id}')">📝 Nhật ký</button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function openCareLogModal(customerId) {
+  careLogCustomerId = customerId;
+  const c = customersCache.find(x => x.id === customerId);
+  if (!c) return;
+  document.getElementById('care-log-title').textContent = 'Nhật ký chăm sóc — ' + (c.name||'');
+  const logs = (c.careLogs || []).slice().sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  const listEl = document.getElementById('care-log-list');
+  listEl.innerHTML = logs.length
+    ? logs.map(l => `<div class="care-log-item"><div class="care-log-date">${l.date ? new Date(l.date).toLocaleString('vi-VN') : ''} — ${esc(l.by||'')}</div><div>${esc(l.note||'')}</div></div>`).join('')
+    : '<div class="crm-empty" style="padding:8px 0">Chưa có ghi chú nào</div>';
+  document.getElementById('care-log-note').value = '';
+  document.getElementById('care-log-modal').classList.add('open');
+}
+
+function closeCareLogModal(e) {
+  if (!e || e.target === document.getElementById('care-log-modal')) {
+    document.getElementById('care-log-modal').classList.remove('open');
+  }
+}
+
+async function saveCareLog() {
+  if (!careLogCustomerId) return;
+  const note = document.getElementById('care-log-note').value.trim();
+  const entry = { date: new Date().toISOString(), note: note || 'Đã liên hệ chăm sóc', by: crmEmail };
+  try {
+    await customersCol.doc(careLogCustomerId).update({
+      careLogs: firebase.firestore.FieldValue.arrayUnion(entry),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    showToast('✅ Đã lưu nhật ký chăm sóc');
+    document.getElementById('care-log-modal').classList.remove('open');
+    await loadCareCustomers();
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Lỗi lưu nhật ký');
   }
 }
 
@@ -3133,7 +3314,7 @@ function fallbackCopy(text, cb) {
 
 // Close modals on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); closeCustomerForm(); closeStaffManager(); closeContractModal(); }
+  if (e.key === 'Escape') { closeZalo(); closeDrafts(); closeSheet(); closeCustomerForm(); closeStaffManager(); closeContractModal(); closeCareLogModal(); }
 });
 
 /* ═══════════════════════════════════════════

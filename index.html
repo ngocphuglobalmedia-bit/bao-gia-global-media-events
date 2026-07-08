@@ -271,6 +271,8 @@
   .btn:hover{opacity:.88}
   .btn-pdf{background:var(--red);color:#fff}
   .btn-clr{grid-column:span 2;background:#eaecee;color:#555;margin-top:2px}
+  .btn-update{grid-column:span 2;background:var(--brand);color:#fff}
+  .btn-update:hover{opacity:.88}
   .btn-zalo{
     grid-column:span 2;background:#0068FF;color:#fff;
     display:flex;align-items:center;justify-content:center;gap:8px;
@@ -648,13 +650,7 @@
     </div>
     <div class="q-btns">
       <button class="btn btn-pdf" onclick="printPDF()" style="grid-column:span 2">Xuất PDF báo giá</button>
-      <button class="btn-zalo" onclick="showZalo()">
-        <svg width="20" height="20" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-          <rect width="40" height="40" rx="8" fill="white"/>
-          <text x="5" y="29" font-size="22" font-weight="900" fill="#0068FF" font-family="Arial Black,Arial">Z</text>
-        </svg>
-        Liên hệ tư vấn qua Zalo
-      </button>
+      <button class="btn btn-update" onclick="updateDraft()">Cập nhật báo giá</button>
       <button class="btn btn-clr" onclick="clearAll()">Xóa tất cả</button>
     </div>
   </div>
@@ -2562,6 +2558,7 @@ function checkPin() {
 }
 
 let draftsCache = []; // cache danh sách đơn đã lưu để lọc tìm kiếm phía client
+let currentDraftId = null; // id của báo giá đã lưu đang mở (để cập nhật thay vì tạo mới)
 
 /* ═══════════════════════════════════════════
    STATE
@@ -2903,6 +2900,7 @@ function applyMediaFilter() {
 }
 
 function clearAll() {
+  currentDraftId = null;
   selTVC = null; selMedia = {};
   customTVCPrice = null; customMediaPrice = {};
   customMediaName = {}; customMediaDesc = {};
@@ -3286,13 +3284,11 @@ async function renderDraftCount() {
   } catch (e) { console.error(e); }
 }
 
-async function saveDraft() {
-  if (!checkPin()) return;
+function buildDraftPayload() {
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
-  if (!items.length && !name) { showToast('Chưa có nội dung để lưu'); return; }
   const sub = items.reduce((a,i) => a + i.total, 0);
-  const draft = {
+  return {
     label: name || '(Chưa đặt tên khách hàng)',
     savedAt: new Date().toISOString(),
     total: sub * 1.08,
@@ -3307,14 +3303,42 @@ async function saveDraft() {
       tvcTravelLabel, tvcTravelContent, tvcTravelFee, tvcTravelQty
     }
   };
+}
+
+async function saveDraft() {
+  if (!checkPin()) return;
+  const draft = buildDraftPayload();
+  if (!draft.itemCount && !document.getElementById('cName').value.trim()) { showToast('Chưa có nội dung để lưu'); return; }
   try {
     await authReady;
-    await draftsCol.add(draft);
+    const ref = await draftsCol.add(draft);
+    currentDraftId = ref.id;
     renderDraftCount();
     showToast('Đã lưu nháp báo giá (đồng bộ mọi thiết bị)');
   } catch (e) {
     console.error(e);
     showToast('Lỗi khi lưu, vui lòng thử lại');
+  }
+}
+
+async function updateDraft() {
+  if (!checkPin()) return;
+  const draft = buildDraftPayload();
+  if (!draft.itemCount && !document.getElementById('cName').value.trim()) { showToast('Chưa có nội dung để cập nhật'); return; }
+  try {
+    await authReady;
+    if (currentDraftId) {
+      await draftsCol.doc(currentDraftId).update(draft);
+      showToast('Đã cập nhật báo giá');
+    } else {
+      const ref = await draftsCol.add(draft);
+      currentDraftId = ref.id;
+      renderDraftCount();
+      showToast('Chưa có báo giá đã lưu đang mở — đã lưu thành báo giá mới');
+    }
+  } catch (e) {
+    console.error(e);
+    showToast('Lỗi khi cập nhật, vui lòng thử lại');
   }
 }
 
@@ -3363,6 +3387,7 @@ async function deleteDraft(id) {
   try {
     await authReady;
     await draftsCol.doc(id).delete();
+    if (currentDraftId === id) currentDraftId = null;
     renderDraftCount();
     draftsCache = await getDrafts();
     filterDrafts();
@@ -3374,6 +3399,7 @@ async function deleteDraft(id) {
 function loadDraft(id) {
   const d = draftsCache.find(x => x.id === id);
   if (!d) return;
+  currentDraftId = id;
   const s = d.state;
   document.getElementById('cName').value = s.cName || '';
   document.getElementById('cContact').value = s.cContact || '';

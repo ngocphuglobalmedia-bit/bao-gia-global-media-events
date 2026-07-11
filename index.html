@@ -537,9 +537,126 @@
   .supplier-placeholder{padding:60px 20px;text-align:center;color:var(--muted)}
   .supplier-placeholder .ic{font-size:44px;margin-bottom:14px}
   .supplier-placeholder .msg{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+
+  /* ══════════════════════════════════════
+     DARK MODE
+  ══════════════════════════════════════ */
+  body.dark{
+    color-scheme:dark;
+    --bg:#12161b;
+    --card:#1b2026;
+    --card-soft:#242a31;
+    --input-bg:#1f252c;
+    --border:#2c333b;
+    --text:#e8ecef;
+    --muted:#98a3aa;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.35);
+    --shadow-md:0 6px 20px rgba(0,0,0,.45);
+    --shadow-lg:0 10px 34px rgba(0,0,0,.55);
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(74,154,30,.06), transparent),
+      var(--bg);
+  }
+  body.dark #appSidebar,
+  body.dark .pkg-card,
+  body.dark .media-cat-btn,
+  body.dark .tier-pill,
+  body.dark .qty-stepper button,
+  body.dark .qty-box,
+  body.dark .modal-box,
+  body.dark .crm-card,
+  body.dark .crm-table-wrap,
+  body.dark .pm-col-count,
+  body.dark .pm-card,
+  body.dark .debt-card,
+  body.dark .modal-close{
+    background:var(--card);
+  }
+  body.dark .fld input,
+  body.dark .fld select,
+  body.dark .crm-toolbar select,
+  body.dark .pm-todo-row input[type=text],
+  body.dark .pm-todo-row select,
+  body.dark .debt-paid-cell input[type=date]{
+    background:var(--input-bg);color:var(--text);border-color:var(--border);
+  }
+  body.dark .fld input:focus{background:var(--input-bg)}
+  body.dark .price-input,
+  body.dark .name-input,
+  body.dark .content-input{
+    background:rgba(212,160,23,.10);color:var(--text);
+  }
+  body.dark .mini-btn{background:var(--card-soft);color:var(--text)}
+  body.dark .mini-btn:hover{background:rgba(74,154,30,.18)}
+  body.dark .btn-clr{background:var(--card-soft);color:var(--text)}
+  body.dark .modal-btn.secondary{background:var(--card-soft);color:var(--text)}
+  body.dark .modal-close{color:var(--muted)}
+  body.dark .tab-btn{background:var(--card-soft);color:var(--muted)}
+  body.dark .tier-pill[data-tier="basic"].active{background:rgba(46,134,193,.18)}
+  body.dark .tier-pill[data-tier="caocap"].active{background:rgba(212,160,23,.18)}
+  body.dark .tier-pill[data-tier="vip"].active{background:rgba(192,57,43,.18)}
+  body.dark .pkg-card.sel{background:rgba(74,154,30,.14)}
+  body.dark .pkg-rows{color:var(--muted)}
+  body.dark .pkg-gift{background:rgba(212,160,23,.14);color:#e0b840}
+  body.dark .media-cat-btn.active{background:rgba(74,154,30,.14)}
+  body.dark .media-search{background:var(--card-soft)}
+  body.dark .svc-row{border-bottom-color:var(--border)}
+  body.dark .svc-row:hover{background:var(--card-soft)}
+  body.dark .qty-stepper button:hover:not(:disabled){background:rgba(74,154,30,.18)}
+  body.dark .qty-box:disabled{background:var(--card-soft);color:var(--muted)}
+  body.dark .q-item,
+  body.dark .q-tvc-block,
+  body.dark .q-tvc-tbl td{border-bottom-color:var(--border)}
+  body.dark .q-item-rm{color:var(--muted)}
+  body.dark .q-empty{color:var(--muted)}
+  body.dark .q-tvc-tbl tr:nth-child(even) td{background:rgba(74,154,30,.06)}
+  body.dark .zalo-sub,
+  body.dark .zalo-hint{color:var(--muted)}
+  body.dark .zalo-num{color:var(--text);background:rgba(46,134,193,.18)}
+  body.dark .draft-item:hover{background:var(--card-soft)}
+  body.dark .draft-item-del{color:var(--muted)}
+  body.dark .draft-empty{color:var(--muted)}
+  body.dark .sb-item{color:#a7afb6}
+  body.dark .sb-item:hover{background:var(--card-soft)}
+  body.dark .sb-item.active{background:rgba(74,154,30,.18);color:var(--brand-lt2);border-color:rgba(74,154,30,.4)}
+  body.dark .sb-logo-text{color:var(--brand-lt2)}
+  body.dark .card-title{border-bottom-color:var(--border)}
+  body.dark .crm-table th{background:var(--card-soft);color:var(--brand-lt2)}
+  body.dark .crm-table td{border-bottom-color:var(--border)}
+  body.dark .crm-table tr:hover td{background:var(--card-soft)}
+  body.dark .crm-stage-tag{background:rgba(74,154,30,.18);color:var(--brand-lt2)}
+  body.dark .crm-empty{color:var(--muted)}
+  body.dark .pm-col{background:var(--card-soft)}
+  body.dark .pm-col-header{color:var(--brand-lt2)}
+  body.dark .debt-badge.overdue{background:rgba(192,57,43,.22)}
+  body.dark .debt-badge.upcoming{background:rgba(212,160,23,.22);color:#e0b840}
+  body.dark .debt-badge.paid{background:rgba(26,158,92,.22)}
+  body.dark .debt-badge.normal{background:var(--card-soft)}
+  body.dark tr.debt-row-overdue td{background:rgba(192,57,43,.08)}
+  body.dark .care-badge.overdue{background:rgba(192,57,43,.22)}
+  body.dark .care-badge.ok{background:rgba(26,158,92,.22)}
+  body.dark tr.care-row-overdue td{background:rgba(192,57,43,.08)}
+
+  /* Theme toggle switch */
+  .sb-theme-toggle{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:11px 14px;margin-top:8px;border-top:1px solid var(--border);
+    font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;
+  }
+  .theme-switch{
+    width:38px;height:22px;border-radius:20px;background:#d7dde1;
+    position:relative;flex:none;transition:background .2s;
+  }
+  .theme-switch-dot{
+    position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s;
+  }
+  .theme-switch.on{background:var(--brand)}
+  .theme-switch.on .theme-switch-dot{transform:translateX(16px)}
 </style>
 </head>
 <body>
+<script>try{if(localStorage.getItem('gm_theme')==='dark')document.body.classList.add('dark');}catch(e){}</script>
 
 <div id="appSidebar">
   <div class="sb-logo">
@@ -552,6 +669,10 @@
   <div class="sb-item" data-section="debt" onclick="sbGoTo('debt')">Công nợ</div>
   <div class="sb-item" data-section="supplier" onclick="sbGoTo('supplier')">Nhà Cung cấp</div>
   <div class="sb-item" data-section="staff" onclick="sbGoTo('staff')">Quản lý nhân viên</div>
+  <div class="sb-theme-toggle" onclick="toggleDarkMode()">
+    <span>Chế độ tối</span>
+    <span class="theme-switch" id="themeSwitchUI"><span class="theme-switch-dot"></span></span>
+  </div>
 </div>
 <div id="mainContent">
 
@@ -2586,7 +2707,22 @@ window.addEventListener('DOMContentLoaded', () => {
   applyMediaFilter();
   render();
   renderDraftCount();
+  syncThemeUI();
 });
+
+/* ── Dark mode ── */
+function applyTheme(dark) {
+  document.body.classList.toggle('dark', dark);
+  try { localStorage.setItem('gm_theme', dark ? 'dark' : 'light'); } catch (e) {}
+  syncThemeUI();
+}
+function toggleDarkMode() {
+  applyTheme(!document.body.classList.contains('dark'));
+}
+function syncThemeUI() {
+  const sw = document.getElementById('themeSwitchUI');
+  if (sw) sw.classList.toggle('on', document.body.classList.contains('dark'));
+}
 
 /* ── Build TVC cards ── */
 function buildTVC() {

@@ -2543,14 +2543,33 @@ function openSupplierApp() {
 
 
 /* Mã PIN dùng chung để truy cập đơn đã lưu (chỉ là lớp chặn phía giao diện) */
-const DRAFT_PIN = '2884';
-function checkPin() {
-  if (sessionStorage.getItem('gme_pin_ok') === '1') return true;
-  const p = prompt('Nhập mã PIN để truy cập đơn báo giá đã lưu:');
-  if (p === null) return false;
-  if (p === DRAFT_PIN) { sessionStorage.setItem('gme_pin_ok', '1'); return true; }
-  showToast('Mã PIN không đúng');
-  return false;
+/* Đơn báo giá đã lưu: chỉ nhân viên (tài khoản Google đã được cấp quyền trong "Quản lý nhân viên") */
+let draftStaffOk = false;
+async function verifyDraftStaff(user) {
+  if (!user || user.isAnonymous || !user.email) return false;
+  try {
+    const doc = await usersCol.doc(user.email.toLowerCase()).get();
+    return doc.exists;
+  } catch (e) { console.error(e); return false; }
+}
+async function ensureStaff() {
+  if (draftStaffOk) return true;
+  let user = firebase.auth().currentUser;
+  if (!user || user.isAnonymous) {
+    try {
+      const res = await firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      user = res.user;
+      onCRMAuthChanged(user);
+    } catch (err) {
+      console.error(err);
+      showToast('Cần đăng nhập Google (tài khoản nhân viên) để dùng đơn báo giá đã lưu');
+      return false;
+    }
+  }
+  draftStaffOk = await verifyDraftStaff(user);
+  if (!draftStaffOk) { showToast('Tài khoản ' + (user.email || '') + ' chưa được cấp quyền nhân viên'); return false; }
+  renderDraftCount();
+  return true;
 }
 
 let draftsCache = []; // cache danh sách đơn đã lưu để lọc tìm kiếm phía client
@@ -3349,6 +3368,9 @@ async function getDrafts() {
 async function renderDraftCount() {
   try {
     await authReady;
+    const u = firebase.auth().currentUser;
+    if (!draftStaffOk) { draftStaffOk = await verifyDraftStaff(u); }
+    if (!draftStaffOk) { document.getElementById('draft-count').textContent = '🔒'; return; }
     const snap = await draftsCol.get();
     document.getElementById('draft-count').textContent = snap.size;
   } catch (e) { console.error(e); }
@@ -3377,7 +3399,7 @@ function buildDraftPayload() {
 }
 
 async function saveDraft() {
-  if (!checkPin()) return;
+  if (!(await ensureStaff())) return;
   const draft = buildDraftPayload();
   if (!draft.itemCount && !document.getElementById('cName').value.trim()) { showToast('Chưa có nội dung để lưu'); return; }
   try {
@@ -3393,7 +3415,7 @@ async function saveDraft() {
 }
 
 async function updateDraft() {
-  if (!checkPin()) return;
+  if (!(await ensureStaff())) return;
   const draft = buildDraftPayload();
   if (!draft.itemCount && !document.getElementById('cName').value.trim()) { showToast('Chưa có nội dung để cập nhật'); return; }
   try {
@@ -3436,7 +3458,7 @@ function filterDrafts() {
 }
 
 async function openDrafts() {
-  if (!checkPin()) return;
+  if (!(await ensureStaff())) return;
   document.getElementById('drafts-modal').classList.add('open');
   const el = document.getElementById('draft-list');
   el.innerHTML = '<div class="draft-empty">Đang tải...</div>';

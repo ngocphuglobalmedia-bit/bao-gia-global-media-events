@@ -767,7 +767,9 @@
     </div>
     <div class="q-items" id="q-items"><div class="q-empty">Chưa chọn dịch vụ nào</div></div>
     <div class="q-totals">
-      <div class="q-row"><span>Tổng hạng mục</span><span id="q-sub">0 đ</span></div>
+      <div class="q-row"><span>Tổng hạng mục</span><span id="q-items-sum">0 đ</span></div>
+      <div class="q-row"><label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="q-fee-on" onchange="setMgmtFee(this.checked)"> Phí quản lý, điều phối <input type="number" id="q-fee-pct" value="10" min="0" step="1" style="width:46px;padding:2px 4px" onchange="setMgmtFeePct(this.value)">%</label><span id="q-fee">0 đ</span></div>
+      <div class="q-row" id="q-sub-row" style="display:none"><span>Tổng cộng trước thuế</span><span id="q-sub">0 đ</span></div>
       <div class="q-row"><span>Thuế VAT (8%)</span><span id="q-vat">0 đ</span></div>
       <div class="q-row grand"><span>TỔNG THANH TOÁN</span><span id="q-total">0 đ</span></div>
     </div>
@@ -2572,6 +2574,17 @@ let tvcTravelContent = '';
 let tvcTravelFee = 0;
 let tvcTravelQty = 1;
 let activeMediaCatIdx = 0;   // chỉ số danh mục media đang hiển thị (dạng khối)
+let mgmtFeeOn = false;       // phí quản lý, điều phối sự kiện
+let mgmtFeePct = 10;
+function calcTotals(items) {
+  const itemsSum = items.reduce((a,i) => a + i.total, 0);
+  const fee = mgmtFeeOn ? Math.round(itemsSum * mgmtFeePct / 100) : 0;
+  const sub = itemsSum + fee;
+  const vat = sub * 0.08;
+  return { itemsSum, fee, sub, vat, tot: sub + vat };
+}
+function setMgmtFee(on) { mgmtFeeOn = !!on; render(); }
+function setMgmtFeePct(v) { const n = parseFloat(v); mgmtFeePct = isNaN(n) || n < 0 ? 0 : n; render(); }
 let activeGroup = 'media';   // tab đang xem: 'media' | 'sukien' | 'thietke'
 const GROUP_INFO = {
   media:   { title: 'Chọn dịch vụ quay chụp &amp; media', label: 'MEDIA' },
@@ -2945,6 +2958,7 @@ function clearAll() {
   customTVCRowCat = {}; customTVCRowContent = {};
   tvcTravelLabel = 'Di chuyển'; tvcTravelContent = '';
   tvcTravelFee = 0; tvcTravelQty = 1;
+  mgmtFeeOn = false; mgmtFeePct = 10;
   document.querySelectorAll('.pkg-card').forEach(c => c.classList.remove('sel'));
   document.querySelectorAll('.svc-chk').forEach(c => c.checked = false);
   document.querySelectorAll('.qty-box').forEach(i => { i.value = 1; i.disabled = true; });
@@ -3074,9 +3088,12 @@ function render() {
     itemsEl.innerHTML = html;
   }
 
-  const sub = items.reduce((a,i) => a + i.total, 0);
-  const vat = sub * 0.08;
-  const tot = sub + vat;
+  const { itemsSum, fee, sub, vat, tot } = calcTotals(items);
+  document.getElementById('q-items-sum').textContent = vnd(itemsSum);
+  document.getElementById('q-fee').textContent = vnd(fee);
+  document.getElementById('q-fee-on').checked = mgmtFeeOn;
+  document.getElementById('q-fee-pct').value = mgmtFeePct;
+  document.getElementById('q-sub-row').style.display = mgmtFeeOn ? '' : 'none';
   document.getElementById('q-sub').textContent = vnd(sub);
   document.getElementById('q-vat').textContent = vnd(vat);
   document.getElementById('q-total').textContent = vnd(tot);
@@ -3162,9 +3179,7 @@ function printPDF() {
   const date = document.getElementById('cDate').value;
   const items = getItems();
   if (!items.length) { showToast('Chưa chọn dịch vụ nào để xuất báo giá'); return; }
-  const sub = items.reduce((a,i) => a + i.total, 0);
-  const vat = sub * 0.08;
-  const tot = sub + vat;
+  const { itemsSum, fee, sub, vat, tot } = calcTotals(items);
 
   const hasTVC = items.some(i => i.type === 'tvc');
   const hasMedia = items.some(i => i.type === 'media');
@@ -3251,7 +3266,9 @@ function printPDF() {
     </table>
 
     <div class="p-totals">
-      <div class="p-tot-row"><span>Tổng hạng mục:</span><span>${num(sub)} VND</span></div>
+      <div class="p-tot-row"><span>Tổng hạng mục:</span><span>${num(itemsSum)} VND</span></div>
+      ${mgmtFeeOn ? `<div class="p-tot-row"><span>Phí quản lý, điều phối (${mgmtFeePct}%):</span><span>${num(fee)} VND</span></div>
+      <div class="p-tot-row"><span>Tổng cộng trước thuế:</span><span>${num(sub)} VND</span></div>` : ''}
       <div class="p-tot-row"><span>Thuế VAT (8%):</span><span>${num(vat)} VND</span></div>
       <div class="p-tot-row p-grand"><span>TỔNG THANH TOÁN:</span><span>${num(tot)} VND</span></div>
     </div>
@@ -3283,9 +3300,7 @@ function copyQuoteText() {
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
   if (!items.length) { showToast('Chưa chọn dịch vụ nào'); return; }
-  const sub = items.reduce((a,i) => a + i.total, 0);
-  const vat = sub * 0.08;
-  const tot = sub + vat;
+  const { itemsSum, fee, sub, vat, tot } = calcTotals(items);
 
   let lines = [];
   lines.push('BÁO GIÁ DỊCH VỤ – GLOBAL MEDIA & EVENTS');
@@ -3296,7 +3311,8 @@ function copyQuoteText() {
     else lines.push(`- ${it.name} (${it.qty} ${it.unit}): ${vnd(it.total)}`);
   });
   lines.push('');
-  lines.push('Tổng hạng mục: ' + vnd(sub));
+  lines.push('Tổng hạng mục: ' + vnd(itemsSum));
+  if (mgmtFeeOn) { lines.push(`Phí quản lý, điều phối (${mgmtFeePct}%): ` + vnd(fee)); lines.push('Tổng cộng trước thuế: ' + vnd(sub)); }
   lines.push('VAT (8%): ' + vnd(vat));
   lines.push('TỔNG THANH TOÁN: ' + vnd(tot));
   lines.push('');
@@ -3341,11 +3357,11 @@ async function renderDraftCount() {
 function buildDraftPayload() {
   const name = document.getElementById('cName').value.trim();
   const items = getItems();
-  const sub = items.reduce((a,i) => a + i.total, 0);
+  const { tot } = calcTotals(items);
   return {
     label: name || '(Chưa đặt tên khách hàng)',
     savedAt: new Date().toISOString(),
-    total: sub * 1.08,
+    total: tot,
     itemCount: items.length,
     state: {
       cName: name,
@@ -3354,7 +3370,8 @@ function buildDraftPayload() {
       cDate: document.getElementById('cDate').value,
       selTVC, selMedia, customTVCPrice, customMediaPrice, customMediaName, customMediaDesc,
       customTVCRowCat, customTVCRowContent,
-      tvcTravelLabel, tvcTravelContent, tvcTravelFee, tvcTravelQty
+      tvcTravelLabel, tvcTravelContent, tvcTravelFee, tvcTravelQty,
+      mgmtFeeOn, mgmtFeePct
     }
   };
 }
@@ -3478,6 +3495,8 @@ function loadDraft(id) {
   tvcTravelContent = (s.tvcTravelContent != null) ? s.tvcTravelContent : '';
   tvcTravelFee = s.tvcTravelFee || 0;
   tvcTravelQty = s.tvcTravelQty || 1;
+  mgmtFeeOn = !!s.mgmtFeeOn;
+  mgmtFeePct = (s.mgmtFeePct != null) ? s.mgmtFeePct : 10;
 
   if (selTVC) {
     const card = document.getElementById('pc-'+selTVC.id);

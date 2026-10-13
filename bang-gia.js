@@ -1,214 +1,862 @@
 /* ═══════════════════════════════════════════
    BẢNG GIÁ NIÊM YẾT – GLOBAL MEDIA & EVENTS
-   Sửa giá tại file này. Giá CHƯA VAT.
+   Sửa giá tại file này (giữ đúng dạng JSON: tên trường và chữ trong "ngoặc kép"). Giá CHƯA VAT.
+   Công cụ của nhân viên ảo đọc phần nằm giữa 2 dấu JSON-BAT-DAU / JSON-KET-THUC.
    nhom: 'media' | 'sukien' | 'thietke' → quyết định hiện ở tab nào.
 ═══════════════════════════════════════════ */
-const TVC = {
-  basic: {
-    label: 'Gói BASIC',
-    pkgs: [
-      { id:'b1', name:'Gói Basic 1', price:8000000,
-        prod:'TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt',
-        equip:'Không ghi hình – Tư liệu hình ảnh & video do khách hàng cung cấp',
-        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần',
-        staff:'01 Biên tập, 01 Kiểm soát viên',
-        voice:'Không', loc:'Không', dur:'Không',
-        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần', gift:null },
-      { id:'b2', name:'Gói Basic 2', price:12000000,
-        prod:'TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt',
-        equip:'01 Sony a6500, 01 Gimbal, 01 Lens',
-        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần',
-        staff:'01 Biên tập, 01 Quay phim, 01 Điều phối',
-        voice:'Không', loc:'Nha Trang', dur:'Buổi 4 tiếng',
-        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần', gift:null },
-      { id:'b3', name:'Gói Basic 3', price:18000000,
-        prod:'TVC Quảng cáo doanh nghiệp | Thời lượng 2–3 phút | Phiên bản Việt',
-        equip:'01 Sony a6500, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản – Chỉnh sửa miễn phí tối đa 3 lần',
-        staff:'01 Biên tập, 01 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'Voice Talent', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
-        post:'Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 3 lần', gift:null }
-    ]
+const BANG_GIA = /*JSON-BAT-DAU*/{
+ "TVC": {
+  "basic": {
+   "label": "Gói BASIC",
+   "pkgs": [
+    {
+     "id": "b1",
+     "name": "Gói Basic 1",
+     "price": 8000000,
+     "prod": "TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt",
+     "equip": "Không ghi hình – Tư liệu hình ảnh & video do khách hàng cung cấp",
+     "script": "01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần",
+     "staff": "01 Biên tập, 01 Kiểm soát viên",
+     "voice": "Không",
+     "loc": "Không",
+     "dur": "Không",
+     "post": "Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần",
+     "gift": null
+    },
+    {
+     "id": "b2",
+     "name": "Gói Basic 2",
+     "price": 12000000,
+     "prod": "TVC Quảng cáo 4.0 | Thời lượng 2–3 phút | Phiên bản Việt",
+     "equip": "01 Sony a6500, 01 Gimbal, 01 Lens",
+     "script": "01 kịch bản – Chỉnh sửa miễn phí tối đa 2 lần",
+     "staff": "01 Biên tập, 01 Quay phim, 01 Điều phối",
+     "voice": "Không",
+     "loc": "Nha Trang",
+     "dur": "Buổi 4 tiếng",
+     "post": "Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 2 lần",
+     "gift": null
+    },
+    {
+     "id": "b3",
+     "name": "Gói Basic 3",
+     "price": 18000000,
+     "prod": "TVC Quảng cáo doanh nghiệp | Thời lượng 2–3 phút | Phiên bản Việt",
+     "equip": "01 Sony a6500, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản – Chỉnh sửa miễn phí tối đa 3 lần",
+     "staff": "01 Biên tập, 01 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "Voice Talent",
+     "loc": "Nha Trang",
+     "dur": "01 ngày: 8 tiếng",
+     "post": "Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa tối đa 3 lần",
+     "gift": null
+    }
+   ]
   },
-  caocap: {
-    label: 'Gói CAO CẤP',
-    pkgs: [
-      { id:'cc1', name:'Gói Cao Cấp 1', price:30000000,
-        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt',
-        equip:'01 Sony a6500, 01 Flycam, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản – Sửa miễn phí tối đa 3 lần',
-        staff:'01 Biên tập, 02 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'Voice Talent', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần', gift:null },
-      { id:'cc2', name:'Gói Cao Cấp 2', price:42000000,
-        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt',
-        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản – Sửa miễn phí tối đa 3 lần',
-        staff:'01 Đạo diễn, 01 Biên tập, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)', loc:'Nha Trang', dur:'01 ngày: 8 tiếng',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần', gift:null },
-      { id:'cc3', name:'Gói Cao Cấp 3', price:55000000,
-        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
-        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản TVC – Sửa miễn phí tối đa 3 lần',
-        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)', loc:'Nha Trang',
-        dur:'01 ngày: 8 tiếng + Dự phòng thời tiết: 01 ngày',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần', gift:null }
-    ]
+  "caocap": {
+   "label": "Gói CAO CẤP",
+   "pkgs": [
+    {
+     "id": "cc1",
+     "name": "Gói Cao Cấp 1",
+     "price": 30000000,
+     "prod": "TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt",
+     "equip": "01 Sony a6500, 01 Flycam, 01 Gimbal, 01 bộ lens, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản – Sửa miễn phí tối đa 3 lần",
+     "staff": "01 Biên tập, 02 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "Voice Talent",
+     "loc": "Nha Trang",
+     "dur": "01 ngày: 8 tiếng",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần",
+     "gift": null
+    },
+    {
+     "id": "cc2",
+     "name": "Gói Cao Cấp 2",
+     "price": 42000000,
+     "prod": "TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt",
+     "equip": "01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản – Sửa miễn phí tối đa 3 lần",
+     "staff": "01 Đạo diễn, 01 Biên tập, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)",
+     "loc": "Nha Trang",
+     "dur": "01 ngày: 8 tiếng",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 3 lần",
+     "gift": null
+    },
+    {
+     "id": "cc3",
+     "name": "Gói Cao Cấp 3",
+     "price": 55000000,
+     "prod": "TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English",
+     "equip": "01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản TVC – Sửa miễn phí tối đa 3 lần",
+     "staff": "01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "BTV Đài Truyền hình Khánh Hòa (Giọng miền Nam)",
+     "loc": "Nha Trang",
+     "dur": "01 ngày: 8 tiếng + Dự phòng thời tiết: 01 ngày",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần",
+     "gift": null
+    }
+   ]
   },
-  vip: {
-    label: 'Gói VIP',
-    pkgs: [
-      { id:'v1', name:'Gói VIP 1', price:80000000,
-        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
-        equip:'01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản TVC – Sửa miễn phí tối đa 3 lần',
-        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
-        dur:'01 ngày khảo sát + 01 ngày quay (8t) + Dự phòng 01 ngày',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần',
-        gift:'Tặng 01 video phiên bản rút gọn' },
-      { id:'v2', name:'Gói VIP 2', price:90000000,
-        prod:'TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English',
-        equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'01 kịch bản – Sửa miễn phí tối đa 5 lần',
-        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
-        dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 5 lần',
-        gift:'Tặng 01 video phiên bản rút gọn' },
-      { id:'v3', name:'Gói VIP 3', price:99000000,
-        prod:'TVC Quảng cáo | 3–5 phút | 02 Phiên bản: Việt+Sub English & English+Sub Việt',
-        equip:'01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Màn hình monitor, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led',
-        script:'02 option kịch bản (KH lựa chọn 1/2) – Sửa miễn phí tối đa 5 lần',
-        staff:'01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối',
-        voice:'Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam', loc:'Nha Trang',
-        dur:'01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày',
-        post:'Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 5 lần',
-        gift:'Tặng 02 video phiên bản rút gọn' }
-    ]
+  "vip": {
+   "label": "Gói VIP",
+   "pkgs": [
+    {
+     "id": "v1",
+     "name": "Gói VIP 1",
+     "price": 80000000,
+     "prod": "TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English",
+     "equip": "01 Sony a6500, 01 Sony A73, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản TVC – Sửa miễn phí tối đa 3 lần",
+     "staff": "01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam",
+     "loc": "Nha Trang",
+     "dur": "01 ngày khảo sát + 01 ngày quay (8t) + Dự phòng 01 ngày",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 3 lần",
+     "gift": "Tặng 01 video phiên bản rút gọn"
+    },
+    {
+     "id": "v2",
+     "name": "Gói VIP 2",
+     "price": 90000000,
+     "prod": "TVC Quảng cáo | Thời lượng 3–5 phút | Phiên bản Việt + Sub: English",
+     "equip": "01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "01 kịch bản – Sửa miễn phí tối đa 5 lần",
+     "staff": "01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam",
+     "loc": "Nha Trang",
+     "dur": "01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Không bản quyền – Sửa 5 lần",
+     "gift": "Tặng 01 video phiên bản rút gọn"
+    },
+    {
+     "id": "v3",
+     "name": "Gói VIP 3",
+     "price": 99000000,
+     "prod": "TVC Quảng cáo | 3–5 phút | 02 Phiên bản: Việt+Sub English & English+Sub Việt",
+     "equip": "01 Sony A73, 01 Sony FX3, 01 Flycam, 02 Gimbal, 02 bộ lens, 01 Benro, 01 Slider, 01 Màn hình monitor, 01 Bộ đàm, 01 Wireless Micro, 01 bộ đèn Led",
+     "script": "02 option kịch bản (KH lựa chọn 1/2) – Sửa miễn phí tối đa 5 lần",
+     "staff": "01 Đạo diễn, 01 Biên tập, 01 Biên dịch viên, 03 Quay phim, 01 KT ánh sáng, 01 Điều phối",
+     "voice": "Voicer chuyên nghiệp – Giọng Bắc hoặc Giọng Nam",
+     "loc": "Nha Trang",
+     "dur": "01 ngày khảo sát + 02 ngày quay (8t) + Dự phòng 01 ngày",
+     "post": "Kỹ thuật dựng phim, Kỹ xảo, effect – Nhạc: Có bản quyền – Sửa 5 lần",
+     "gift": "Tặng 02 video phiên bản rút gọn"
+    }
+   ]
   }
-};
-
-const MEDIA = [
-  { nhom:'media', cat:'Quay phim sự kiện', items:[
-    { id:'s1', name:'Quay phim – Buổi / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:3000000 },
-    { id:'s2', name:'Quay phim – Buổi / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'buổi', price:5000000 },
-    { id:'s3', name:'Quay phim – Ngày / 1 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:5000000 },
-    { id:'s4', name:'Quay phim – Ngày / 2 máy', desc:'Máy quay, Gimbal, Lens, Nhân sự quay phim', unit:'ngày', price:9000000 },
-    { id:'s5', name:'Video recap sự kiện', desc:'01 video tổng kết / phim tổng kết sự kiện', unit:'video', price:1500000 },
-  ]},
-  { nhom:'media', cat:'Livestream LED/TV', items:[
-    { id:'ll1', name:'Livestream LED/TV – Buổi / 1 máy', desc:'01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led', unit:'buổi', price:5000000 },
-    { id:'ll2', name:'Livestream LED/TV – Ngày / 1 máy', desc:'01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led', unit:'ngày', price:7000000 },
-    { id:'ll3', name:'Livestream LED/TV – Buổi / 2 máy', desc:'01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led', unit:'buổi', price:12000000 },
-    { id:'ll4', name:'Livestream LED/TV – Ngày / 2 máy', desc:'01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led', unit:'ngày', price:20000000 },
-  ]},
-  { nhom:'media', cat:'Flycam', items:[
-    { id:'f1', name:'Flycam – Buổi', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'buổi', price:1500000 },
-    { id:'f2', name:'Flycam – Ngày', desc:'01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)', unit:'ngày', price:2500000 },
-  ]},
-  { nhom:'media', cat:'Chụp hình sự kiện (4 tiếng)', items:[
-    { id:'p1', name:'Chụp hình – Buổi / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:2500000 },
-    { id:'p2', name:'Chụp hình – Buổi / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'buổi', price:4000000 },
-    { id:'p3', name:'Chụp hình – Ngày / 1 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:4000000 },
-    { id:'p4', name:'Chụp hình – Ngày / 2 nhân sự', desc:'Máy ảnh, Lens, Nhân sự chụp hình', unit:'ngày', price:7000000 },
-    { id:'p5', name:'Bộ ảnh gốc + ảnh retouch', desc:'01 bộ ảnh gốc + 01 bộ ảnh đã retouch', unit:'gói', price:1000000 },
-  ]},
-  { nhom:'media', cat:'Sameday (chỉnh trong ngày)', items:[
-    { id:'d1', name:'Sameday edit – video', desc:'Chỉnh video trong ngày chiếu tối Gala – Nhận file trước 12h, hoàn thành trước 18h', unit:'gói', price:5000000 },
-    { id:'d2', name:'Sameday retouch – ảnh', desc:'Chỉnh hình teambuilding làm slide chiều, chiếu tối Gala', unit:'gói', price:2000000 },
-  ]},
-  { nhom:'media', cat:'Sản xuất Short Video', items:[
-    { id:'sv1', name:'Short video – từ 10 video', desc:'Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video', unit:'video', price:1200000 },
-    { id:'sv2', name:'Short video – dưới 10 video', desc:'Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video', unit:'video', price:2500000 },
-  ]},
-  { nhom:'media', cat:'Chụp hình sản phẩm', items:[
-    { id:'pp1', name:'Chụp hình sản phẩm', desc:'Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch', unit:'gói', price:4000000, note:'(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio' },
-  ]},
-  { nhom:'media', cat:'Chi phí di chuyển', items:[
-    { id:'dc1', name:'Chi phí di chuyển', desc:'', unit:'gói', price:0 },
-  ]},
-  /* ── SỰ KIỆN & THIẾT KẾ (bản nháp 13/10/2026 – chờ Sếp duyệt giá) ── */
-  { nhom:"thietke", cat:"Thiết kế", items:[
-    { id:"tk1", name:"Key Visual (thiết kế chính)", desc:"Thiết kế đồng bộ theo chủ đề / concept chương trình", unit:"gói", price:3000000 },
-    { id:"tk2", name:"Thiết kế thư mời", desc:"Gồm ruột + bì thư, đồng bộ KV", unit:"mẫu", price:1000000 },
-    { id:"tk3", name:"Thiết kế standee", desc:"0,8 x 1,8 m, đồng bộ KV", unit:"mẫu", price:500000 },
-    { id:"tk4", name:"Thiết kế backdrop / photobooth check-in", desc:"Theo kích thước thi công", unit:"mẫu", price:1000000 },
-    { id:"tk5", name:"Thiết kế bandroll", desc:"Băng rôn chào mừng", unit:"mẫu", price:500000 },
-    { id:"tk6", name:"Thiết kế phướn", desc:"0,6 x 1,6 m", unit:"mẫu", price:500000 },
-    { id:"tk7", name:"Banner online", desc:"Website / Fanpage", unit:"mẫu", price:500000 },
-    { id:"tk8", name:"Thẻ đeo BTC / khách mời", desc:"Theo số mẫu (màu)", unit:"mẫu", price:500000 },
-    { id:"tk9", name:"Bảng tên đại biểu để bàn", desc:"Thiết kế + điền tên", unit:"bộ", price:500000 },
-    { id:"tk10", name:"Điền tên thư mời", desc:"Theo danh sách khách", unit:"gói", price:1000000 },
-    { id:"tk11", name:"Visual LED", desc:"LED chính + LED nghi thức / phát biểu / văn nghệ", unit:"gói", price:3000000 },
-    { id:"tk12", name:"Brochure", desc:"A3/A4 gấp 3–4", unit:"mẫu", price:2000000 },
-    { id:"tk13", name:"Giấy chứng nhận / bằng khen", desc:"A4", unit:"mẫu", price:500000 },
-    { id:"tk14", name:"Slide trình chiếu", desc:"Danh sách, album ảnh…", unit:"gói", price:1500000 },
-    { id:"tk15", name:"Logo (sự kiện / kỷ niệm)", desc:"", unit:"gói", price:2000000 },
-    { id:"tk16", name:"Tem / nhãn sản phẩm", desc:"1 mẫu", unit:"mẫu", price:1500000 },
-    { id:"tk17", name:"Proposal chương trình", desc:"", unit:"gói", price:2000000 },
-  ]},
-  { nhom:"sukien", cat:"Kịch bản & đạo diễn", items:[
-    { id:"kb1", name:"Kịch bản agenda chương trình", desc:"", unit:"gói", price:2000000 },
-    { id:"kb2", name:"Kịch bản MC script", desc:"", unit:"gói", price:2000000 },
-    { id:"kb3", name:"Đạo diễn sự kiện", desc:"Trước, trong và sau sự kiện", unit:"người", price:5000000 },
-    { id:"kb4", name:"Nhân sự điều phối sự kiện", desc:"Trong ngày sự kiện", unit:"người", price:1000000 },
-  ]},
-  { nhom:"sukien", cat:"Thi công & setup", items:[
-    { id:"sx1", name:"Backdrop khung sắt căng bạt", desc:"Bạt hiflex xám chống sáng, khung sắt, ốp hông", unit:"m2", price:185000 },
-    { id:"sx2", name:"Sàn / bục photobooth", desc:"Sàn gỗ khung sắt cao 10 cm, trải thảm", unit:"m2", price:200000 },
-    { id:"sx3", name:"Sân khấu", desc:"Sàn gỗ khung sắt cao 60 cm – 1 m, trải thảm mới", unit:"m2", price:200000 },
-    { id:"sx4", name:"Photobooth formex theo concept", desc:"Formex khung sắt, ý tưởng riêng", unit:"m2", price:650000 },
-    { id:"sx5", name:"Standee chữ X", desc:"In PP cán mờ + chân X cường lực (thuê chân)", unit:"cái", price:400000 },
-    { id:"sx6", name:"Standee chữ T", desc:"Bạt hiflex 2 mặt, khung sắt 0,8 x 2 m", unit:"cái", price:2000000 },
-    { id:"sx7", name:"Standee hộp formex", desc:"Formex 5 li ốp hộp 0,8 x 1,8 m", unit:"cái", price:3000000 },
-    { id:"sx8", name:"Bandroll", desc:"Bạt hiflex chống sáng", unit:"m2", price:185000 },
-    { id:"sx9", name:"Phướn (in + treo)", desc:"0,6 x 1,6 m", unit:"cái", price:400000 },
-    { id:"sx10", name:"Hashtag cầm tay", desc:"Formex 5 li dán decal", unit:"cái", price:250000 },
-    { id:"sx11", name:"Cổng hơi", desc:"Ngang 10 m, dán decal 1 mặt", unit:"gói", price:8000000 },
-    { id:"sx12", name:"Nhà bạt không gian", desc:"La phông, quấn trụ", unit:"m2", price:180000 },
-    { id:"sx13", name:"Thảm đỏ", desc:"Trải sàn / lối đi", unit:"m2", price:85000 },
-    { id:"sx14", name:"Ghế banquet", desc:"Bọc áo trắng, nơ xanh/đỏ", unit:"cái", price:60000 },
-    { id:"sx15", name:"Bàn đại biểu / bàn IBM 1 m", desc:"Phủ khăn trắng quây xanh/đỏ", unit:"cái", price:100000 },
-    { id:"sx16", name:"Trụ barrier", desc:"Vàng đồng + dây nhung đỏ", unit:"trụ", price:100000 },
-    { id:"sx17", name:"Hoa để bàn", desc:"Bát hoa tươi bàn đại biểu", unit:"bát", price:350000 },
-    { id:"sx18", name:"Bục phát biểu", desc:"Dán decal KV + hoa", unit:"cái", price:1500000 },
-    { id:"sx19", name:"Màn hình LED P3", desc:"Thuê, lắp đặt", unit:"m2", price:900000 },
-    { id:"sx20", name:"Âm thanh cơ bản", desc:"Loa, sub, mic không dây, mixer (hội nghị, khai trương)", unit:"gói", price:8000000 },
-    { id:"sx21", name:"Âm thanh sân khấu lớn", desc:"Line array, sub đôi, monitor, mixer M32", unit:"gói", price:15000000 },
-    { id:"sx22", name:"Ánh sáng sân khấu", desc:"Moving head, par led, beam, follow", unit:"gói", price:12000000 },
-    { id:"sx23", name:"Máy khói", desc:"", unit:"máy", price:800000 },
-    { id:"sx24", name:"Máy CO2", desc:"", unit:"máy", price:2300000 },
-    { id:"sx25", name:"Pháo điện", desc:"", unit:"cái", price:150000 },
-    { id:"sx26", name:"Quạt công nghiệp", desc:"", unit:"cái", price:500000 },
-    { id:"sx27", name:"Dù lệch tâm 3 x 3 m", desc:"", unit:"cái", price:700000 },
-  ]},
-  { nhom:"sukien", cat:"In ấn", items:[
-    { id:"in1", name:"In thư mời (ruột + bì)", desc:"Giấy mỹ thuật CC200 / C300", unit:"bộ", price:35000 },
-    { id:"in2", name:"In bảng tên để bàn", desc:"Giấy / formex", unit:"cái", price:30000 },
-    { id:"in3", name:"Bảng tên mica", desc:"Mica trong 245 x 75 mm", unit:"cái", price:50000 },
-    { id:"in4", name:"Thẻ đeo + dây", desc:"88 x 125 mm", unit:"cái", price:35000 },
-    { id:"in5", name:"Brochure", desc:"Offset 4 màu 2 mặt, A4 gấp 3", unit:"cái", price:35000 },
-    { id:"in6", name:"Huy hiệu cài áo", desc:"Đồng/kẽm, nam châm", unit:"cái", price:120000 },
-  ]},
-  { nhom:"sukien", cat:"Nhân sự & biểu diễn", items:[
-    { id:"ns1", name:"MC chuyên nghiệp", desc:"Buổi 4 tiếng", unit:"người", price:6000000 },
-    { id:"ns2", name:"MC hạng A / MC đài", desc:"Buổi 4–6 tiếng", unit:"người", price:8000000 },
-    { id:"ns3", name:"PG lễ tân", desc:"Buổi 4 tiếng, áo dài / đầm", unit:"người", price:1500000 },
-    { id:"ns4", name:"Vũ đoàn", desc:"5–6 dancer / tiết mục", unit:"tiết mục", price:7000000 },
-    { id:"ns5", name:"Ca sĩ", desc:"Theo bài", unit:"bài", price:2000000 },
-    { id:"ns6", name:"Band nhạc", desc:"Singer + guitar + …", unit:"gói", price:9000000 },
-    { id:"ns7", name:"Violin / Saxophone welcome", desc:"Set 45 phút", unit:"người", price:2000000 },
-    { id:"ns8", name:"Đội lân", desc:"3 lân + trống + thần tài thổ địa", unit:"gói", price:5000000 },
-  ]},
-  { nhom:"sukien", cat:"Ăn uống", items:[
-    { id:"au1", name:"Teabreak", desc:"Bánh ngọt, trái cây, trà, cà phê, nước", unit:"khách", price:100000 },
-  ]},
-  { nhom:"sukien", cat:"Vận chuyển & phí", items:[
-    { id:"vc1", name:"Vận chuyển, lắp đặt, tháo dỡ – nhỏ", desc:"Sự kiện nhỏ trong Nha Trang", unit:"gói", price:1000000 },
-    { id:"vc2", name:"Vận chuyển, lắp đặt, tháo dỡ – vừa", desc:"", unit:"gói", price:3000000 },
-    { id:"vc3", name:"Vận chuyển, lắp đặt, tháo dỡ – lớn / ngoài Nha Trang", desc:"", unit:"gói", price:6000000 },
-  ]},
-];
+ },
+ "MEDIA": [
+  {
+   "nhom": "media",
+   "cat": "Quay phim sự kiện",
+   "items": [
+    {
+     "id": "s1",
+     "name": "Quay phim – Buổi / 1 máy",
+     "desc": "Máy quay, Gimbal, Lens, Nhân sự quay phim",
+     "unit": "buổi",
+     "price": 3000000
+    },
+    {
+     "id": "s2",
+     "name": "Quay phim – Buổi / 2 máy",
+     "desc": "Máy quay, Gimbal, Lens, Nhân sự quay phim",
+     "unit": "buổi",
+     "price": 5000000
+    },
+    {
+     "id": "s3",
+     "name": "Quay phim – Ngày / 1 máy",
+     "desc": "Máy quay, Gimbal, Lens, Nhân sự quay phim",
+     "unit": "ngày",
+     "price": 5000000
+    },
+    {
+     "id": "s4",
+     "name": "Quay phim – Ngày / 2 máy",
+     "desc": "Máy quay, Gimbal, Lens, Nhân sự quay phim",
+     "unit": "ngày",
+     "price": 9000000
+    },
+    {
+     "id": "s5",
+     "name": "Video recap sự kiện",
+     "desc": "01 video tổng kết / phim tổng kết sự kiện",
+     "unit": "video",
+     "price": 1500000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Livestream LED/TV",
+   "items": [
+    {
+     "id": "ll1",
+     "name": "Livestream LED/TV – Buổi / 1 máy",
+     "desc": "01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led",
+     "unit": "buổi",
+     "price": 5000000
+    },
+    {
+     "id": "ll2",
+     "name": "Livestream LED/TV – Ngày / 1 máy",
+     "desc": "01 máy live cố định<br>01 lens<br>01 tripod<br>01 nhân sự quay<br>Hệ thống dây kết nối led",
+     "unit": "ngày",
+     "price": 7000000
+    },
+    {
+     "id": "ll3",
+     "name": "Livestream LED/TV – Buổi / 2 máy",
+     "desc": "01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led",
+     "unit": "buổi",
+     "price": 12000000
+    },
+    {
+     "id": "ll4",
+     "name": "Livestream LED/TV – Ngày / 2 máy",
+     "desc": "01 máy live cố định<br>01 máy gimbal<br>02 lens<br>01 wireless không dây<br>01 tripod<br>02 nhân sự quay<br>Hệ thống dây kết nối led",
+     "unit": "ngày",
+     "price": 20000000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Flycam",
+   "items": [
+    {
+     "id": "f1",
+     "name": "Flycam – Buổi",
+     "desc": "01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)",
+     "unit": "buổi",
+     "price": 1500000
+    },
+    {
+     "id": "f2",
+     "name": "Flycam – Ngày",
+     "desc": "01 Flycam + 01 Quay phim (chưa bao gồm giấy phép bay)",
+     "unit": "ngày",
+     "price": 2500000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Chụp hình sự kiện (4 tiếng)",
+   "items": [
+    {
+     "id": "p1",
+     "name": "Chụp hình – Buổi / 1 nhân sự",
+     "desc": "Máy ảnh, Lens, Nhân sự chụp hình",
+     "unit": "buổi",
+     "price": 2500000
+    },
+    {
+     "id": "p2",
+     "name": "Chụp hình – Buổi / 2 nhân sự",
+     "desc": "Máy ảnh, Lens, Nhân sự chụp hình",
+     "unit": "buổi",
+     "price": 4000000
+    },
+    {
+     "id": "p3",
+     "name": "Chụp hình – Ngày / 1 nhân sự",
+     "desc": "Máy ảnh, Lens, Nhân sự chụp hình",
+     "unit": "ngày",
+     "price": 4000000
+    },
+    {
+     "id": "p4",
+     "name": "Chụp hình – Ngày / 2 nhân sự",
+     "desc": "Máy ảnh, Lens, Nhân sự chụp hình",
+     "unit": "ngày",
+     "price": 7000000
+    },
+    {
+     "id": "p5",
+     "name": "Bộ ảnh gốc + ảnh retouch",
+     "desc": "01 bộ ảnh gốc + 01 bộ ảnh đã retouch",
+     "unit": "gói",
+     "price": 1000000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Sameday (chỉnh trong ngày)",
+   "items": [
+    {
+     "id": "d1",
+     "name": "Sameday edit – video",
+     "desc": "Chỉnh video trong ngày chiếu tối Gala – Nhận file trước 12h, hoàn thành trước 18h",
+     "unit": "gói",
+     "price": 5000000
+    },
+    {
+     "id": "d2",
+     "name": "Sameday retouch – ảnh",
+     "desc": "Chỉnh hình teambuilding làm slide chiều, chiếu tối Gala",
+     "unit": "gói",
+     "price": 2000000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Sản xuất Short Video",
+   "items": [
+    {
+     "id": "sv1",
+     "name": "Short video – từ 10 video",
+     "desc": "Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video",
+     "unit": "video",
+     "price": 1200000
+    },
+    {
+     "id": "sv2",
+     "name": "Short video – dưới 10 video",
+     "desc": "Sản xuất short video<br>- Tỷ lệ khung hình 9:16 (khổ dọc)<br>- Độ phân giải tối thiểu 2K<br>- Thời lượng mỗi video từ 30 – 60 giây<br>Thiết bị:<br>- 01 máy quay<br>- 01 gimbal<br>- 01 Wireless Micro<br>- Đèn led<br>- Đạo cụ quay phim hỗ trợ khác<br>Nhân sự:<br>- 01 quay phim<br>- 01 biên tập<br>- 01 điều phối<br>Kịch bản:<br>- 01 kịch bản/video<br>- Số lần chỉnh sửa miễn phí: 02 lần/video<br>Hậu kỳ:<br>- Kỹ thuật dựng, kỹ xảo, Effect<br>- Âm nhạc: không bản quyền<br>- Thời gian dựng: 5 - 7 ngày<br>- Số lần chỉnh sửa miễn phí: 2 lần/video",
+     "unit": "video",
+     "price": 2500000
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Chụp hình sản phẩm",
+   "items": [
+    {
+     "id": "pp1",
+     "name": "Chụp hình sản phẩm",
+     "desc": "Thiết bị: 01 máy chụp, 01 lens, 01 benro<br>Nhân sự: 01 chụp hình, 01 biên tập viên hình ảnh<br>Thời gian: 4 tiếng<br>Địa điểm: Nha Trang<br>Sản phẩm: 01 bộ ảnh gốc, 50 ảnh retouch",
+     "unit": "gói",
+     "price": 4000000,
+     "note": "(*) Đơn giá chưa bao gồm chi phí diễn viên, đạo cụ decor và studio"
+    }
+   ]
+  },
+  {
+   "nhom": "media",
+   "cat": "Chi phí di chuyển",
+   "items": [
+    {
+     "id": "dc1",
+     "name": "Chi phí di chuyển",
+     "desc": "",
+     "unit": "gói",
+     "price": 0
+    }
+   ]
+  },
+  {
+   "nhom": "thietke",
+   "cat": "Thiết kế",
+   "items": [
+    {
+     "id": "tk1",
+     "name": "Key Visual (thiết kế chính)",
+     "desc": "Thiết kế đồng bộ theo chủ đề / concept chương trình",
+     "unit": "gói",
+     "price": 3000000
+    },
+    {
+     "id": "tk2",
+     "name": "Thiết kế thư mời",
+     "desc": "Gồm ruột + bì thư, đồng bộ KV",
+     "unit": "mẫu",
+     "price": 1000000
+    },
+    {
+     "id": "tk3",
+     "name": "Thiết kế standee",
+     "desc": "0,8 x 1,8 m, đồng bộ KV",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk4",
+     "name": "Thiết kế backdrop / photobooth check-in",
+     "desc": "Theo kích thước thi công",
+     "unit": "mẫu",
+     "price": 1000000
+    },
+    {
+     "id": "tk5",
+     "name": "Thiết kế bandroll",
+     "desc": "Băng rôn chào mừng",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk6",
+     "name": "Thiết kế phướn",
+     "desc": "0,6 x 1,6 m",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk7",
+     "name": "Banner online",
+     "desc": "Website / Fanpage",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk8",
+     "name": "Thẻ đeo BTC / khách mời",
+     "desc": "Theo số mẫu (màu)",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk9",
+     "name": "Bảng tên đại biểu để bàn",
+     "desc": "Thiết kế + điền tên",
+     "unit": "bộ",
+     "price": 500000
+    },
+    {
+     "id": "tk10",
+     "name": "Điền tên thư mời",
+     "desc": "Theo danh sách khách",
+     "unit": "gói",
+     "price": 1000000
+    },
+    {
+     "id": "tk11",
+     "name": "Visual LED",
+     "desc": "LED chính + LED nghi thức / phát biểu / văn nghệ",
+     "unit": "gói",
+     "price": 3000000
+    },
+    {
+     "id": "tk12",
+     "name": "Brochure",
+     "desc": "A3/A4 gấp 3–4",
+     "unit": "mẫu",
+     "price": 2000000
+    },
+    {
+     "id": "tk13",
+     "name": "Giấy chứng nhận / bằng khen",
+     "desc": "A4",
+     "unit": "mẫu",
+     "price": 500000
+    },
+    {
+     "id": "tk14",
+     "name": "Slide trình chiếu",
+     "desc": "Danh sách, album ảnh…",
+     "unit": "gói",
+     "price": 1500000
+    },
+    {
+     "id": "tk15",
+     "name": "Logo (sự kiện / kỷ niệm)",
+     "desc": "",
+     "unit": "gói",
+     "price": 2000000
+    },
+    {
+     "id": "tk16",
+     "name": "Tem / nhãn sản phẩm",
+     "desc": "1 mẫu",
+     "unit": "mẫu",
+     "price": 1500000
+    },
+    {
+     "id": "tk17",
+     "name": "Proposal chương trình",
+     "desc": "",
+     "unit": "gói",
+     "price": 2000000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "Kịch bản & đạo diễn",
+   "items": [
+    {
+     "id": "kb1",
+     "name": "Kịch bản agenda chương trình",
+     "desc": "",
+     "unit": "gói",
+     "price": 2000000
+    },
+    {
+     "id": "kb2",
+     "name": "Kịch bản MC script",
+     "desc": "",
+     "unit": "gói",
+     "price": 2000000
+    },
+    {
+     "id": "kb3",
+     "name": "Đạo diễn sự kiện",
+     "desc": "Trước, trong và sau sự kiện",
+     "unit": "người",
+     "price": 5000000
+    },
+    {
+     "id": "kb4",
+     "name": "Nhân sự điều phối sự kiện",
+     "desc": "Trong ngày sự kiện",
+     "unit": "người",
+     "price": 1000000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "Thi công & setup",
+   "items": [
+    {
+     "id": "sx1",
+     "name": "Backdrop khung sắt căng bạt",
+     "desc": "Bạt hiflex xám chống sáng, khung sắt, ốp hông",
+     "unit": "m2",
+     "price": 185000
+    },
+    {
+     "id": "sx2",
+     "name": "Sàn / bục photobooth",
+     "desc": "Sàn gỗ khung sắt cao 10 cm, trải thảm",
+     "unit": "m2",
+     "price": 200000
+    },
+    {
+     "id": "sx3",
+     "name": "Sân khấu",
+     "desc": "Sàn gỗ khung sắt cao 60 cm – 1 m, trải thảm mới",
+     "unit": "m2",
+     "price": 200000
+    },
+    {
+     "id": "sx4",
+     "name": "Photobooth formex theo concept",
+     "desc": "Formex khung sắt, ý tưởng riêng",
+     "unit": "m2",
+     "price": 650000
+    },
+    {
+     "id": "sx5",
+     "name": "Standee chữ X",
+     "desc": "In PP cán mờ + chân X cường lực (thuê chân)",
+     "unit": "cái",
+     "price": 400000
+    },
+    {
+     "id": "sx6",
+     "name": "Standee chữ T",
+     "desc": "Bạt hiflex 2 mặt, khung sắt 0,8 x 2 m",
+     "unit": "cái",
+     "price": 2000000
+    },
+    {
+     "id": "sx7",
+     "name": "Standee hộp formex",
+     "desc": "Formex 5 li ốp hộp 0,8 x 1,8 m",
+     "unit": "cái",
+     "price": 3000000
+    },
+    {
+     "id": "sx8",
+     "name": "Bandroll",
+     "desc": "Bạt hiflex chống sáng",
+     "unit": "m2",
+     "price": 185000
+    },
+    {
+     "id": "sx9",
+     "name": "Phướn (in + treo)",
+     "desc": "0,6 x 1,6 m",
+     "unit": "cái",
+     "price": 400000
+    },
+    {
+     "id": "sx10",
+     "name": "Hashtag cầm tay",
+     "desc": "Formex 5 li dán decal",
+     "unit": "cái",
+     "price": 250000
+    },
+    {
+     "id": "sx11",
+     "name": "Cổng hơi",
+     "desc": "Ngang 10 m, dán decal 1 mặt",
+     "unit": "gói",
+     "price": 8000000
+    },
+    {
+     "id": "sx12",
+     "name": "Nhà bạt không gian",
+     "desc": "La phông, quấn trụ",
+     "unit": "m2",
+     "price": 180000
+    },
+    {
+     "id": "sx13",
+     "name": "Thảm đỏ",
+     "desc": "Trải sàn / lối đi",
+     "unit": "m2",
+     "price": 85000
+    },
+    {
+     "id": "sx14",
+     "name": "Ghế banquet",
+     "desc": "Bọc áo trắng, nơ xanh/đỏ",
+     "unit": "cái",
+     "price": 60000
+    },
+    {
+     "id": "sx15",
+     "name": "Bàn đại biểu / bàn IBM 1 m",
+     "desc": "Phủ khăn trắng quây xanh/đỏ",
+     "unit": "cái",
+     "price": 100000
+    },
+    {
+     "id": "sx16",
+     "name": "Trụ barrier",
+     "desc": "Vàng đồng + dây nhung đỏ",
+     "unit": "trụ",
+     "price": 100000
+    },
+    {
+     "id": "sx17",
+     "name": "Hoa để bàn",
+     "desc": "Bát hoa tươi bàn đại biểu",
+     "unit": "bát",
+     "price": 350000
+    },
+    {
+     "id": "sx18",
+     "name": "Bục phát biểu",
+     "desc": "Dán decal KV + hoa",
+     "unit": "cái",
+     "price": 1500000
+    },
+    {
+     "id": "sx19",
+     "name": "Màn hình LED P3",
+     "desc": "Thuê, lắp đặt",
+     "unit": "m2",
+     "price": 900000
+    },
+    {
+     "id": "sx20",
+     "name": "Âm thanh cơ bản",
+     "desc": "Loa, sub, mic không dây, mixer (hội nghị, khai trương)",
+     "unit": "gói",
+     "price": 8000000
+    },
+    {
+     "id": "sx21",
+     "name": "Âm thanh sân khấu lớn",
+     "desc": "Line array, sub đôi, monitor, mixer M32",
+     "unit": "gói",
+     "price": 15000000
+    },
+    {
+     "id": "sx22",
+     "name": "Ánh sáng sân khấu",
+     "desc": "Moving head, par led, beam, follow",
+     "unit": "gói",
+     "price": 12000000
+    },
+    {
+     "id": "sx23",
+     "name": "Máy khói",
+     "desc": "",
+     "unit": "máy",
+     "price": 800000
+    },
+    {
+     "id": "sx24",
+     "name": "Máy CO2",
+     "desc": "",
+     "unit": "máy",
+     "price": 2300000
+    },
+    {
+     "id": "sx25",
+     "name": "Pháo điện",
+     "desc": "",
+     "unit": "cái",
+     "price": 150000
+    },
+    {
+     "id": "sx26",
+     "name": "Quạt công nghiệp",
+     "desc": "",
+     "unit": "cái",
+     "price": 500000
+    },
+    {
+     "id": "sx27",
+     "name": "Dù lệch tâm 3 x 3 m",
+     "desc": "",
+     "unit": "cái",
+     "price": 700000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "In ấn",
+   "items": [
+    {
+     "id": "in1",
+     "name": "In thư mời (ruột + bì)",
+     "desc": "Giấy mỹ thuật CC200 / C300",
+     "unit": "bộ",
+     "price": 35000
+    },
+    {
+     "id": "in2",
+     "name": "In bảng tên để bàn",
+     "desc": "Giấy / formex",
+     "unit": "cái",
+     "price": 30000
+    },
+    {
+     "id": "in3",
+     "name": "Bảng tên mica",
+     "desc": "Mica trong 245 x 75 mm",
+     "unit": "cái",
+     "price": 50000
+    },
+    {
+     "id": "in4",
+     "name": "Thẻ đeo + dây",
+     "desc": "88 x 125 mm",
+     "unit": "cái",
+     "price": 35000
+    },
+    {
+     "id": "in5",
+     "name": "Brochure",
+     "desc": "Offset 4 màu 2 mặt, A4 gấp 3",
+     "unit": "cái",
+     "price": 35000
+    },
+    {
+     "id": "in6",
+     "name": "Huy hiệu cài áo",
+     "desc": "Đồng/kẽm, nam châm",
+     "unit": "cái",
+     "price": 120000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "Nhân sự & biểu diễn",
+   "items": [
+    {
+     "id": "ns1",
+     "name": "MC chuyên nghiệp",
+     "desc": "Buổi 4 tiếng",
+     "unit": "người",
+     "price": 6000000
+    },
+    {
+     "id": "ns2",
+     "name": "MC hạng A / MC đài",
+     "desc": "Buổi 4–6 tiếng",
+     "unit": "người",
+     "price": 8000000
+    },
+    {
+     "id": "ns3",
+     "name": "PG lễ tân",
+     "desc": "Buổi 4 tiếng, áo dài / đầm",
+     "unit": "người",
+     "price": 1500000
+    },
+    {
+     "id": "ns4",
+     "name": "Vũ đoàn",
+     "desc": "5–6 dancer / tiết mục",
+     "unit": "tiết mục",
+     "price": 7000000
+    },
+    {
+     "id": "ns5",
+     "name": "Ca sĩ",
+     "desc": "Theo bài",
+     "unit": "bài",
+     "price": 2000000
+    },
+    {
+     "id": "ns6",
+     "name": "Band nhạc",
+     "desc": "Singer + guitar + …",
+     "unit": "gói",
+     "price": 9000000
+    },
+    {
+     "id": "ns7",
+     "name": "Violin / Saxophone welcome",
+     "desc": "Set 45 phút",
+     "unit": "người",
+     "price": 2000000
+    },
+    {
+     "id": "ns8",
+     "name": "Đội lân",
+     "desc": "3 lân + trống + thần tài thổ địa",
+     "unit": "gói",
+     "price": 5000000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "Ăn uống",
+   "items": [
+    {
+     "id": "au1",
+     "name": "Teabreak",
+     "desc": "Bánh ngọt, trái cây, trà, cà phê, nước",
+     "unit": "khách",
+     "price": 100000
+    }
+   ]
+  },
+  {
+   "nhom": "sukien",
+   "cat": "Vận chuyển & phí",
+   "items": [
+    {
+     "id": "vc1",
+     "name": "Vận chuyển, lắp đặt, tháo dỡ – nhỏ",
+     "desc": "Sự kiện nhỏ trong Nha Trang",
+     "unit": "gói",
+     "price": 1000000
+    },
+    {
+     "id": "vc2",
+     "name": "Vận chuyển, lắp đặt, tháo dỡ – vừa",
+     "desc": "",
+     "unit": "gói",
+     "price": 3000000
+    },
+    {
+     "id": "vc3",
+     "name": "Vận chuyển, lắp đặt, tháo dỡ – lớn / ngoài Nha Trang",
+     "desc": "",
+     "unit": "gói",
+     "price": 6000000
+    }
+   ]
+  }
+ ]
+}/*JSON-KET-THUC*/;
+const TVC = BANG_GIA.TVC;
+const MEDIA = BANG_GIA.MEDIA;

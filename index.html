@@ -664,10 +664,10 @@
     <div class="sb-logo-text">Global Media<br>&amp; Events</div>
   </div>
   <div class="sb-item active" data-section="baogia" onclick="sbGoTo('baogia')">Báo giá tự động</div>
-  <div class="sb-item" data-section="care" onclick="sbGoTo('care')">Chăm sóc khách hàng</div>
-  <div class="sb-item" data-section="project" onclick="sbGoTo('project')">Quản trị dự án</div>
-  <div class="sb-item" data-section="debt" onclick="sbGoTo('debt')">Công nợ</div>
-  <div class="sb-item" data-section="supplier" onclick="sbGoTo('supplier')">Nhà Cung cấp</div>
+  <div class="sb-item" data-section="care" style="display:none" onclick="sbGoTo('care')">Chăm sóc khách hàng</div>
+  <div class="sb-item" data-section="project" style="display:none" onclick="sbGoTo('project')">Quản trị dự án</div>
+  <div class="sb-item" data-section="debt" style="display:none" onclick="sbGoTo('debt')">Công nợ</div>
+  <div class="sb-item" data-section="supplier" style="display:none" onclick="sbGoTo('supplier')">Nhà Cung cấp</div>
   <div class="sb-item" data-section="staff" onclick="sbGoTo('staff')">Quản lý nhân viên</div>
   <div class="sb-theme-toggle" onclick="toggleDarkMode()">
     <span>Chế độ tối</span>
@@ -829,9 +829,9 @@
         <option>Nghiệm thu</option>
         <option>Done job</option>
       </select>
-      <button class="mini-btn" onclick="openProjectApp()" style="max-width:200px">Quản trị dự án</button>
-      <button class="mini-btn" onclick="openDebtApp()" style="max-width:200px">Công nợ</button>
-      <button class="mini-btn" onclick="openCareApp()" style="max-width:200px">Chăm sóc KH</button>
+      <button class="mini-btn" onclick="openProjectApp()" style="display:none;max-width:200px">Quản trị dự án</button>
+      <button class="mini-btn" onclick="openDebtApp()" style="display:none;max-width:200px">Công nợ</button>
+      <button class="mini-btn" onclick="openCareApp()" style="display:none;max-width:200px">Chăm sóc KH</button>
       <button class="mini-btn" id="crm-staff-btn" style="display:none;max-width:200px" onclick="openStaffManager()">Quản lý nhân viên</button>
     </div>
 
@@ -1305,8 +1305,8 @@ async function checkCRMAccess() {
     if (sbPendingTarget) {
       const t = sbPendingTarget; sbPendingTarget = null;
       if (t === 'staff') {
-        if (crmRole === 'admin') { document.getElementById('crmApp').style.display = 'none'; openStaffManager(); }
-        else { showToast('Bạn không có quyền truy cập mục này'); sbGoTo('care'); }
+        if (crmRole === 'admin') { openStaffFromSidebar(); }
+        else { showToast('Bạn không có quyền truy cập mục này'); sbGoTo('baogia'); }
       } else {
         sbRouteToSection(t);
       }
@@ -1473,9 +1473,16 @@ function openStaffManager() {
   renderStaffList();
   document.getElementById('crm-staff-modal').classList.add('open');
 }
+function openStaffFromSidebar() {
+  // mở bảng Quản lý nhân viên phía trên trang báo giá (đã bỏ các mục CRM khác)
+  sbGoTo('baogia');
+  sbSetActive('staff');
+  openStaffManager();
+}
 function closeStaffManager(e) {
   if (!e || e.target === document.getElementById('crm-staff-modal')) {
     document.getElementById('crm-staff-modal').classList.remove('open');
+    if (document.querySelector('.layout').style.display !== 'none') sbSetActive('baogia');
   }
 }
 
@@ -2517,8 +2524,8 @@ function sbGoTo(section) {
       checkCRMAccess();
       return;
     }
-    if (crmRole !== 'admin') { showToast('Bạn không có quyền truy cập mục này'); return; }
-    openStaffManager();
+    if (crmRole !== 'admin') { showToast('Bạn không có quyền truy cập mục này'); sbGoTo('baogia'); return; }
+    openStaffFromSidebar();
     return;
   }
   sbSetActive(section);
